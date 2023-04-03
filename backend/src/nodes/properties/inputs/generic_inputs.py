@@ -203,7 +203,7 @@ class TextInput(BaseInput):
             "string",
             label,
             has_handle=has_handle,
-            kind="text-line",
+            kind="text",
         )
         self.min_length = min_length
         self.max_length = max_length
