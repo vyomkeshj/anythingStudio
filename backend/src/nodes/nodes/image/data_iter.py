@@ -52,14 +52,14 @@ class VideoFrameIteratorFrameLoaderNode(NodeBase):
         self.description = ""
         self.inputs = [IteratorInput().make_optional()]
         self.outputs = [
-            ImageOutput("Data Input", channels=3),
+            ImageOutput("Data ->", channels=3),
             NumberOutput("Index"),
             DirectoryOutput("Data Directory"),
             TextOutput("Plot out"),
         ]
 
         self.category = ImageCategory
-        self.name = "Load Data"
+        self.name = "Timeseries"
         self.icon = "MdSubdirectoryArrowRight"
         self.sub = "Iteration"
 

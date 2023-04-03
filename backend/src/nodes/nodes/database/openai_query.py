@@ -15,7 +15,7 @@ class Models(Enum):
 
 
 @NodeFactory.register("machines:database:openai_api")
-class MySQLQueryNode(NodeBase):
+class OpenAISQLMaker(NodeBase):
     def __init__(self):
         super().__init__()
         self.description = "NL to sql for insurance."
