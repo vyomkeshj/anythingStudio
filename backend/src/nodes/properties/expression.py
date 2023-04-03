@@ -30,6 +30,7 @@ ExpressionJson = Union[
     str,
     int,
     bool,
+    "HtmlTypeJson"    
     "NumericLiteralTypeJson",
     "IntervalTypeJson",
     "IntIntervalTypeJson",

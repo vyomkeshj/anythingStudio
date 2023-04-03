@@ -5,11 +5,12 @@ import log from 'electron-log';
 import { memo, useCallback, useEffect } from 'react';
 import { useContext, useContextSelector } from 'use-context-selector';
 import { Output, OutputId, OutputKind, SchemaId } from '../../../common/common-types';
-import { getMachinesStudioScope } from '../../../common/types/machines-scope';
 import { ExpressionJson, fromJson } from '../../../common/types/json';
+import { getMachinesStudioScope } from '../../../common/types/machines-scope';
 import { isStartingNode } from '../../../common/util';
 import { BackendContext } from '../../contexts/BackendContext';
 import { GlobalContext, GlobalVolatileContext } from '../../contexts/GlobalNodeState';
+import { PandasDataFrameOutput } from '../outputs/DataframeOutput';
 import { DefaultImageOutput } from '../outputs/DefaultImageOutput';
 import { GenericOutput } from '../outputs/GenericOutput';
 import { LargeImageOutput } from '../outputs/LargeImageOutput';
@@ -25,12 +26,14 @@ const OutputComponents: Readonly<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Record<OutputKind, React.MemoExoticComponent<(props: any) => JSX.Element>>
 > = {
+    dataframe: PandasDataFrameOutput,
     image: DefaultImageOutput,
     'large-image': LargeImageOutput,
     tagged: TaggedOutput,
     generic: GenericOutput,
 };
 const OutputIsGeneric: Readonly<Record<OutputKind, boolean>> = {
+    dataframe: false,
     image: true,
     'large-image': false,
     tagged: false,

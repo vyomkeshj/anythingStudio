@@ -345,7 +345,7 @@ export const createMainWindow = async (args: OpenArguments) => {
         registerEventHandlerPostSetup(mainWindow, backend);
 
         progressController.submitProgress({
-            status: t('splash.loadingApp', 'Loading main application...'),
+            status: t('splash.loadingApp', 'Loading machines builder...'),
         });
 
         if (mainWindow.isDestroyed()) {

@@ -128,7 +128,7 @@ export type Input =
     | SliderInput
     | NumberInput;
 
-export type OutputKind = 'image' | 'large-image' | 'tagged' | 'generic';
+export type OutputKind = 'dataframe' | 'image' | 'large-image' | 'tagged' | 'generic';
 
 export interface Output {
     readonly id: OutputId;

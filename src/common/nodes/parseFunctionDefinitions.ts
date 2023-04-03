@@ -1,8 +1,8 @@
 /* eslint-disable no-continue */
 import { ScopeBuilder, SourceDocument, parseDefinitions } from '@chainner/navi';
 import { NodeSchema, SchemaId } from '../common-types';
-import { getMachinesStudioScope } from '../types/machines-scope';
 import { FunctionDefinition } from '../types/function';
+import { getMachinesStudioScope } from '../types/machines-scope';
 
 export const parseFunctionDefinitions = (
     nodes: readonly NodeSchema[]
