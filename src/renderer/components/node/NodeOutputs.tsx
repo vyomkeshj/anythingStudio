@@ -10,10 +10,11 @@ import { getMachinesStudioScope } from '../../../common/types/machines-scope';
 import { isStartingNode } from '../../../common/util';
 import { BackendContext } from '../../contexts/BackendContext';
 import { GlobalContext, GlobalVolatileContext } from '../../contexts/GlobalNodeState';
-import { PandasDataFrameOutput } from '../outputs/DataframeOutput';
+import { HtmlOutput } from '../outputs/HtmlOutput';
 import { DefaultImageOutput } from '../outputs/DefaultImageOutput';
 import { GenericOutput } from '../outputs/GenericOutput';
 import { LargeImageOutput } from '../outputs/LargeImageOutput';
+import { MarkdownOutput } from "../outputs/MarkdownOutput";
 import { OutputContainer } from '../outputs/OutputContainer';
 import { OutputProps, UseOutputData } from '../outputs/props';
 import { TaggedOutput } from '../outputs/TaggedOutput';
@@ -26,14 +27,16 @@ const OutputComponents: Readonly<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Record<OutputKind, React.MemoExoticComponent<(props: any) => JSX.Element>>
 > = {
-    dataframe: PandasDataFrameOutput,
+    markdown: MarkdownOutput,
+    html: HtmlOutput,
     image: DefaultImageOutput,
     'large-image': LargeImageOutput,
     tagged: TaggedOutput,
     generic: GenericOutput,
 };
 const OutputIsGeneric: Readonly<Record<OutputKind, boolean>> = {
-    dataframe: false,
+    markdown: false,
+    html: false,
     image: true,
     'large-image': false,
     tagged: false,

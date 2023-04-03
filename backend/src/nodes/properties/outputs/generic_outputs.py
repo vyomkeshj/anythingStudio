@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from ...utils.seed import Seed
 from .. import expression
-from .base_output import BaseOutput
+from .base_output import BaseOutput, OutputKind
 
 
 class NumberOutput(BaseOutput):
     def __init__(
-        self,
-        label: str,
-        output_type: expression.ExpressionJson = "number",
+            self,
+            label: str,
+            output_type: expression.ExpressionJson = "number",
     ):
         super().__init__(expression.intersect("number", output_type), label)
 
@@ -20,11 +20,24 @@ class NumberOutput(BaseOutput):
         assert isinstance(value, (int, float))
 
 
+class MarkdownOutput(BaseOutput):
+    def __init__(
+            self,
+            model_type: expression.ExpressionJson = "string",
+            label: str = "Markdown Viewer",
+            kind: OutputKind = "markdown",
+    ):
+        super().__init__(model_type, label, kind=kind)
+
+    def get_broadcast_data(self, value: str):
+        return value
+
+
 class TextOutput(BaseOutput):
     def __init__(
-        self,
-        label: str,
-        output_type: expression.ExpressionJson = "string",
+            self,
+            label: str,
+            output_type: expression.ExpressionJson = "string",
     ):
         super().__init__(expression.intersect("string", output_type), label)
 

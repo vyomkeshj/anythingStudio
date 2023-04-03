@@ -3,12 +3,12 @@ from .base_output import BaseOutput, OutputKind
 from .. import expression
 
 
-class PandasOutput(BaseOutput):
+class HtmlOutput(BaseOutput):
     def __init__(
             self,
             model_type: expression.ExpressionJson = "string",
             label: str = "Dataframe Viewer",
-            kind: OutputKind = "dataframe",
+            kind: OutputKind = "html",
     ):
         super().__init__(model_type, label, kind=kind)
 

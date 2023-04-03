@@ -1,6 +1,4 @@
 import openai
-import pymysql
-import pandas as pd
 import os
 
 from ...node_base import NodeBase
@@ -8,9 +6,6 @@ from ...node_factory import NodeFactory
 from ...properties.inputs import TextAreaInput, TextInput
 from ...properties.outputs import TextOutput
 from . import category as DatabaseCategory
-
-from langchain.agents import create_pandas_dataframe_agent
-from langchain.llms import OpenAI
 
 template = """Act like you are a bartender. Given the following extracted parts of a long document and a question, create a final answer with references ("SOURCES"). 
 If you don't know the answer, just say that you don't know. Don't try to make up an answer.
@@ -42,15 +37,15 @@ class MySQLQueryNode(NodeBase):
 
         self.side_effects = True
 
-    def run(self, secret: str, question: str,
-            sql_run_out: str) -> str:
+    def run(self, secret: str, question: str, sql_run_out: str) -> str:
         os.environ["OPENAI_API_KEY"] = secret
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant who summarises the output of SQL execution in english."},
+                {"role": "system", "content": "You are a helpful assistant who summarises the output of SQL execution "
+                                              "in natural language. The output should not contain the table."},
+                {"role": "system", "content": "Output only beautifully formatted markdown"},
                 {"role": "assistant", "content": f"the data output is: {sql_run_out} and the user's question was: {question}"},
-                {"role": "assistant", "content": "Pretty print the output table then summarize to help the user with their question."}
             ]
         )
         return response['choices'][0]['message']['content'].strip()

@@ -4,7 +4,7 @@ import pandas as pd
 
 from ...properties.inputs import TextInput
 from . import category as DatabaseCategory
-from ...properties.outputs.pandas_output import PandasOutput
+from ...properties.outputs.pandas_output import HtmlOutput
 
 
 @NodeFactory.register("machines:database:dataframe_rend")
@@ -12,7 +12,7 @@ class DataFrameExampleNode(NodeBase):
     def __init__(self):
         super().__init__()
         self.inputs = [TextInput("html df"),]
-        self.outputs = [PandasOutput(label="DataFrame")]
+        self.outputs = [HtmlOutput(label="DataFrame")]
         self.category = DatabaseCategory
         self.sub = "Dbase"
         self.name = "Show Dataframe"
