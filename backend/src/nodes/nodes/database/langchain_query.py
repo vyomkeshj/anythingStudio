@@ -76,7 +76,7 @@ class OpenAISQLMaker(NodeBase):
     def run(self, secret: str, prompt: str, model_name: str, num_tokens: float, temp: float) -> str:
         openai.api_key = secret
         prompt_init = f"""### Instruction:
-        Given below is the database schema for PostgreSQL database, use it to write a SQL query corresponding to the user's question:
+        Given below is the database schema for MySQL database, use it to write a SQL query corresponding to the user's question:
         ### insurance_claims (capital_gains, capital_loss, incident_date, incident_type, collision_type, incident_severity, authorities_contacted, incident_city, incident_location, incident_hour_of_the_day real, number_of_vehicles_involved, property_damage, bodily_injuries)
         ### {prompt}
         ### SQL:"""

@@ -4,9 +4,6 @@
       "systemInformation": "System information"
     }
   },
-  "dependencyManager": {
-    "manageDependencies": "Manage Dependencies"
-  },
   "error": {
     "error": "Error",
     "message": {
@@ -67,7 +64,7 @@
     "extractingPython": "Extracting downloaded files...",
     "installingDeps": "Installing required dependencies...",
     "loading": "Loading...",
-    "loadingApp": "Loading main application...",
+    "loadingApp": "Loading machines builder...",
     "startingBackend": "Starting up backend process...",
     "updatingDeps": "Updating dependencies..."
   },

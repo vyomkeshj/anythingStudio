@@ -26,7 +26,7 @@ export const AppInfo = memo(() => {
                     src={logo}
                 />
                 <Heading size="md">MachinesStudio</Heading>
-                <Tag>Alpha</Tag>
+                <Tag>-</Tag>
                 <Tag>{`v${appVersion}`}</Tag>
             </HStack>
         </Box>

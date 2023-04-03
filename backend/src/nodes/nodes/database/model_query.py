@@ -72,7 +72,7 @@ class GPTQueryNode(NodeBase):
 
     def run(self, secret: str, question: str, schema: str, model_name: Models, num_tokens: float, temp: float) -> str:
         openai.api_key = secret
-        prompt_init = f"""### Instruction: Given below is the database schema for PostgreSQL database, use it to 
+        prompt_init = f"""### Instruction: Given below is the database schema for MySQL database, use it to 
         write a SQL query corresponding to the user's question: ### {schema}
         ### {question}
         ### SQL:"""

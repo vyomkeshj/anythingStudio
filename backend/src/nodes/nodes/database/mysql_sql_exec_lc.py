@@ -42,7 +42,7 @@ class MySQLQueryNode(NodeBase):
 
         self.category = DatabaseCategory
         self.sub = "Dbase"
-        self.name = "MySQL Query NL"
+        self.name = "Bartender <products table>"
         self.icon = "BsFillDatabaseFill"
 
         self.side_effects = True
@@ -67,20 +67,12 @@ class MySQLQueryNode(NodeBase):
                 data = cursor.fetchall()
 
                 dataframe = pd.DataFrame(data)
-                # clean_dframe = df.apply(
-                #     lambda x: " ".join([f"{col_name}: {x[col_name]}. " for col_name in df.columns]),
-                #     axis=1
-                # )
-                # print(dataframe.head(5))
                 agent = create_pandas_dataframe_agent(OpenAI(temperature=0),
                                          df = dataframe,
                                          verbose=True)
                 out = agent.run(question)
                 print(out)
                 return str(out)
-
-
-        # return df[['merged']].to_string(index=False)
         except Exception as e:
             raise Exception(f"error: {e}")
         finally:

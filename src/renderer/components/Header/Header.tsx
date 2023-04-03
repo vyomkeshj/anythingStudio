@@ -1,8 +1,8 @@
-import { Box, Center, HStack, SimpleGrid } from '@chakra-ui/react';
+import { Box, HStack, SimpleGrid } from '@chakra-ui/react';
 import { memo } from 'react';
-import { DependencyManagerButton } from '../DependencyManagerButton';
-import { SettingsButton } from '../SettingsModal';
-import { SystemStats } from '../SystemStats';
+// import { DependencyManagerButton } from '../DependencyManagerButton';
+// import { SettingsButton } from '../SettingsModal';
+// import { SystemStats } from '../SystemStats';
 import { AppInfo } from './AppInfo';
 import { ExecutionButtons } from './ExecutionButtons';
 
@@ -22,13 +22,6 @@ export const Header = memo(() => {
                 spacing={1}
             >
                 <AppInfo />
-
-                <Center w="full">
-                    <SystemStats />
-                    <DependencyManagerButton />
-                    <SettingsButton />
-                </Center>
-
                 <Box
                     alignContent="right"
                     alignItems="right"
@@ -46,3 +39,9 @@ export const Header = memo(() => {
         </Box>
     );
 });
+
+// <Center w="full">
+//     <SystemStats />
+//     <DependencyManagerButton />
+//     <SettingsButton />
+// </Center>
