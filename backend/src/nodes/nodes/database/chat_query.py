@@ -81,5 +81,4 @@ class OpenAISQLMaker(NodeBase):
             ]
         )
         resp = response['choices'][0]['message']['content'].strip()
-        print(resp)
         return resp

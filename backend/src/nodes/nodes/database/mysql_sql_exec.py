@@ -44,7 +44,7 @@ class MySQLQueryNode(NodeBase):
             with connection.cursor() as cursor:
                 cursor.execute(sql_query)
                 data = cursor.fetchall()
-                return pd.DataFrame(data).to_string()
+                return pd.DataFrame(data).to_html()
 
         except Exception as e:
             raise Exception(f"error: {e}")

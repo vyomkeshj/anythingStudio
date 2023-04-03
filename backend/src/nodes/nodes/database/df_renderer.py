@@ -15,7 +15,7 @@ class DataFrameExampleNode(NodeBase):
         self.outputs = [PandasOutput(label="DataFrame")]
         self.category = DatabaseCategory
         self.sub = "Dbase"
-        self.name = "DataframeRend"
+        self.name = "Show Dataframe"
         self.icon = "BsFillDatabaseFill"
 
         self.side_effects = True
