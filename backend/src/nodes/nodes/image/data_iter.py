@@ -52,10 +52,10 @@ class VideoFrameIteratorFrameLoaderNode(NodeBase):
         self.description = ""
         self.inputs = [IteratorInput().make_optional()]
         self.outputs = [
-            ImageOutput("Data ->", channels=3),
+            ImageOutput("Plot out ->", channels=3),
             NumberOutput("Index"),
             DirectoryOutput("Data Directory"),
-            TextOutput("Plot out"),
+            TextOutput("Data->"),
         ]
 
         self.category = ImageCategory

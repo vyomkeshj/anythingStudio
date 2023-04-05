@@ -126,6 +126,7 @@ class IteratorContext:
         try:
             await executor.run_iteration(self.internal_graph)
         finally:
+            # todo: use this to update each node on subject on next!
             await self.executor.queue.put(
                 {
                     "event": "iterator-progress-update",

@@ -58,7 +58,7 @@ class NodeFinishEvent(TypedDict):
     event: Literal["node-finish"]
     data: NodeFinishData
 
-
+# todo: use this for reactive updates to ui?
 class IteratorProgressUpdateEvent(TypedDict):
     event: Literal["iterator-progress-update"]
     data: IteratorProgressUpdateData

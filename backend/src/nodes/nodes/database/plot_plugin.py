@@ -4,11 +4,10 @@ import openai
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import TextAreaInput, TextInput, EnumInput, SliderInput
-from ...properties.outputs import TextOutput, LargeImageOutput
+from ...properties.inputs import TextInput
+from ...properties.outputs import LargeImageOutput
 from . import category as DatabaseCategory
-from ...properties.outputs.pandas_output import HtmlOutput
-
+import pandas as pd
 
 class Models(Enum):
     GPT3 = "text-davinci-003"
@@ -35,15 +34,14 @@ class HtmlPlotMaker(NodeBase):
         self.side_effects = True
 
     def run(self, data: str, instruction: str, hint: str) -> str:
+        table_data = pd.read_html(data)[0]
+
         openai.api_key = "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"
         response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": f"{instruction}"},
-                {"role": "system",
-                 "content": f"Only respond with python code!"},
-
-                {"role": "system", "content": f"Data: {data}"},
+                {"role": "system", "content": f"Dataframe Head: {table_data.head(2)}"},
                 {"role": "user", "content": f"Hint: {hint}"}
             ]
         )

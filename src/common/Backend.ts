@@ -198,6 +198,7 @@ export const getBackend = (port: number): Backend => {
 
 /**
  * All possible events emitted by backend SSE along with the data layout of the event data.
+ *  todo: each ws registers it's protocol here
  */
 export interface BackendEventMap {
     finish: {

@@ -461,6 +461,7 @@ if __name__ == "__main__":
         port = int(sys.argv[1]) or 8000
     except:
         port = 8000
+    app.update_config({"RESPONSE_TIMEOUT": 500, "KEEP_ALIVE_TIMEOUT": 500, "REQUEST_TIMEOUT": 500})
     app.run(port=port)
 
     if sys.argv[1] != "--no-run":
