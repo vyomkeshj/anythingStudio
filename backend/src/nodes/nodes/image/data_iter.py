@@ -15,11 +15,11 @@ from process import IteratorContext
 from ...impl.image_utils import normalize, to_uint8
 from ...node_base import IteratorNodeBase, NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import (
+from ...io.inputs import (
     IteratorInput,
     VideoFileInput,
 )
-from ...properties.outputs import DirectoryOutput, ImageOutput, NumberOutput, TextOutput
+from ...io.outputs import DirectoryOutput, ImageOutput, NumberOutput, TextOutput
 from ...utils.utils import get_h_w_c, split_file_path
 from . import category as ImageCategory
 

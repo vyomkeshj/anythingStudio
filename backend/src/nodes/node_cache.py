@@ -13,6 +13,7 @@ CACHE_MAX_BYTES = int(os.environ.get("CACHE_MAX_BYTES", 1024**3))  # default 1 G
 CACHE_REGISTRY: List["NodeOutputCache"] = []
 
 
+# Numpy files are cached like this
 class CachedNumpyArray:
     def __init__(self, arr: np.ndarray):
         self.file = tempfile.TemporaryFile()

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import NumberInput, TextInput
-from ...properties.outputs import NumberOutput
+from ...io.inputs import NumberInput, TextInput
+from ...io.outputs import NumberOutput
 from . import category as UtilityCategory
 
 

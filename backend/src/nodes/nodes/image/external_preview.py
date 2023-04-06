@@ -13,7 +13,7 @@ from sanic.log import logger
 from ...impl.image_utils import to_uint8
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import ImageInput
+from ...io.inputs import ImageInput
 from . import category as ImageCategory
 
 

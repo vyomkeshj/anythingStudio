@@ -9,8 +9,8 @@ import numpy as np
 from ...groups import if_enum_group
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import EnumInput, NumberInput
-from ...properties.outputs import NumberOutput
+from ...io.inputs import EnumInput, NumberInput
+from ...io.outputs import NumberOutput
 from ...utils.utils import round_half_up
 from . import category as UtilityCategory
 

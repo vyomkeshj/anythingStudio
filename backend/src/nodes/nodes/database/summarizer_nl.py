@@ -3,8 +3,8 @@ import os
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import TextAreaInput, TextInput
-from ...properties.outputs import TextOutput
+from ...io.inputs import TextAreaInput, TextInput
+from ...io.outputs import TextOutput
 from . import category as DatabaseCategory
 
 template = """Act like you are a bartender. Given the following extracted parts of a long document and a question, create a final answer with references ("SOURCES"). 

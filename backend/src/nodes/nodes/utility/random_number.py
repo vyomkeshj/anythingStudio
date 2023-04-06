@@ -3,8 +3,8 @@ from random import Random
 from ...group import group
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import NumberInput, SeedInput
-from ...properties.outputs import NumberOutput
+from ...io.inputs import NumberInput, SeedInput
+from ...io.outputs import NumberOutput
 from ...utils.seed import Seed
 from . import category as UtilityCategory
 

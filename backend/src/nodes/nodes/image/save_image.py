@@ -21,7 +21,7 @@ from ...impl.dds.texconv import save_as_dds
 from ...impl.image_utils import cv_save_image, to_uint8
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import (
+from ...io.inputs import (
     SUPPORTED_DDS_FORMATS,
     BoolInput,
     DdsFormatDropdown,

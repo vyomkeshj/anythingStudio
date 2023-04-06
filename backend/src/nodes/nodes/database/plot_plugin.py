@@ -4,8 +4,8 @@ import openai
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import TextInput
-from ...properties.outputs import LargeImageOutput
+from ...io.inputs import TextInput
+from ...io.outputs import LargeImageOutput
 from . import category as DatabaseCategory
 import pandas as pd
 

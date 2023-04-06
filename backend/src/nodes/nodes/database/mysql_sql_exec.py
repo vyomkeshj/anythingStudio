@@ -3,8 +3,8 @@ import pandas as pd
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import TextAreaInput, TextInput
-from ...properties.outputs import TextOutput
+from ...io.inputs import TextAreaInput, TextInput
+from ...io.outputs import TextOutput
 from . import category as DatabaseCategory
 
 

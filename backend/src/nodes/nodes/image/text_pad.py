@@ -4,8 +4,8 @@ from enum import Enum
 
 from src.nodes.node_base import NodeBase
 from src.nodes.node_factory import NodeFactory
-from src.nodes.properties.inputs import EnumInput, NumberInput, TextInput
-from src.nodes.properties.outputs import TextOutput
+from src.nodes.io.inputs import EnumInput, NumberInput, TextInput
+from src.nodes.io.outputs import TextOutput
 from src.nodes.nodes.database import category as DatabaseCategory
 
 class PaddingAlignment(Enum):

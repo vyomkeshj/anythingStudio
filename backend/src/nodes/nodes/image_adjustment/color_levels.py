@@ -5,8 +5,8 @@ import numpy as np
 from ...impl.image_utils import as_3d
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import BoolInput, ImageInput, SliderInput
-from ...properties.outputs import ImageOutput
+from ...io.inputs import BoolInput, ImageInput, SliderInput
+from ...io.outputs import ImageOutput
 from ...utils.utils import get_h_w_c
 from . import category as ImageAdjustmentCategory
 

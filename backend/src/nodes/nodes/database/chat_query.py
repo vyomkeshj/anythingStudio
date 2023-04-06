@@ -4,10 +4,11 @@ import openai
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import TextAreaInput, TextInput, EnumInput, SliderInput
-from ...properties.outputs import TextOutput
+from ...io.inputs import TextAreaInput, TextInput, EnumInput, SliderInput
+from ...io.outputs import TextOutput
 from . import category as DatabaseCategory
 
+from reactivex import create
 
 class Models(Enum):
     GPT3 = "text-davinci-003"

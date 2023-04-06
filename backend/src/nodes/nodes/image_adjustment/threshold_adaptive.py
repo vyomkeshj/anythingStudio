@@ -6,14 +6,14 @@ import numpy as np
 from ...impl.image_utils import normalize, to_uint8
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import (
+from ...io.inputs import (
     AdaptiveMethodInput,
     AdaptiveThresholdInput,
     ImageInput,
     NumberInput,
     SliderInput,
 )
-from ...properties.outputs import ImageOutput
+from ...io.outputs import ImageOutput
 from . import category as ImageAdjustmentCategory
 
 

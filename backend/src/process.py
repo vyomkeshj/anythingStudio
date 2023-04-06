@@ -26,7 +26,7 @@ from base_types import NodeId, OutputId
 from nm_graph.cache import CacheStrategy, OutputCache, get_cache_strategies
 from nm_graph.nmgraph import NMGraph, FunctionNode, IteratorNode, Node, SubGraph
 from nm_graph.input import EdgeInput, InputMap
-from events import Event, EventQueue, InputsDict
+from events import FromNodeEvent, EventQueue, InputsDict
 from nodes.impl.image_utils import get_h_w_c
 from nodes.node_base import BaseOutput, NodeBase
 from progress import Aborted, ProgressController, ProgressToken
@@ -282,6 +282,7 @@ class Executor:
         )
 
     async def process(self, node_id: NodeId) -> Output:
+        """Runs the node and it's dependency graph"""
         node = self.graph.nodes[node_id]
         try:
             return await self.__process(node)
@@ -359,6 +360,7 @@ class Executor:
                 input_dict: InputsDict = {}
                 for index, node_input in enumerate(node_instance.inputs):
                     input_id = node_input.id
+                    # if output is not available, go to input node and run them recursively
                     input_value = enforced_inputs[index]
                     if input_value is None:
                         input_dict[input_id] = None
@@ -393,6 +395,7 @@ class Executor:
         execution_time: float,
         output: Output,
     ):
+        """This sends data to the ui node"""
         node_outputs = node_instance.outputs
         finished = list(self.cache.keys())
         if not node_id in finished:
@@ -444,7 +447,8 @@ class Executor:
                 }
             )
 
-    def __create_node_finish(self, node_id: NodeId) -> Event:
+    def __create_node_finish(self, node_id: NodeId) -> FromNodeEvent:
+        """Creates the node finish event for given node id, todo: no data?"""
         finished = list(self.cache.keys())
         if not node_id in finished:
             finished.append(node_id)
@@ -464,6 +468,7 @@ class Executor:
         }
 
     def __get_output_nodes(self) -> List[NodeId]:
+        """Returns the node ids of the nodes with side effects"""
         output_nodes: List[NodeId] = []
         for node in self.graph.nodes.values():
             # we assume that iterator node always have side effects

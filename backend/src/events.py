@@ -44,6 +44,11 @@ class IteratorProgressUpdateData(TypedDict):
     running: Optional[List[NodeId]]
 
 
+class ReactiveNodeUIMessage(TypedDict):
+    message: str
+    toNode: NodeId
+
+
 class FinishEvent(TypedDict):
     event: Literal["finish"]
     data: FinishData
@@ -58,13 +63,21 @@ class NodeFinishEvent(TypedDict):
     event: Literal["node-finish"]
     data: NodeFinishData
 
+
 # todo: use this for reactive updates to ui?
 class IteratorProgressUpdateEvent(TypedDict):
     event: Literal["iterator-progress-update"]
     data: IteratorProgressUpdateData
 
 
-Event = Union[
+class ToUINodeMessage(TypedDict):
+    event: Literal["ui-node-event"]
+    node_id: NodeId
+    data: IteratorProgressUpdateData
+
+
+FromNodeEvent = Union[
+    ToUINodeMessage,
     FinishEvent,
     ExecutionErrorEvent,
     NodeFinishEvent,
@@ -72,12 +85,15 @@ Event = Union[
 ]
 
 
+# todo: FromUiNodeEvent-s
+
+
 class EventQueue:
     def __init__(self):
         self.queue = asyncio.Queue()
 
-    async def get(self) -> Event:
+    async def get(self) -> FromNodeEvent:
         return await self.queue.get()
 
-    async def put(self, event: Event) -> None:
+    async def put(self, event: FromNodeEvent) -> None:
         await self.queue.put(event)

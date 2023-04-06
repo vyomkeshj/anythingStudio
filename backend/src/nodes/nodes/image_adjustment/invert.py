@@ -4,8 +4,8 @@ import numpy as np
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import ImageInput
-from ...properties.outputs import ImageOutput
+from ...io.inputs import ImageInput
+from ...io.outputs import ImageOutput
 from ...utils.utils import get_h_w_c
 from . import category as ImageAdjustmentCategory
 

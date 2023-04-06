@@ -4,7 +4,7 @@ from typing import Union
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import TextAreaInput
+from ...io.inputs import TextAreaInput
 from . import category as UtilityCategory
 
 

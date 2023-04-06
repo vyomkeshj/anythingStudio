@@ -4,9 +4,9 @@ import numpy as np
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties import expression
-from ...properties.inputs import NumberInput, SliderInput
-from ...properties.outputs import ImageOutput
+from ...io import expression
+from ...io.inputs import NumberInput, SliderInput
+from ...io.outputs import ImageOutput
 from . import category as ImageCategory
 
 

@@ -8,8 +8,8 @@ from typing import Any
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import AnyInput
-from ...properties.outputs import BaseOutput
+from ...io.inputs import AnyInput
+from ...io.outputs import BaseOutput
 from . import category as UtilityCategory
 
 

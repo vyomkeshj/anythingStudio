@@ -2,17 +2,9 @@ from enum import Enum
 
 import openai
 
-from langchain.agents import create_sql_agent
-from langchain.agents.agent_toolkits import SQLDatabaseToolkit
-from langchain.sql_database import SQLDatabase
-from langchain.llms.openai import OpenAI
-from langchain.agents import AgentExecutor
-
-
 from ...node_base import NodeBase
-from ...node_factory import NodeFactory
-from ...properties.inputs import TextAreaInput, TextInput, EnumInput, SliderInput
-from ...properties.outputs import TextOutput
+from ...io.inputs import TextInput, SliderInput
+from ...io.outputs import TextOutput
 from . import category as DatabaseCategory
 
 

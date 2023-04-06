@@ -5,8 +5,9 @@ from base_types import InputId, OutputId
 
 from .category import Category
 from .group import Group, GroupId, NestedGroup, NestedIdGroup
-from .properties.inputs.base_input import BaseInput
-from .properties.outputs.base_output import BaseOutput
+from .io.inputs.base_input import BaseInput
+from .io.outputs.base_output import BaseOutput
+from reactivex.subject import Subject
 
 NodeType = Literal["regularNode", "iterator", "iteratorHelper"]
 
@@ -100,3 +101,24 @@ class IteratorNodeBase(NodeBase):
 
     def get_default_nodes(self):
         return self.default_nodes
+
+
+class ReactiveNodeBase(NodeBase):
+    """"Reactive nodes have subject inputs and outputs, they also have a set of subjects to talk to the frontend"""
+    def __init__(self):
+        super().__init__()
+        self.icon = "MdLoop"
+        self.sub = "Reactive"
+        self.type = "reactive"
+        self.default_nodes = []
+        # also what channel this subject represents
+        self.__ui_subjects : List[Subject] = []
+
+        self.side_effects = True
+
+    def get_default_nodes(self):
+        return self.default_nodes
+
+    def validate(self):
+        """Make sure all the inputs and outputs are subjects"""
+        pass

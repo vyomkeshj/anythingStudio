@@ -6,7 +6,7 @@ from typing import Iterable, List, Literal, Tuple, TypedDict, Union
 from base_types import InputId
 
 from .group import group
-from .properties.expression import ExpressionJson
+from .io.expression import ExpressionJson
 
 InputValue = Union[int, str]
 EnumValues = Union[

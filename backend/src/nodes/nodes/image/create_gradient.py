@@ -14,9 +14,9 @@ from ...impl.gradients import (
 )
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties import expression
-from ...properties.inputs import BoolInput, EnumInput, NumberInput, SliderInput
-from ...properties.outputs import ImageOutput
+from ...io import expression
+from ...io.inputs import BoolInput, EnumInput, NumberInput, SliderInput
+from ...io.outputs import ImageOutput
 from . import category as ImageCategory
 
 

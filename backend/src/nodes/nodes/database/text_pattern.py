@@ -5,8 +5,8 @@ from typing import Union
 from ...group import group
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import TextInput
-from ...properties.outputs import TextOutput
+from ...io.inputs import TextInput
+from ...io.outputs import TextOutput
 from ...utils.replacement import ReplacementString
 from . import category as DatabaseCategory
 

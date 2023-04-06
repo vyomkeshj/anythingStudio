@@ -2,13 +2,15 @@ from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 import pandas as pd
 
-from ...properties.inputs import TextInput
+from ...io.inputs import TextInput
 from . import category as DatabaseCategory
-from ...properties.outputs.pandas_output import HtmlOutput
+from ...io.outputs.html_outputs import HtmlOutput
 
 
 @NodeFactory.register("machines:database:dataframe_rend")
 class DataFrameExampleNode(NodeBase):
+
+    # setup websocket connections with the ui node, setup the dataclasses as protocol, com channels
     def __init__(self):
         super().__init__()
         self.inputs = [TextInput("html df"),]

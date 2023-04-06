@@ -6,8 +6,8 @@ from typing import Dict, Union
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import EnumInput, NumberInput
-from ...properties.outputs import NumberOutput
+from ...io.inputs import EnumInput, NumberInput
+from ...io.outputs import NumberOutput
 from . import category as UtilityCategory
 
 

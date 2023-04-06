@@ -14,8 +14,8 @@ from ...impl.image_formats import get_opencv_formats, get_pil_formats
 from ...impl.image_utils import normalize
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import ImageFileInput
-from ...properties.outputs import DirectoryOutput, FileNameOutput, LargeImageOutput
+from ...io.inputs import ImageFileInput
+from ...io.outputs import DirectoryOutput, FileNameOutput, LargeImageOutput
 from ...utils.utils import get_h_w_c, split_file_path
 from . import category as ImageCategory
 

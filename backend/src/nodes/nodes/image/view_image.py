@@ -4,8 +4,8 @@ import numpy as np
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import ImageInput
-from ...properties.outputs import LargeImageOutput
+from ...io.inputs import ImageInput
+from ...io.outputs import LargeImageOutput
 from . import category as ImageCategory
 
 

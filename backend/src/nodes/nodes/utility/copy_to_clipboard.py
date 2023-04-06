@@ -5,8 +5,8 @@ from typing import Union
 from ...impl import clipboard
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import *
-from ...properties.outputs import *
+from ...io.inputs import *
+from ...io.outputs import *
 from . import category as UtilityCategory
 
 

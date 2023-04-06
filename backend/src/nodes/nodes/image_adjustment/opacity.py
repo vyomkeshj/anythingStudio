@@ -5,9 +5,9 @@ import numpy as np
 from ...impl.pil_utils import convert_to_BGRA
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties import expression
-from ...properties.inputs import ImageInput, SliderInput
-from ...properties.outputs import ImageOutput
+from ...io import expression
+from ...io.inputs import ImageInput, SliderInput
+from ...io.outputs import ImageOutput
 from ...utils.utils import get_h_w_c
 from . import category as ImageAdjustmentCategory
 

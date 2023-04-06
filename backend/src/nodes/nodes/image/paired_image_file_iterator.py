@@ -11,8 +11,8 @@ from process import IteratorContext
 from ...impl.image_formats import get_available_image_formats
 from ...node_base import IteratorNodeBase, NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import DirectoryInput, IteratorInput
-from ...properties.outputs import DirectoryOutput, ImageOutput, NumberOutput, TextOutput
+from ...io.inputs import DirectoryInput, IteratorInput
+from ...io.outputs import DirectoryOutput, ImageOutput, NumberOutput, TextOutput
 from ...utils.utils import list_all_files_sorted
 from ..image.load_image import ImReadNode
 from . import category as ImageCategory

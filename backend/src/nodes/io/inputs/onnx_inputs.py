@@ -1,5 +1,5 @@
 from ...impl.onnx.model import is_rembg_model
-from ...properties.expression import ExpressionJson, intersect
+from ...io.expression import ExpressionJson, intersect
 from .base_input import BaseInput
 from .generic_inputs import DropDownInput
 

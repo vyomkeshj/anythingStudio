@@ -5,8 +5,8 @@ from enum import Enum
 from ...groups import if_enum_group
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties.inputs import EnumInput, NumberInput, TextInput
-from ...properties.outputs import TextOutput
+from ...io.inputs import EnumInput, NumberInput, TextInput
+from ...io.outputs import TextOutput
 from . import category as DatabaseCategory
 
 class SliceOperation(Enum):

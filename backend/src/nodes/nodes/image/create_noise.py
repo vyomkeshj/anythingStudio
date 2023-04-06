@@ -12,15 +12,15 @@ from ...impl.noise_functions.simplex import SimplexNoise
 from ...impl.noise_functions.value import ValueNoise
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...properties import expression
-from ...properties.inputs import (
+from ...io import expression
+from ...io.inputs import (
     BoolInput,
     EnumInput,
     NumberInput,
     SeedInput,
     SliderInput,
 )
-from ...properties.outputs import ImageOutput
+from ...io.outputs import ImageOutput
 from ...utils.seed import Seed
 from . import category as ImageCategory
 

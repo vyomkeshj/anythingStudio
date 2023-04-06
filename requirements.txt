@@ -29,6 +29,8 @@ pandas
 pymysql
 openai
 langchain
+protobuf
+reactivex
 # torch
 # torchvision
 # google-re2

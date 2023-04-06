@@ -4,11 +4,7 @@ from .generic_outputs import *
 from .numpy_outputs import *
 
 try:
-    from .ncnn_outputs import *
-except:
-    pass
-try:
-    from .onnx_outputs import *
+    from .struct_outputs import *
 except:
     pass
 try:
