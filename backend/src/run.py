@@ -12,10 +12,13 @@ from typing import Any, Dict, List, Optional, TypedDict
 
 # pylint: disable-next=unused-import
 import cv2  # type: ignore
+import openai_async
+import pymysql
 from sanic import Sanic
 from sanic.log import access_logger, logger
 from sanic.request import Request
 from sanic.response import json
+from sanic.server.protocols.websocket_protocol import WebSocketProtocol
 from sanic_cors import CORS
 
 from base_types import NodeId
@@ -46,6 +49,9 @@ from response import (
     noExecutorResponse,
     successResponse,
 )
+
+import pandas as pd
+import json as json_lib
 
 
 class AppContext:
@@ -456,13 +462,67 @@ async def python_info(_request: Request):
     return json({"python": sys.executable, "version": version})
 
 
+# fixme: cheap and dirty
+@app.websocket("/chat")
+async def websocket_handler(request, ws):
+    while True:
+        data = await ws.recv()
+        # parse data json
+        data_json = json_lib.loads(data)
+        question = data_json.get("message", "")
+        use_model = data_json.get("chat_model", "")
+        database_schema = data_json.get("database_schema", "")
+        connection = None
+        try:
+            logger.info(f"schema: {database_schema}")
+            response = await openai_async.chat_complete(
+                "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",
+                timeout=10,
+                payload={
+                    "model": "gpt-3.5-turbo",
+                    "messages": [
+                        {"role": "system", "content": "Given below are the table schemas for a MySQL database, use it to "
+                                                      "write a SQL query corresponding to the user's question, "
+                                                      "the table names are mentioned as [<table_name> table] before each schema"},
+                        {"role": "system", "content": f"Schema: {database_schema}"},
+                        {"role": "system", "content": f"You only respond with correct SQL according to MySQL syntax and given columns and nothing else."
+                                                      f" Don't hallucinate new column names, use the ones from schema."},
+                        {"role": "user", "content": f"Question: {question}, SQL:"}
+                    ],
+                },
+            )
+            answer_sql = response.json()["choices"][0]["message"]["content"].strip()
+            logger.info(f"answer_sql: {answer_sql}")
+
+            connection = pymysql.connect(
+                host="drinksmate.cbl2ralli4lr.ap-southeast-2.rds.amazonaws.com",
+                user="vyomkesh",
+                database="drinksmate",
+                password="$$5678Vyom!!",
+                cursorclass=pymysql.cursors.DictCursor
+            )
+            logger.info("Connected to MySQL server successfully.")
+            with connection.cursor() as cursor:
+                cursor.execute(answer_sql)
+                data = cursor.fetchall()
+                dataframe_html = pd.DataFrame(data).head(3).to_html()
+                await ws.send(json_lib.dumps({"message": dataframe_html}))
+
+        except Exception as e:
+            await ws.send(json_lib.dumps({"message": "something went wrong"}))
+            logger.info("exception", e)
+        finally:
+            if connection:
+                connection.close()
+
+
 if __name__ == "__main__":
     try:
         port = int(sys.argv[1]) or 8000
     except:
         port = 8000
     app.update_config({"RESPONSE_TIMEOUT": 500, "KEEP_ALIVE_TIMEOUT": 500, "REQUEST_TIMEOUT": 500})
-    app.run(port=port)
+    app.run(port=port, protocol= WebSocketProtocol)
 
     if sys.argv[1] != "--no-run":
         app.run(port=port)

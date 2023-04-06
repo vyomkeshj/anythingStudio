@@ -32,6 +32,18 @@ class MarkdownOutput(BaseOutput):
     def get_broadcast_data(self, value: str):
         return value
 
+class ChatOutput(BaseOutput):
+    def __init__(
+            self,
+            model_type: expression.ExpressionJson = "string",
+            label: str = "Chat Viewer",
+            kind: OutputKind = "chat",
+    ):
+        super().__init__(model_type, label, kind=kind)
+
+    def get_broadcast_data(self, value: str):
+        return value
+
 
 class TextOutput(BaseOutput):
     def __init__(

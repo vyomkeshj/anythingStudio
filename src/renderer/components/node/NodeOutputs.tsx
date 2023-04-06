@@ -18,6 +18,7 @@ import { MarkdownOutput } from "../outputs/MarkdownOutput";
 import { OutputContainer } from '../outputs/OutputContainer';
 import { OutputProps, UseOutputData } from '../outputs/props';
 import { TaggedOutput } from '../outputs/TaggedOutput';
+import ChatComponent from "../outputs/chat/ChatComponent";
 
 interface FullOutputProps extends Omit<Output, 'id' | 'type'>, OutputProps {
     definitionType: Type;
@@ -29,6 +30,7 @@ const OutputComponents: Readonly<
 > = {
     markdown: MarkdownOutput,
     html: HtmlOutput,
+    chat: ChatComponent,
     image: DefaultImageOutput,
     'large-image': LargeImageOutput,
     tagged: TaggedOutput,
@@ -37,6 +39,7 @@ const OutputComponents: Readonly<
 const OutputIsGeneric: Readonly<Record<OutputKind, boolean>> = {
     markdown: false,
     html: false,
+    chat: false,
     image: true,
     'large-image': false,
     tagged: false,

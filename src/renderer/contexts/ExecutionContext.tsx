@@ -182,7 +182,7 @@ export const ExecutionProvider = memo(({ children }: React.PropsWithChildren<{}>
             sendToast({
                 status: 'warning',
                 description:
-                    'You are modifying the chain while it is running. This will not modify the state of the current execution.',
+                    'You are modifying the graph while it is running. This will not modify the state of the current execution.',
                 id: 'execution-running',
                 variant: 'subtle',
                 position: 'bottom',
@@ -191,7 +191,7 @@ export const ExecutionProvider = memo(({ children }: React.PropsWithChildren<{}>
             sendToast({
                 status: 'warning',
                 description:
-                    'You are modifying the chain while it is paused. This will not modify the state of the execution once resumed.',
+                    'You are modifying the graph while it is paused. This will not modify the state of the execution once resumed.',
                 id: 'execution-paused',
                 variant: 'subtle',
                 position: 'bottom',
@@ -210,6 +210,9 @@ export const ExecutionProvider = memo(({ children }: React.PropsWithChildren<{}>
         const nodes = getNodesWithSideEffects(nodesToOptimize, allEdges, schemata);
         const nodeIds = new Set(nodes.map((n) => n.id));
         const edges = allEdges.filter((e) => nodeIds.has(e.source) && nodeIds.has(e.target));
+        // todo: perform the subject subscription here for ui side comm?/?
+
+
 
         // show an error if there are no nodes to run
         if (nodes.length === 0) {

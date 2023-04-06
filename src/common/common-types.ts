@@ -128,7 +128,7 @@ export type Input =
     | SliderInput
     | NumberInput;
 
-export type OutputKind = 'markdown' | 'html' | 'image' | 'large-image' | 'tagged' | 'generic';
+export type OutputKind = 'markdown' | 'html' | 'chat' | 'image' | 'large-image' | 'tagged' | 'generic';
 
 export interface Output {
     readonly id: OutputId;

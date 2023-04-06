@@ -6,7 +6,7 @@ from base_types import OutputId
 
 from .. import expression
 
-OutputKind = Literal["dataframe", "image", "large-image", "tagged", "generic"]
+OutputKind = Literal["dataframe", "chat", "image", "large-image", "tagged", "generic"]
 
 
 class BaseOutput:

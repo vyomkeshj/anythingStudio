@@ -252,6 +252,28 @@ class TextAreaInput(BaseInput):
         }
 
 
+class TextLineInput(BaseInput):
+    """Input for small text"""
+
+    def __init__(self, label: str = "Text", default: Union[str, None] = None):
+        super().__init__("string", label, has_handle=True, kind="text-line")
+        self.resizable = False
+        self.default = default
+
+    def enforce(self, value) -> str:
+        if isinstance(value, float) and int(value) == value:
+            # stringify integers values
+            return str(int(value))
+        return str(value)
+
+    def toDict(self):
+        return {
+            **super().toDict(),
+            "resizable": self.resizable,
+            "def": self.default,
+        }
+
+
 class ClipboardInput(BaseInput):
     """Input for pasting from clipboard"""
 

@@ -15,7 +15,7 @@ from . import category as DatabaseCategory
 class TextAppendNode(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Append different text together using a separator string."
+        self.description = "Append schemas."
         self.inputs = [
             TextInput(
                 "Separator",
@@ -24,18 +24,18 @@ class TextAppendNode(NodeBase):
                 max_length=3,
                 default="-",
             ),
-            TextInput("Text A"),
-            TextInput("Text B"),
+            TextInput("+A"),
+            TextInput("+B"),
             group("optional-list")(
                 *[
-                    TextInput(f"Text {letter}").make_optional()
+                    TextInput(f"+{letter}").make_optional()
                     for letter in ALPHABET[2:10]
                 ],
             ),
         ]
         self.outputs = [
             TextOutput(
-                "Output Text",
+                "->",
                 output_type="""
                 let sep = Input0;
                 string::concat(
@@ -56,7 +56,7 @@ class TextAppendNode(NodeBase):
         ]
 
         self.category = DatabaseCategory
-        self.name = "Text Append"
+        self.name = "++"
         self.icon = "MdTextFields"
         self.sub = "Text"
 
