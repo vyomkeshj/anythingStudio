@@ -479,19 +479,17 @@ async def websocket_handler(request, ws):
                 "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",
                 timeout=10,
                 payload={
-                    "model": "gpt-3.5-turbo",
+                    "model": "gpt-4",
                     "messages": [
-                        {"role": "system", "content": "Given below are the table schemas for a MySQL database, use it to "
-                                                      "write a SQL query corresponding to the user's question, "
-                                                      "the table names are mentioned as [<table_name> table] before each schema"},
-                        {"role": "system", "content": f"Schema: {database_schema}"},
-                        {"role": "system", "content": f"You only respond with correct SQL according to MySQL syntax and given columns and nothing else."
-                                                      f" Don't hallucinate new column names, use the ones from schema."},
-                        {"role": "user", "content": f"Question: {question}, SQL:"}
+                        {"role": "system", "content": f"You are given information about a MySQL database's tables, in the next message. Generate valid MySql queries to answer the question. Any output you generate will be run against the database."},
+                        {"role": "system", "content": f"{database_schema}"},
+                        {"role": "user", "content": f"Question: {question}"},
+                        {"role": "agent", "content": f"SQL: "}
                     ],
                 },
             )
-            answer_sql = response.json()["choices"][0]["message"]["content"].strip()
+
+            answer_sql = response.json()
             logger.info(f"answer_sql: {answer_sql}")
 
             connection = pymysql.connect(
@@ -503,7 +501,7 @@ async def websocket_handler(request, ws):
             )
             logger.info("Connected to MySQL server successfully.")
             with connection.cursor() as cursor:
-                cursor.execute(answer_sql)
+                cursor.execute(answer_sql["choices"][0]["message"]["content"].strip())
                 data = cursor.fetchall()
                 dataframe_html = pd.DataFrame(data).head(3).to_html()
                 await ws.send(json_lib.dumps({"message": dataframe_html}))

@@ -33,9 +33,9 @@ class ChatQComponent(NodeBase):
         self.side_effects = True
         self.schema = ""
 
-    def run(self, schema: str, use_model: str) -> str:
+    def run(self, prompt: str, use_model: str) -> str:
         """Run runs only once so we can use it to initialize the machine
         Return json in format: { database_schema: string; use_model: string;}
         """
-        return json_lib.dumps({"database_schema": schema, "use_model": use_model})
+        return json_lib.dumps({"database_schema": prompt, "use_model": use_model})
 
