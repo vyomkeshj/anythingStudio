@@ -144,7 +144,7 @@ export const NodeSelector = memo(() => {
                         <TabList h="42px">
                             {!collapsed && (
                                 <>
-                                    <Tab>Nodes</Tab>
+                                    <Tab>Q Apps</Tab>
                                     {isExperimentalFeatures && <Tab>Presets</Tab>}
                                 </>
                             )}

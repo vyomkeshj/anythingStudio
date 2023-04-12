@@ -43,17 +43,8 @@ class OpenAISQLMaker(NodeBase):
                 "Temperature",
                 minimum=0,
                 maximum=1,
-                default=0,
+                default=0.1,
                 controls_step=0.1,
-                gradient=[
-                    "#ff0000",
-                    "#ffff00",
-                    "#00ff00",
-                    "#00ffff",
-                    "#0000ff",
-                    "#ff00ff",
-                    "#ff0000",
-                ],
             ),
         ]
         self.outputs = [TextOutput("Completion")]
