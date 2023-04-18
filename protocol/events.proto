@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package backend_events;
+
+message BackendExceptionSource {
+  // Add fields specific to BackendExceptionSource
+}
+
+message OutputData {
+  // Add fields specific to OutputData
+}
+
+message OutputTypes {
+  // Add fields specific to OutputTypes
+}
+
+message FinishEvent {
+  string message = 1;
+}
+
+message ExecutionErrorEvent {
+  string message = 1;
+  BackendExceptionSource source = 2;
+  string exception = 3;
+}
+
+message NodeFinishEvent {
+  repeated string finished = 1;
+  string node_id = 2;
+  int32 execution_time = 3;
+  OutputData data = 4;
+  OutputTypes types = 5;
+  int32 progress_percent = 6;
+}
+
+message IteratorProgressUpdateEvent {
+  int32 percent = 1;
+  string iterator_id = 2;
+  repeated string running = 3;
+}
+
+message BackendEvent {
+  oneof event {
+    FinishEvent finish = 1;
+    ExecutionErrorEvent execution_error = 2;
+    NodeFinishEvent node_finish = 3;
+    IteratorProgressUpdateEvent iterator_progress_update = 4;
+  }
+}

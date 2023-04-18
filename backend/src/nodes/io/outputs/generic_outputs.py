@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from src.events import UIEventChannel, UIEvtChannelKind
 from ...utils.seed import Seed
 from .. import expression
 from .base_output import BaseOutput, OutputKind
@@ -26,18 +27,6 @@ class MarkdownOutput(BaseOutput):
             model_type: expression.ExpressionJson = "string",
             label: str = "Markdown Viewer",
             kind: OutputKind = "markdown",
-    ):
-        super().__init__(model_type, label, kind=kind)
-
-    def get_broadcast_data(self, value: str):
-        return value
-
-class ChatOutput(BaseOutput):
-    def __init__(
-            self,
-            model_type: expression.ExpressionJson = "string",
-            label: str = "Chat Viewer",
-            kind: OutputKind = "chat",
     ):
         super().__init__(model_type, label, kind=kind)
 

@@ -8,7 +8,7 @@ import sys
 import traceback
 from concurrent.futures import ThreadPoolExecutor
 from json import dumps as stringify
-from typing import Any, Dict, List, Optional, TypedDict
+from typing import Any, Dict, List, Optional, TypedDict, Type, Literal
 
 # pylint: disable-next=unused-import
 import cv2  # type: ignore
@@ -25,7 +25,7 @@ from base_types import NodeId
 from nm_graph.cache import OutputCache
 from nm_graph.json import JsonNode, parse_json
 from nm_graph.optimize import optimize
-from events import EventQueue, ExecutionErrorData
+from events import EventChannel, ExecutionErrorData, UIEventChannel, ToUIOutputMessage, UIEvtChannelSchema, UIEvtChannelKind
 from nodes.group import Group
 from nodes.node_factory import NodeFactory
 from nodes.nodes.builtin_categories import category_order
@@ -53,6 +53,7 @@ from response import (
 import pandas as pd
 import json as json_lib
 
+from src.nodes.io.outputs import BaseOutput
 
 class AppContext:
     def __init__(self):
@@ -60,7 +61,11 @@ class AppContext:
         self.cache: Dict[NodeId, Output] = dict()
         # This will be initialized by setup_queue.
         # This is necessary because we don't know Sanic's event loop yet.
-        self.queue: EventQueue = None  # type: ignore
+        self.sse_channel: EventChannel = None  # type: ignore
+        # should be in app context really?
+        self.to_ui_channel: UIEventChannel = None
+        self.from_ui_channel: UIEventChannel = None
+
         self.pool = ThreadPoolExecutor(max_workers=4)
 
     @staticmethod
@@ -146,6 +151,11 @@ class SSEFilter(logging.Filter):
         return not (record.request.endswith("/sse") and record.status == 200)  # type: ignore
 
 
+class UISSEFilter(logging.Filter):
+    def filter(self, record):
+        return not (record.request.endswith("/ui_sse") and record.status == 200)  # type: ignore
+
+
 class ZeroCounter:
     def __init__(self) -> None:
         self.count = 0
@@ -163,8 +173,8 @@ class ZeroCounter:
 
 runIndividualCounter = ZeroCounter()
 
-
 access_logger.addFilter(SSEFilter())
+access_logger.addFilter(UISSEFilter())
 
 
 @app.route("/nodes")
@@ -176,7 +186,7 @@ async def nodes(_):
     # sort nodes in category order
     sorted_registry = sorted(
         registry.items(),
-        key=lambda x: category_order.index(NodeFactory.get_node(x[0]).category.name),
+        key=lambda x: category_order.index(NodeFactory.get_node(x[0]).category.name), # fixme: dirty hack
     )
     node_list = []
     for schema_id, _node_class in sorted_registry:
@@ -218,7 +228,10 @@ class RunRequest(TypedDict):
 
 @app.route("/run", methods=["POST"])
 async def run(request: Request):
-    """Runs the provided nodes"""
+    """
+    Runs the provided nodes.
+    todo: the nodes with websocket ui should register
+    """
     ctx = AppContext.get(request.app)
 
     if ctx.executor:
@@ -232,8 +245,18 @@ async def run(request: Request):
 
         full_data: RunRequest = dict(request.json)  # type: ignore
         logger.debug(full_data)
-        chain, inputs = parse_json(full_data["data"])
-        optimize(chain)
+        graph, inputs = parse_json(full_data["data"])
+        # iterate through the dict
+        for node_id, node in graph.nodes.items():
+            # the outputs here store the kinds of messages allowed
+            node = node.get_node()
+            node.set_event_loop(app.loop)
+            node_outputs: List[BaseOutput] = node.get_outputs()
+            for output in node_outputs:
+                output.provide_channel_to_output(ctx.to_ui_channel)
+
+        # todo: node_outputs, get channel from node_instance and connect it to the sse/websocket
+        #
 
         logger.info("Running new executor...")
         exec_opts = parse_execution_options(full_data["options"])
@@ -241,24 +264,24 @@ async def run(request: Request):
         logger.debug(f"Using device: {exec_opts.full_device}")
         # the executor will create the subscriptions for the reactive i/o
         executor = Executor(
-            chain,
+            graph,
             inputs,
             full_data["sendBroadcastData"],
             app.loop,
-            ctx.queue,
+            ctx.sse_channel,
             ctx.pool,
             parent_cache=OutputCache(static_data=ctx.cache.copy()),
         )
         try:
             ctx.executor = executor
+            # todo: run should be blocking
             await executor.run()
         except Aborted:
             pass
         finally:
             ctx.executor = None
             gc.collect()
-
-        await ctx.queue.put(
+        await ctx.sse_channel.put(
             {"event": "finish", "data": {"message": "Successfully ran nodes!"}}
         )
         return json(successResponse("Successfully ran nodes!"), status=200)
@@ -278,7 +301,7 @@ async def run(request: Request):
                 "inputs": exception.inputs,
             }
 
-        await ctx.queue.put({"event": "execution-error", "data": error})
+        await ctx.sse_channel.put({"event": "execution-error", "data": error})
         return json(errorResponse("Error running nodes!", exception), status=500)
 
 
@@ -292,6 +315,7 @@ class RunIndividualRequest(TypedDict):
 @app.route("/run/individual", methods=["POST"])
 async def run_individual(request: Request):
     """Runs a single node"""
+    logger.info("Running individual node...")
     ctx = AppContext.get(request.app)
     try:
         full_data: RunIndividualRequest = dict(request.json)  # type: ignore
@@ -323,12 +347,11 @@ async def run_individual(request: Request):
 
             # Cache the output of the node
             ctx.cache[full_data["id"]] = output
-
         # Broadcast the output from the individual run
         node_outputs = node_instance.outputs
         if len(node_outputs) > 0:
             data, types = compute_broadcast(output, node_outputs)
-            await ctx.queue.put(
+            await ctx.sse_channel.put(
                 {
                     "event": "node-finish",
                     "data": {
@@ -368,7 +391,7 @@ async def sse(request: Request):
     headers = {"Cache-Control": "no-cache"}
     response = await request.respond(headers=headers, content_type="text/event-stream")
     while True:
-        message = await ctx.queue.get()
+        message = await ctx.sse_channel.get()
         if response is not None:
             await response.send(f"event: {message['event']}\n")
             await response.send(f"data: {stringify(message['data'])}\n\n")
@@ -376,7 +399,10 @@ async def sse(request: Request):
 
 @app.after_server_start
 async def setup_queue(sanic_app: Sanic, _):
-    AppContext.get(sanic_app).queue = EventQueue()
+    # todo: set the ui_queues here
+    AppContext.get(sanic_app).sse_channel = EventChannel()
+    AppContext.get(sanic_app).to_ui_channel = UIEventChannel('ui_uplink', UIEvtChannelKind.UPLINK)
+    AppContext.get(sanic_app).from_ui_channel = UIEventChannel('ui_downlink', UIEvtChannelKind.DOWNLINK)
 
 
 @app.route("/pause", methods=["POST"])
@@ -462,6 +488,17 @@ async def python_info(_request: Request):
     return json({"python": sys.executable, "version": version})
 
 
+@app.websocket("/ui_ws")
+async def ui_sse(request: Request, ws):
+    ctx = AppContext.get(request.app)
+
+    while True:
+        message: ToUIOutputMessage = await ctx.to_ui_channel.get()
+        logger.info(f"Sending message to UI Finally: {message}")
+        # todo: use protobuf
+        await ws.send(json_lib.dumps(message))
+
+
 # fixme: cheap and dirty
 @app.websocket("/chat")
 async def websocket_handler(request, ws):
@@ -481,10 +518,11 @@ async def websocket_handler(request, ws):
                 payload={
                     "model": "gpt-4",
                     "messages": [
-                        {"role": "system", "content": f"You are given information about a MySQL database's tables, in the next message. Generate valid MySql queries to answer the question. Any output you generate will be run against the database."},
+                        {"role": "system",
+                         "content": f"You are given information about a MySQL database's tables, in the next message. Generate valid MySql queries to answer the question. Any output you generate will be run against the database."},
                         {"role": "system", "content": f"{database_schema}"},
                         {"role": "user", "content": f"Question: {question}"},
-                        {"role": "agent", "content": f"SQL: "}
+                        {"role": "assistant", "content": f"SQL: "}
                     ],
                 },
             )
@@ -507,7 +545,7 @@ async def websocket_handler(request, ws):
                 await ws.send(json_lib.dumps({"message": dataframe_html}))
 
         except Exception as e:
-            await ws.send(json_lib.dumps({"message": "something went wrong"}))
+            await ws.send(json_lib.dumps({"message": "coming soon"}))
             logger.info("exception", e)
         finally:
             if connection:
@@ -520,7 +558,7 @@ if __name__ == "__main__":
     except:
         port = 8000
     app.update_config({"RESPONSE_TIMEOUT": 500, "KEEP_ALIVE_TIMEOUT": 500, "REQUEST_TIMEOUT": 500})
-    app.run(port=port, protocol= WebSocketProtocol)
+    app.run(port=port, protocol=WebSocketProtocol)
 
     if sys.argv[1] != "--no-run":
         app.run(port=port)

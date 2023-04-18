@@ -24,7 +24,9 @@ class FunctionNode:
         self.is_helper: bool = False
 
     def get_node(self) -> NodeBase:
-        return NodeFactory.get_node(self.schema_id)
+        # also inits the node with its node id
+        return NodeFactory.\
+            get_node_by_id(self.schema_id, self.id)
 
     def has_side_effects(self) -> bool:
         return self.get_node().side_effects
@@ -39,7 +41,7 @@ class IteratorNode:
 
     def get_node(self) -> IteratorNodeBase:
         if self.__node is None:
-            node = NodeFactory.get_node(self.schema_id)
+            node = NodeFactory.get_node_by_id(self.schema_id, self.id)
             assert isinstance(node, IteratorNodeBase), "Invalid iterator node"
             self.__node = node
         return self.__node

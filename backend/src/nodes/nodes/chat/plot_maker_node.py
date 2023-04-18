@@ -9,7 +9,7 @@ from ...io.inputs.dataframe_input import DataframeInput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from ...io.inputs import TextLineInput
-from ...io.outputs import ChatOutput, ImageOutput, MarkdownOutput
+from ...io.outputs import ImageOutput, MarkdownOutput
 from . import category as ChatCategory
 import json as json_lib
 import numpy as np

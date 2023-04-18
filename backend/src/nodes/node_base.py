@@ -1,13 +1,15 @@
+import asyncio
 from abc import ABCMeta, abstractmethod
-from typing import Any, List, Literal, Union
+from typing import Any, List, Literal, Union, NewType
 
-from base_types import InputId, OutputId
+from base_types import InputId, OutputId, NodeId
 
 from .category import Category
 from .group import Group, GroupId, NestedGroup, NestedIdGroup
 from .io.inputs.base_input import BaseInput
 from .io.outputs.base_output import BaseOutput
-from reactivex.subject import Subject
+# from reactivex.subject import Subject
+from src.events import UIEventChannel
 
 NodeType = Literal["regularNode", "iterator", "iteratorHelper"]
 
@@ -19,6 +21,7 @@ class NodeBase(metaclass=ABCMeta):
         self.__inputs: List[BaseInput] = []
         self.__outputs: List[BaseOutput] = []
         self.__group_layout: List[Union[InputId, NestedIdGroup]] = []
+        self.__ui_channels: List[UIEventChannel] = []
         self.description: str = ""
 
         self.category: Category = Category(
@@ -31,6 +34,16 @@ class NodeBase(metaclass=ABCMeta):
 
         self.side_effects: bool = False
         self.deprecated: bool = False
+
+        self.node_id: NodeId = None
+
+        self.event_loop: asyncio.AbstractEventLoop = None   # type: ignore
+
+    def set_node_id(self, node_id: NodeId):
+        self.node_id = node_id
+
+    def set_event_loop(self, event_loop):
+        self.event_loop = event_loop
 
     @property
     def inputs(self) -> List[BaseInput]:
@@ -80,6 +93,9 @@ class NodeBase(metaclass=ABCMeta):
     def group_layout(self) -> List[Union[InputId, NestedIdGroup]]:
         return self.__group_layout
 
+    def get_outputs(self) -> List[BaseOutput]:
+        return self.__outputs
+
     @abstractmethod
     def run(self) -> Any:
         """Abstract method to run a node's logic"""
@@ -101,24 +117,3 @@ class IteratorNodeBase(NodeBase):
 
     def get_default_nodes(self):
         return self.default_nodes
-
-
-class ReactiveNodeBase(NodeBase):
-    """"Reactive nodes have subject inputs and outputs, they also have a set of subjects to talk to the frontend"""
-    def __init__(self):
-        super().__init__()
-        self.icon = "MdLoop"
-        self.sub = "Reactive"
-        self.type = "reactive"
-        self.default_nodes = []
-        # also what channel this subject represents
-        self.__ui_subjects : List[Subject] = []
-
-        self.side_effects = True
-
-    def get_default_nodes(self):
-        return self.default_nodes
-
-    def validate(self):
-        """Make sure all the inputs and outputs are subjects"""
-        pass

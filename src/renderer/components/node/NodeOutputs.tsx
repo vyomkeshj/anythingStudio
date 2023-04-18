@@ -81,9 +81,11 @@ const evalExpression = (expression: ExpressionJson | null | undefined): Type | u
     }
 };
 
-export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false }: NodeOutputProps) => {
+export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false}: NodeOutputProps) => {
     const { functionDefinitions, schemata } = useContext(BackendContext);
     const { setManualOutputType } = useContext(GlobalContext);
+    // todo: register the channels in the global context here?
+
     const outputDataEntry = useContextSelector(GlobalVolatileContext, (c) =>
         c.outputDataMap.get(id)
     );
@@ -110,6 +112,7 @@ export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false }: No
     useEffect(() => {
         if (isStartingNode(schema)) {
             for (const output of schema.outputs) {
+                // todo: set channels here?
                 const type = evalExpression(currentTypes?.[output.id]);
                 setManualOutputType(id, output.id, type);
             }
@@ -123,13 +126,15 @@ export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false }: No
                 const props: FullOutputProps = {
                     ...output,
                     id,
+                    ui_message_registry: output.ui_message_registry,
                     outputId: output.id,
                     useOutputData,
+                    // useOutputEvents,
                     kind: output.kind,
                     schemaId,
                     definitionType: functions?.get(output.id) ?? NeverType.instance,
                     hasHandle: output.hasHandle,
-                    animated,
+                    animated
                 };
                 return pickOutput(output.kind, props);
             })}

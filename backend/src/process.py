@@ -26,7 +26,7 @@ from base_types import NodeId, OutputId
 from nm_graph.cache import CacheStrategy, OutputCache, get_cache_strategies
 from nm_graph.nmgraph import NMGraph, FunctionNode, IteratorNode, Node, SubGraph
 from nm_graph.input import EdgeInput, InputMap
-from events import FromNodeEvent, EventQueue, InputsDict
+from events import FromNodeEvent, EventChannel, InputsDict, UIEventChannel
 from nodes.impl.image_utils import get_h_w_c
 from nodes.node_base import BaseOutput, NodeBase
 from progress import Aborted, ProgressController, ProgressToken
@@ -245,7 +245,7 @@ class Executor:
         inputs: InputMap,
         send_broadcast_data: bool,
         loop: asyncio.AbstractEventLoop,
-        queue: EventQueue,
+        queue: EventChannel,
         pool: ThreadPoolExecutor,
         parent_cache: Optional[OutputCache[Output]] = None,
         parent_executor: Optional[Executor] = None,
@@ -270,7 +270,8 @@ class Executor:
         self.completed_node_ids = set()
 
         self.loop: asyncio.AbstractEventLoop = loop
-        self.queue: EventQueue = queue
+        self.queue: EventChannel = queue
+
         self.pool: ThreadPoolExecutor = pool
 
         self.parent_executor = parent_executor
@@ -524,6 +525,7 @@ class Executor:
 def compute_broadcast(output: Output, node_outputs: Iterable[BaseOutput]):
     data: Dict[OutputId, Any] = dict()
     types: Dict[OutputId, Any] = dict()
+
     for index, node_output in enumerate(node_outputs):
         try:
             data[node_output.id] = node_output.get_broadcast_data(output[index])

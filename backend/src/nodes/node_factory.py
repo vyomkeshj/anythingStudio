@@ -15,6 +15,7 @@ class NodeFactory:
     """ Internal registry for available nodes """
 
     __node_cache: Dict[str, NodeBase] = {}
+    __node_id_cache: Dict[str, NodeBase] = {}
 
     @classmethod
     def get_node(cls, schema_id: str) -> NodeBase:
@@ -25,6 +26,19 @@ class NodeFactory:
             node_class = cls.registry[schema_id]
             node = node_class()
             cls.__node_cache[schema_id] = node
+        return node
+
+    @classmethod
+    def get_node_by_id(cls,schema_id: str,  node_id: str) -> NodeBase:
+        """Factory command to create the node"""
+
+        node = cls.__node_id_cache.get(node_id)
+        if node is None:
+            node_class = cls.registry[schema_id]
+            node = node_class()
+            # set id
+            node.set_node_id(node_id)
+            cls.__node_id_cache[node_id] = node
         return node
 
     @classmethod

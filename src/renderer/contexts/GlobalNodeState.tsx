@@ -148,6 +148,7 @@ interface Global {
     typeStateRef: Readonly<React.MutableRefObject<TypeState>>;
     releaseNodeFromParent: (id: string) => void;
     outputDataActions: OutputDataActions;
+    // updateEventsForChannel: (message: ToUIOutputMessage<any>) => void;
     getInputHash: (nodeId: string) => string;
     hasRelevantUnsavedChangesRef: React.MutableRefObject<boolean>;
 }
@@ -1381,6 +1382,7 @@ export const GlobalProvider = memo(
             outputDataActions,
             getInputHash,
             hasRelevantUnsavedChangesRef,
+            // pushUIMessageToNodeOutput,
         });
 
         return (

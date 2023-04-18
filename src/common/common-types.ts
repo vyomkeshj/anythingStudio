@@ -1,4 +1,5 @@
 import { ExpressionJson } from './types/json';
+import { UIEvtChannelSchema } from "./ui_event_messages";
 
 export interface JsonObject {
     [key: string]: JsonValue;
@@ -140,6 +141,7 @@ export interface Output {
     readonly label: string;
     readonly kind: OutputKind;
     readonly hasHandle: boolean;
+    readonly ui_message_registry: UIEvtChannelSchema[];
 }
 
 export type Condition = AndCondition | OrCondition | NotCondition | EnumCondition | TypeCondition;
