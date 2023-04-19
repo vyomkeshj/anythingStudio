@@ -31,6 +31,7 @@ import { SettingsProvider } from './contexts/SettingsContext';
 import { useAsyncEffect } from './hooks/useAsyncEffect';
 import { useIpcRendererListener } from './hooks/useIpcRendererListener';
 import { useLastWindowSize } from './hooks/useLastWindowSize';
+import { WebSocketProvider } from "./contexts/WebsocketContext";
 
 interface NodesInfo {
     rawResponse: BackendNodesResponse;
@@ -167,6 +168,7 @@ export const Main = memo(({ port }: MainProps) => {
         }),
         []
     );
+    const wsUrl = 'ws://localhost:8000/ui_ws';
 
     if (error) return null;
 
@@ -223,11 +225,13 @@ export const Main = memo(({ port }: MainProps) => {
                                             w="full"
                                         >
                                             <NodeSelector />
+                                            <WebSocketProvider url={wsUrl}>
                                             <ReactFlowBox
                                                 edgeTypes={edgeTypes}
                                                 nodeTypes={nodeTypes}
                                                 wrapperRef={reactFlowWrapper}
                                             />
+                                            </WebSocketProvider>
                                         </HStack>
                                     </VStack>
                                 </HistoryProvider>

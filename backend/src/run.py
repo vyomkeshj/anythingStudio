@@ -499,59 +499,6 @@ async def ui_sse(request: Request, ws):
         await ws.send(json_lib.dumps(message))
 
 
-# fixme: cheap and dirty
-@app.websocket("/chat")
-async def websocket_handler(request, ws):
-    while True:
-        data = await ws.recv()
-        # parse data json
-        data_json = json_lib.loads(data)
-        question = data_json.get("message", "")
-        use_model = data_json.get("chat_model", "")
-        database_schema = data_json.get("database_schema", "")
-        connection = None
-        try:
-            logger.info(f"schema: {database_schema}")
-            response = await openai_async.chat_complete(
-                "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",
-                timeout=10,
-                payload={
-                    "model": "gpt-4",
-                    "messages": [
-                        {"role": "system",
-                         "content": f"You are given information about a MySQL database's tables, in the next message. Generate valid MySql queries to answer the question. Any output you generate will be run against the database."},
-                        {"role": "system", "content": f"{database_schema}"},
-                        {"role": "user", "content": f"Question: {question}"},
-                        {"role": "assistant", "content": f"SQL: "}
-                    ],
-                },
-            )
-
-            answer_sql = response.json()
-            logger.info(f"answer_sql: {answer_sql}")
-
-            connection = pymysql.connect(
-                host="drinksmate.cbl2ralli4lr.ap-southeast-2.rds.amazonaws.com",
-                user="vyomkesh",
-                database="drinksmate",
-                password="$$5678Vyom!!",
-                cursorclass=pymysql.cursors.DictCursor
-            )
-            logger.info("Connected to MySQL server successfully.")
-            with connection.cursor() as cursor:
-                cursor.execute(answer_sql["choices"][0]["message"]["content"].strip())
-                data = cursor.fetchall()
-                dataframe_html = pd.DataFrame(data).head(3).to_html()
-                await ws.send(json_lib.dumps({"message": dataframe_html}))
-
-        except Exception as e:
-            await ws.send(json_lib.dumps({"message": "coming soon"}))
-            logger.info("exception", e)
-        finally:
-            if connection:
-                connection.close()
-
-
 if __name__ == "__main__":
     try:
         port = int(sys.argv[1]) or 8000

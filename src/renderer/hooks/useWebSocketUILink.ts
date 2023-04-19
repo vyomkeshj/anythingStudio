@@ -1,67 +1,34 @@
-import { useEffect, useRef, useState } from "react";
+// hooks/useWebSocket.ts
+import { useContext, useEffect } from "react";
 import log from 'electron-log';
 import { ToUIOutputMessage } from "../../common/ui_event_messages";
 import { OutputChannel } from "../../common/common-types";
+import { WebSocketContext } from "../contexts/WebsocketContext";
 
 type WebSocketMessageHandler<T> = (message: ToUIOutputMessage<T>) => void;
+const useWebSocketContext = () => useContext(WebSocketContext);
 
 export const useWebSocket = <T>(
-  url: string,
   handlers: Record<string, WebSocketMessageHandler<T>>,
-  message_registry: OutputChannel[],
+  messageRegistry: OutputChannel[],
   onError?: (event: Event) => void,
-  onClose?: (event: CloseEvent) => void,
-  reconnectInterval: number = 5000
+  onClose?: (event: CloseEvent) => void
 ) => {
-  const socketRef = useRef<WebSocket | null>(null);
-  const [isConnected, setIsConnected] = useState(false);
-
-  const connect = () => {
-    socketRef.current = new WebSocket(url);
-
-    socketRef.current.addEventListener('open', () => {
-      log.info('WebSocket connection opened');
-      setIsConnected(true);
-    });
-
-    socketRef.current.addEventListener('close', (event) => {
-      setIsConnected(false);
-      if (onClose) {
-        onClose(event);
-      }
-      setTimeout(() => {
-        log.info('Attempting to reconnect...');
-        connect();
-      }, reconnectInterval);
-    });
-
-    if (onError) {
-      socketRef.current.addEventListener('error', onError);
-    }
-  };
+  const { socket } = useWebSocketContext();
 
   useEffect(() => {
-    connect();
-
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.close();
-        log.info('WebSocket connection closed');
-      }
-    };
-  }, [url]);
-
-  useEffect(() => {
-    if (!isConnected || !socketRef.current) {
+    if (!socket) {
+      log.info('fak from WebSocket: ')
       return;
     }
 
     const messageListener = (event: MessageEvent) => {
+      log.info('Received message from WebSocket: ', event.data)
       try {
         const message: ToUIOutputMessage<T> = JSON.parse(event.data);
         const handler = handlers[message.message_tag];
         // if the message.channel_id matches the channel_id of the message with the same tag in the registry, then we know that the message is for us
-        if (handler && message_registry.find((reg) => reg.channel_id === message.channel_id)) {
+        if (handler && messageRegistry.find((reg) => reg.channel_id === message.channel_id)) {
           handler(message);
         } else {
           log.warn(`No handler found for message tag: ${message.message_tag}`);
@@ -71,13 +38,29 @@ export const useWebSocket = <T>(
       }
     };
 
-    socketRef.current.removeEventListener('message', messageListener);
-    socketRef.current.addEventListener('message', messageListener);
+    socket.removeEventListener('message', messageListener);
+    socket.addEventListener('message', messageListener);
+
+    if (onError) {
+      socket.removeEventListener('error', onError);
+      socket.addEventListener('error', onError);
+    }
+
+    if (onClose) {
+      socket.removeEventListener('close', onClose);
+      socket.addEventListener('close', onClose);
+    }
 
     return () => {
-      if (socketRef.current) {
-        socketRef.current.removeEventListener('message', messageListener);
+      if (socket) {
+        socket.removeEventListener('message', messageListener);
+        if (onError) {
+          socket.removeEventListener('error', onError);
+        }
+        if (onClose) {
+          socket.removeEventListener('close', onClose);
+        }
       }
     };
-  }, [isConnected, handlers]);
+  }, [socket, handlers, messageRegistry, onError, onClose]);
 };

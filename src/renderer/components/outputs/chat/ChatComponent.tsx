@@ -32,9 +32,8 @@ const ChatComponent = memo(({ label, id, outputId, schemaId, useOutputData, ui_m
   const handlers = {
     'msg_from_chatbot': handle_from_chatbot_msg,
   };
-  log.info("registry: ", ui_message_registry)
 
-  useWebSocket(`ws://localhost:8000/ui_ws`, handlers, ui_message_registry);
+  useWebSocket(handlers, ui_message_registry);
 
   return (
     <Flex w="500dp" h="300dp" justify="center" align="center">
