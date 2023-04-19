@@ -30,20 +30,23 @@ class BaseOutput:
 
         # if the component is a live component
         self.ui_message_registry: List[UIEvtChannelSchema] = channels
-        self.uplink_channel: UIEventChannel = None  # type ignore
         self.kind: OutputKind = kind
         self.has_handle: bool = has_handle
 
+        self.uplink_channel: UIEventChannel = None  # type ignore
+        self.downlink_channel: UIEventChannel = None  # type ignore
+
+
     def toDict(self):
-        return {
-            "id": self.id,
-            "type": self.output_type,
-            "label": self.label,
-            "neverReason": self.never_reason,
-            "kind": self.kind,
-            "hasHandle": self.has_handle,
-            "ui_message_registry": self.ui_message_registry,
-        }
+            return {
+                "id": self.id,
+                "type": self.output_type,
+                "label": self.label,
+                "neverReason": self.never_reason,
+                "kind": self.kind,
+                "hasHandle": self.has_handle,
+                "ui_message_registry": self.ui_message_registry,
+            }
 
     def get_channel_id_by_name(self, channel_name: str):
         for channel in self.ui_message_registry:
@@ -62,12 +65,16 @@ class BaseOutput:
         """When the nodes are received from the ui, the backend provides the nodes channels to comm with the ui"""
         self.uplink_channel = channel
 
+    def provide_channel_for_input(self, channel: UIEventChannel):
+        """This channel fetches events from the ui and sends them to the node"""
+        self.downlink_channel = channel
+
     async def send_ui_event(self, event: ToUIOutputMessage):
         await self.uplink_channel.put(event)
 
     async def receive_ui_event(self, channel_name: str):
-        # fixme: incorrect
-        return await self.uplink_channel.get()
+        """Receives ui event for a given channel name for the output"""
+        return await self.downlink_channel.get_message(self.get_channel_id_by_name(channel_name))
 
     def with_id(self, output_id: Union[OutputId, int]):
         self.id = OutputId(output_id)

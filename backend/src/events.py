@@ -99,8 +99,9 @@ class ToUIOutputMessage(TypedDict):
 
 
 class FromUIOutputMessage(TypedDict):
-    node_id: NodeId
-    output_id: OutputId
+    channel_id: str
+    message_tag: str
+
     data: UIMessageType
 
 
@@ -120,28 +121,47 @@ class UIEvtChannelSchema(TypedDict):
 
 
 class UIEventChannel(EventChannel[Union[FromUIOutputMessage, ToUIOutputMessage]]):
-    # todo: make this a generic type
+    # All outputs have reference to an input and output channel to communicate with their ui
     def __init__(self, channel_name: str, kind: str):
         super().__init__()
         self.channel_name = channel_name
         self.kind = kind
+        self.lock = asyncio.Lock()
+        self.condition = asyncio.Condition(self.lock)
 
     async def get(self) -> Union[FromUIOutputMessage, ToUIOutputMessage]:
         """
-        If this is a downlink channel, this will return a message from the ui received through websockets
-        If this is an uplink channel, this will represent a message from the node to the ui node (sent at ui_sse)
+            For the uplink channel
         """
         return await self.queue.get()
 
-    async def put(self, event: Union[FromUIOutputMessage, ToUIOutputMessage]) -> None:
-        if self.kind == UIEvtChannelKind.DOWNLINK:
-            if type(event) == FromUIOutputMessage:
-                raise IncorrectChannelError(self)
-        elif self.kind == UIEvtChannelKind.UPLINK:
-            if type(event) == ToUIOutputMessage:
-                raise IncorrectChannelError(self)
+    async def get_message(self, channel_id: str) -> Union[FromUIOutputMessage, ToUIOutputMessage]:
+        """
+        awaits for a message with the specified channel_id.
+        """
+        async with self.condition:
+            while True:
+                # Look for a message with the specified channel_id
+                for index, message in enumerate(self.queue._queue):
+                    if message["channel_id"] == channel_id:
+                        # Remove the message from the queue
+                        del self.queue._queue[index]
+                        return message
 
-        await self.queue.put(event)
+                # Wait for a new message to be added to the queue
+                await self.condition.wait()
+
+    async def put(self, event: Union[FromUIOutputMessage, ToUIOutputMessage]) -> None:
+        async with self.condition:
+            if self.kind == UIEvtChannelKind.DOWNLINK:
+                if type(event) == FromUIOutputMessage:
+                    raise IncorrectChannelError(self)
+            elif self.kind == UIEvtChannelKind.UPLINK:
+                if type(event) == ToUIOutputMessage:
+                    raise IncorrectChannelError(self)
+
+            await self.queue.put(event)
+            self.condition.notify_all()
 
     def __str__(self):
         return f"{self.channel_name}, {self.kind})"

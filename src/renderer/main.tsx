@@ -168,7 +168,7 @@ export const Main = memo(({ port }: MainProps) => {
         }),
         []
     );
-    const wsUrl = 'ws://localhost:8000/ui_ws';
+    const wsUrl = 'ws://localhost:8000/ui';
 
     if (error) return null;
 

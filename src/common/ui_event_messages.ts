@@ -9,3 +9,11 @@ export interface ToUIOutputMessage<T> {
   readonly message_tag: string
   readonly data: T
 }
+
+export interface FromUIOutputMessage<T> {
+  // Defined inside the websocket handler, must be present before sent
+  readonly channel_id: ChannelId | undefined;
+
+  readonly message_tag: string
+  readonly data: T
+}

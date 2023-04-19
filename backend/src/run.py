@@ -25,7 +25,8 @@ from base_types import NodeId
 from nm_graph.cache import OutputCache
 from nm_graph.json import JsonNode, parse_json
 from nm_graph.optimize import optimize
-from events import EventChannel, ExecutionErrorData, UIEventChannel, ToUIOutputMessage, UIEvtChannelSchema, UIEvtChannelKind
+from events import EventChannel, ExecutionErrorData, UIEventChannel, ToUIOutputMessage, UIEvtChannelSchema, \
+    UIEvtChannelKind, FromUIOutputMessage
 from nodes.group import Group
 from nodes.node_factory import NodeFactory
 from nodes.nodes.builtin_categories import category_order
@@ -55,6 +56,7 @@ import json as json_lib
 
 from src.nodes.io.outputs import BaseOutput
 
+
 class AppContext:
     def __init__(self):
         self.executor: Optional[Executor] = None
@@ -79,7 +81,6 @@ app.config.REQUEST_TIMEOUT = sys.maxsize
 app.config.RESPONSE_TIMEOUT = sys.maxsize
 CORS(app)
 
-
 missing_node_count = 0
 categories = set()
 missing_categories = set()
@@ -87,7 +88,7 @@ missing_module_errors = set()
 
 # Dynamically import all nodes
 for root, dirs, files in os.walk(
-    os.path.join(os.path.dirname(__file__), "nodes", "nodes")
+        os.path.join(os.path.dirname(__file__), "nodes", "nodes")
 ):
     for file in files:
         if file.endswith(".py") and not file.startswith("_"):
@@ -132,14 +133,12 @@ for root, dirs, files in os.walk(
             except:
                 pass
 
-
 if len(missing_module_errors) > 0:
     logger.warning(
         f"Failed to import {missing_node_count} nodes. "
         f"Missing categories: {missing_categories}. "
         f"Missing modules: {missing_module_errors}"
     )
-
 
 categories = sorted(
     list(categories), key=lambda category: category_order.index(category.name)
@@ -186,7 +185,7 @@ async def nodes(_):
     # sort nodes in category order
     sorted_registry = sorted(
         registry.items(),
-        key=lambda x: category_order.index(NodeFactory.get_node(x[0]).category.name), # fixme: dirty hack
+        key=lambda x: category_order.index(NodeFactory.get_node(x[0]).category.name),  # fixme: dirty hack
     )
     node_list = []
     for schema_id, _node_class in sorted_registry:
@@ -254,6 +253,7 @@ async def run(request: Request):
             node_outputs: List[BaseOutput] = node.get_outputs()
             for output in node_outputs:
                 output.provide_channel_to_output(ctx.to_ui_channel)
+                output.provide_channel_for_input(ctx.from_ui_channel)
 
         # todo: node_outputs, get channel from node_instance and connect it to the sse/websocket
         #
@@ -488,15 +488,45 @@ async def python_info(_request: Request):
     return json({"python": sys.executable, "version": version})
 
 
-@app.websocket("/ui_ws")
+@app.websocket("/to_front_ui")
 async def ui_sse(request: Request, ws):
     ctx = AppContext.get(request.app)
 
     while True:
         message: ToUIOutputMessage = await ctx.to_ui_channel.get()
         logger.info(f"Sending message to UI Finally: {message}")
+        # todo: wait for some response depending on the message sent?
         # todo: use protobuf
         await ws.send(json_lib.dumps(message))
+
+
+@app.websocket("/ui")
+async def ui_ws(request: Request, ws):
+    ctx = AppContext.get(request.app)
+
+    async def send_to_ui():
+        while True:
+            message: ToUIOutputMessage = await ctx.to_ui_channel.get()
+            logger.info(f"Sending message to UI Finally: {message}")
+            await ws.send(json_lib.dumps(message))
+
+    async def receive_from_ui():
+        while True:
+            try:
+                # Receive message from the websocket
+                raw_message = await ws.recv()
+                # Deserialize the message
+                message: FromUIOutputMessage = json_lib.loads(raw_message)
+                logger.info(f"Received message from UI: {message}")
+
+                # Put the message into the from_ui_channel
+                await ctx.from_ui_channel.put(message)
+            except Exception as e:
+                logger.error(f"Error processing message from UI: {e}")
+                break
+
+    # Run the sending and receiving coroutines concurrently
+    await asyncio.gather(send_to_ui(), receive_from_ui())
 
 
 if __name__ == "__main__":

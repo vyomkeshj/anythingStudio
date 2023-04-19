@@ -4,44 +4,64 @@ import Divider from "./components/Divider";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Messages from "./components/Messages";
-import { findChannelIdByName, OutputProps } from "../props";
+import { OutputProps } from "../props";
 import log from "electron-log";
 import { ToUIOutputMessage } from "../../../../common/ui_event_messages";
-import { useWebSocket } from "../../../hooks/useWebSocketUILink";
-
-interface ChatInitializationMsg {
-  database_schema: string;
-  use_model: string;
-}
+import { useWebSocketUILink } from "../../../hooks/useWebSocketUILink";
 
 interface MsgFromChatbot {
-  msg: string,
+  msg: string;
 }
 
 interface MsgFromUser {
-  msg: string,
+  msg: string;
 }
 
-const ChatComponent = memo(({ label, id, outputId, schemaId, useOutputData, ui_message_registry }: OutputProps) => {
-
+const ChatComponent = memo(({ label, id, outputId, schemaId, ui_message_registry }: OutputProps) => {
+  const [messages, setMessages] = useState([
+    { from: "computer", text: "Hi, My Name is ChatQ, Please connect the database and press run to begin!" },
+  ]);
+  const [inputMessage, setInputMessage] = useState("");
 
   const handle_from_chatbot_msg = (message: ToUIOutputMessage<MsgFromChatbot>) => {
     log.info("Got message from chatbot_x: ", message);
+    setMessages((old) => [...old, { from: "computer", text: message.data.msg }]);
   };
 
   const handlers = {
     'msg_from_chatbot': handle_from_chatbot_msg,
   };
 
-  useWebSocket(handlers, ui_message_registry);
+  const { sendMessage } = useWebSocketUILink(handlers, ui_message_registry);
+
+  const handleSendMessage = () => {
+    if (!inputMessage.trim().length) {
+      return;
+    }
+    const data = inputMessage;
+    console.log(data);
+    setMessages((old) => [...old, { from: "me", text: data }]);
+    setInputMessage("");
+
+    const message: MsgFromUser = {
+      msg: data,
+    };
+
+    sendMessage('msg_from_user', message);
+  };
 
   return (
     <Flex w="500dp" h="300dp" justify="center" align="center">
       <Flex w={["100%", "100%", "100%"]} h="90%" flexDir="column">
         <Header />
         <Divider />
-        {/*<Messages messages={messages} />*/}
+        <Messages messages={messages} />
         <Divider />
+        <Footer
+          inputMessage={inputMessage}
+          setInputMessage={setInputMessage}
+          handleSendMessage={handleSendMessage}
+        />
       </Flex>
     </Flex>
   );
