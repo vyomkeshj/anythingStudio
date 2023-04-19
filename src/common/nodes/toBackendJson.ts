@@ -74,6 +74,7 @@ export const toBackendJson = (
                         value: inputData[inputId] ?? null,
                     }
             ),
+            output_channels: data.outputChannelData,
             nodeType,
             parent: element.parentNode ?? null,
         });

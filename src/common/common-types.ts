@@ -1,5 +1,5 @@
 import { ExpressionJson } from './types/json';
-import { UIEvtChannelSchema } from "./ui_event_messages";
+import { ChannelId } from "./ui_event_messages";
 
 export interface JsonObject {
     [key: string]: JsonValue;
@@ -141,7 +141,7 @@ export interface Output {
     readonly label: string;
     readonly kind: OutputKind;
     readonly hasHandle: boolean;
-    readonly ui_message_registry: UIEvtChannelSchema[];
+    readonly ui_message_registry: OutputChannel[];
 }
 
 export type Condition = AndCondition | OrCondition | NotCondition | EnumCondition | TypeCondition;
@@ -251,6 +251,12 @@ export interface DefaultNode {
     schemaId: SchemaId;
 }
 
+
+export interface OutputChannel {
+    readonly channel_id: ChannelId;
+    readonly channel_name: string;
+}
+
 export interface NodeData {
     readonly id: string;
     readonly parentNode?: string;
@@ -265,6 +271,8 @@ export interface NodeData {
     readonly percentComplete?: number;
     readonly minWidth?: number;
     readonly minHeight?: number;
+    // just a copy of what is in schema outputs
+    readonly outputChannelData: OutputChannel[];
 }
 export interface EdgeData {
     sourceX?: number;
@@ -326,6 +334,7 @@ export interface BackendJsonNode {
     id: string;
     schemaId: SchemaId;
     inputs: BackendJsonInput[];
+    output_channels: OutputChannel[];
     nodeType: string;
     parent: string | null;
 }

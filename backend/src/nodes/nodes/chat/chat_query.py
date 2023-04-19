@@ -58,33 +58,29 @@ class ChatQComponent(NodeBase):
         Run runs only once, so we can use it to initialize the machine, but we can put things on the event loop to run
         """
         logger.info(f"Running chat node with id: {self.node_id}")
-        run_async_in_executor(self.chat_output, self.node_id)
+        run_async_in_executor(self.chat_output, MsgFromChatbot(msg="hello"))
         return json_lib.dumps({"database_schema": prompt, "use_model": use_model})
 
     async def run_loops(self):
         pass
 
 
-def run_async_in_executor(base_output: ChatOutput, node_id: NodeId):
+def run_async_in_executor(base_output: ChatOutput, message: MsgFromChatbot):
     send_event_loop = asyncio.new_event_loop()
     try:
-        result = send_event_loop.run_until_complete(send_ui_event(base_output, node_id))
+        result = send_event_loop.run_until_complete(send_ui_event(base_output, message))
         return result
     finally:
         send_event_loop.close()
 
 
-async def send_ui_event(chat_ui_out: ChatOutput, node_id: NodeId):
+async def send_ui_event(chat_ui_out: ChatOutput, message: MsgFromChatbot):
     # channel id is unique to the output
     channel_id = chat_ui_out.get_channel_id_by_name('msg_from_chatbot')
-    message = MsgFromChatbot(msg="Hello from chatbot")
 
-    out_message = ToUIOutputMessage(node_id=node_id,
-                                    channel_id=channel_id,
-                                    output_id=chat_ui_out.id,
+    out_message = ToUIOutputMessage(channel_id=channel_id,
                                     data=message,
                                     message_tag="msg_from_chatbot")
-
     await chat_ui_out.send_ui_event(event=out_message)
     await asyncio.sleep(10)
     await chat_ui_out.send_ui_event(event=out_message)

@@ -104,6 +104,7 @@ export const IteratorHelperNode = memo(({ data, selected }: IteratorHelperNodePr
                         inputData={inputData}
                         isLocked={isLocked}
                         schema={schema}
+                        nodeData={data}
                     />
                 </VStack>
                 <NodeFooter

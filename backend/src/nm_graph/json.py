@@ -2,7 +2,7 @@ from typing import Any, List, Literal, Optional, Tuple, TypedDict, Union
 
 from base_types import NodeId
 
-from .nmgraph import NMGraph, Edge, EdgeSource, EdgeTarget, FunctionNode, IteratorNode
+from .nmgraph import NMGraph, Edge, EdgeSource, EdgeTarget, FunctionNode, IteratorNode, OutputChannel
 from .input import EdgeInput, Input, InputMap, ValueInput
 
 
@@ -24,6 +24,7 @@ class JsonNode(TypedDict):
     id: NodeId
     schemaId: str
     inputs: List[JsonInput]
+    output_channels: List[OutputChannel]
     parent: Optional[NodeId]
     nodeType: str
 
@@ -46,9 +47,10 @@ def parse_json(json: List[JsonNode]) -> Tuple[NMGraph, InputMap]:
 
     for json_node in json:
         if json_node["nodeType"] == "iterator":
-            node = IteratorNode(json_node["id"], json_node["schemaId"])
+            #
+            node = IteratorNode(json_node["id"], json_node["schemaId"], json_node["output_channels"])
         else:
-            node = FunctionNode(json_node["id"], json_node["schemaId"])
+            node = FunctionNode(json_node["id"], json_node["schemaId"], json_node["output_channels"])
             node.parent = json_node["parent"]
             node.is_helper = json_node["nodeType"] == "iteratorHelper"
         nm_graph.add_node(node)

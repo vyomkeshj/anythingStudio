@@ -4,10 +4,10 @@ import { NeverType, Type, evaluate } from '@chainner/navi';
 import log from 'electron-log';
 import { memo, useCallback, useEffect } from 'react';
 import { useContext, useContextSelector } from 'use-context-selector';
-import { Output, OutputId, OutputKind, SchemaId } from '../../../common/common-types';
+import { NodeData, Output, OutputId, OutputKind, SchemaId } from "../../../common/common-types";
 import { ExpressionJson, fromJson } from '../../../common/types/json';
 import { getMachinesStudioScope } from '../../../common/types/machines-scope';
-import { isStartingNode } from '../../../common/util';
+import { isStartingNode } from "../../../common/util";
 import { BackendContext } from '../../contexts/BackendContext';
 import { GlobalContext, GlobalVolatileContext } from '../../contexts/GlobalNodeState';
 import { HtmlOutput } from '../outputs/HtmlOutput';
@@ -70,6 +70,7 @@ interface NodeOutputProps {
     id: string;
     schemaId: SchemaId;
     animated?: boolean;
+    nodeData: NodeData;
 }
 
 const evalExpression = (expression: ExpressionJson | null | undefined): Type | undefined => {
@@ -81,10 +82,9 @@ const evalExpression = (expression: ExpressionJson | null | undefined): Type | u
     }
 };
 
-export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false}: NodeOutputProps) => {
+export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false, nodeData}: NodeOutputProps) => {
     const { functionDefinitions, schemata } = useContext(BackendContext);
     const { setManualOutputType } = useContext(GlobalContext);
-    // todo: register the channels in the global context here?
 
     const outputDataEntry = useContextSelector(GlobalVolatileContext, (c) =>
         c.outputDataMap.get(id)
@@ -126,10 +126,9 @@ export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false}: Nod
                 const props: FullOutputProps = {
                     ...output,
                     id,
-                    ui_message_registry: output.ui_message_registry,
+                    ui_message_registry: nodeData.outputChannelData,
                     outputId: output.id,
                     useOutputData,
-                    // useOutputEvents,
                     kind: output.kind,
                     schemaId,
                     definitionType: functions?.get(output.id) ?? NeverType.instance,

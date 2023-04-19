@@ -218,6 +218,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                         inputSize={inputSize}
                         isLocked={isLocked}
                         schema={schema}
+                        nodeData={data}
                     />
                 </VStack>
                 <NodeFooter

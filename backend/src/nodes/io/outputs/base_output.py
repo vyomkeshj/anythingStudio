@@ -51,6 +51,13 @@ class BaseOutput:
                 return channel['channel_id']
         return None
 
+    def set_channel_id_by_name(self, channel_name: str, channel_id: str):
+        for channel in self.ui_message_registry:
+            if channel['channel_name'] == channel_name:
+                channel['channel_id'] = channel_id
+                return
+        return None
+
     def provide_channel_to_output(self, channel: UIEventChannel):
         """When the nodes are received from the ui, the backend provides the nodes channels to comm with the ui"""
         self.uplink_channel = channel
@@ -59,7 +66,7 @@ class BaseOutput:
         await self.uplink_channel.put(event)
 
     async def receive_ui_event(self, channel_name: str):
-        # todo: filter using the ui_message_registry
+        # fixme: incorrect
         return await self.uplink_channel.get()
 
     def with_id(self, output_id: Union[OutputId, int]):

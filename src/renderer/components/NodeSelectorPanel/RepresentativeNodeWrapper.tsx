@@ -4,12 +4,14 @@ import { DragEvent, memo, useCallback, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useReactFlow } from 'reactflow';
 import { useContext } from 'use-context-selector';
-import { NodeSchema } from '../../../common/common-types';
+import { NodeSchema, OutputChannel } from "../../../common/common-types";
 import { GlobalContext } from '../../contexts/GlobalNodeState';
 import { MachinesDragData, TransferTypes } from '../../helpers/dataTransfer';
 import { useContextMenu } from '../../hooks/useContextMenu';
 import { useNodeFavorites } from '../../hooks/useNodeFavorites';
 import { RepresentativeNode } from './RepresentativeNode';
+import { createUniqueId } from "../../../common/util";
+import { ChannelId } from "../../../common/ui_event_messages";
 
 const onDragStart = (event: DragEvent<HTMLDivElement>, node: NodeSchema) => {
     const data: MachinesDragData = {
@@ -74,15 +76,26 @@ export const RepresentativeNodeWrapper = memo(
                 x: width / 2,
                 y: wHeight / 2,
             });
+      // Init node's channels with new id
+      const outputChannelData = node.outputs.flatMap((output) => {
+        return output.ui_message_registry.map((channel_schema) => {
+          const channel: OutputChannel = {
+            channel_id: createUniqueId() as ChannelId,
+            channel_name: channel_schema.channel_name
+          };
+          return channel;
+        });
+      });
 
-            createNode({
-                nodeType: node.nodeType,
-                position,
-                data: {
-                    schemaId: node.schemaId,
-                },
-            });
-        }, [createNode, node.schemaId, node.nodeType, reactFlowInstance, reactFlowWrapper]);
+      createNode({
+        nodeType: node.nodeType,
+        position,
+        data: {
+          schemaId: node.schemaId,
+          outputChannelData
+        }
+      });
+    }, [createNode, node.schemaId, node.nodeType, reactFlowInstance, reactFlowWrapper]);
 
         return (
             <Box

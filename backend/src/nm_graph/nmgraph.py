@@ -1,4 +1,4 @@
-from typing import Callable, Dict, List, TypeVar, Union
+from typing import Callable, Dict, List, TypeVar, Union, TypedDict
 
 from base_types import InputId, NodeId, OutputId
 from nodes.node_base import IteratorNodeBase, NodeBase
@@ -6,6 +6,11 @@ from nodes.node_factory import NodeFactory
 
 K = TypeVar("K")
 V = TypeVar("V")
+
+
+class OutputChannel(TypedDict):
+    channel_id: str
+    channel_name: str
 
 
 def get_or_add(d: Dict[K, V], key: K, supplier: Callable[[], V]) -> V:
@@ -17,33 +22,40 @@ def get_or_add(d: Dict[K, V], key: K, supplier: Callable[[], V]) -> V:
 
 
 class FunctionNode:
-    def __init__(self, node_id: NodeId, schema_id: str):
+    def __init__(self, node_id: NodeId, schema_id: str, output_channels: List[OutputChannel]):
         self.id: NodeId = node_id
         self.schema_id: str = schema_id
         self.parent: Union[NodeId, None] = None
         self.is_helper: bool = False
+        self.output_channels = output_channels
 
     def get_node(self) -> NodeBase:
         # also inits the node with its node id
-        return NodeFactory.\
-            get_node_by_id(self.schema_id, self.id)
+        node_instance: NodeBase = NodeFactory.get_node_by_id(self.schema_id, self.id)
+        for channel in self.output_channels:
+            node_instance.set_output_id_for_channel(channel["channel_name"], channel["channel_id"])
+        return node_instance
 
     def has_side_effects(self) -> bool:
         return self.get_node().side_effects
 
 
 class IteratorNode:
-    def __init__(self, node_id: NodeId, schema_id: str):
+    def __init__(self, node_id: NodeId, schema_id: str, output_channels: List[OutputChannel]):
         self.id: NodeId = node_id
         self.schema_id: str = schema_id
         self.parent: None = None
         self.__node = None
+        self.output_channels = output_channels
 
     def get_node(self) -> IteratorNodeBase:
         if self.__node is None:
-            node = NodeFactory.get_node_by_id(self.schema_id, self.id)
-            assert isinstance(node, IteratorNodeBase), "Invalid iterator node"
-            self.__node = node
+            node_instance = NodeFactory.get_node_by_id(self.schema_id, self.id)
+            for channel in self.output_channels:
+                node_instance.set_output_id_for_channel(channel["channel_name"], channel["channel_id"])
+
+            assert isinstance(node_instance, IteratorNodeBase), "Invalid iterator node"
+            self.__node = node_instance
         return self.__node
 
 

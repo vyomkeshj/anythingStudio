@@ -1,14 +1,14 @@
-// hooks/useWebSocket.ts
 import { useEffect, useRef, useState } from "react";
 import log from 'electron-log';
 import { ToUIOutputMessage } from "../../common/ui_event_messages";
-// hooks/useWebSocket.ts
+import { OutputChannel } from "../../common/common-types";
 
 type WebSocketMessageHandler<T> = (message: ToUIOutputMessage<T>) => void;
 
 export const useWebSocket = <T>(
   url: string,
   handlers: Record<string, WebSocketMessageHandler<T>>,
+  message_registry: OutputChannel[],
   onError?: (event: Event) => void,
   onClose?: (event: CloseEvent) => void,
   reconnectInterval: number = 5000
@@ -60,8 +60,8 @@ export const useWebSocket = <T>(
       try {
         const message: ToUIOutputMessage<T> = JSON.parse(event.data);
         const handler = handlers[message.message_tag];
-
-        if (handler) {
+        // if the message.channel_id matches the channel_id of the message with the same tag in the registry, then we know that the message is for us
+        if (handler && message_registry.find((reg) => reg.channel_id === message.channel_id)) {
           handler(message);
         } else {
           log.warn(`No handler found for message tag: ${message.message_tag}`);

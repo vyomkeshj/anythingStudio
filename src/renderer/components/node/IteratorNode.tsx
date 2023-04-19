@@ -136,6 +136,7 @@ const IteratorNodeInner = memo(({ data, selected }: IteratorNodeProps) => {
                             id={id}
                             outputs={outputs}
                             schemaId={schemaId}
+                            nodeData={data}
                         />
                     </Box>
                 </VStack>

@@ -21,6 +21,7 @@ import {
     NodeSchema,
     OutputId,
     SchemaId,
+    OutputChannel,
 } from '../../common/common-types';
 import { getFirstPossibleInput, getFirstPossibleOutput } from '../../common/nodes/connectedInputs';
 import { TypeState } from '../../common/nodes/TypeState';
@@ -44,6 +45,7 @@ import { getMatchingNodes, getNodesByCategory, sortSchemata } from '../helpers/n
 import { useContextMenu } from './useContextMenu';
 import { useNodeFavorites } from './useNodeFavorites';
 import { useThemeColor } from './useThemeColor';
+import { ChannelId } from "../../common/ui_event_messages";
 
 interface SchemaItemProps {
     schema: NodeSchema;
@@ -386,6 +388,16 @@ export const usePaneNodeSearchMenu = (
                 x: x - reactFlowBounds.left,
                 y: y - reactFlowBounds.top,
             });
+            const outputChannels = schema.outputs.flatMap((output) => {
+              return output.ui_message_registry.map((channel_schema) => {
+                const channel: OutputChannel = {
+                  channel_id: createUniqueId() as ChannelId,
+                  channel_name: channel_schema.channel_name,
+                }
+                return channel;
+              })
+            });
+
             const nodeId = createUniqueId();
             createNode(
                 {
@@ -393,6 +405,7 @@ export const usePaneNodeSearchMenu = (
                     position: projPosition,
                     data: {
                         schemaId: schema.schemaId,
+                        outputChannelData: outputChannels,
                     },
                     nodeType: schema.nodeType,
                 },

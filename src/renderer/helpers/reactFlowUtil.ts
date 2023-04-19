@@ -1,8 +1,9 @@
-import { Size } from 'electron/common';
-import { Edge, Node, XYPosition } from 'reactflow';
-import { EdgeData, InputData, Mutable, NodeData, NodeType } from '../../common/common-types';
-import { SchemaMap } from '../../common/SchemaMap';
-import { createUniqueId, deepCopy } from '../../common/util';
+import { Size } from "electron/common";
+import { Edge, Node, XYPosition } from "reactflow";
+import { EdgeData, InputData, Mutable, NodeData, NodeType, OutputChannel } from "../../common/common-types";
+import { SchemaMap } from "../../common/SchemaMap";
+import { createUniqueId, deepCopy } from "../../common/util";
+import { ChannelId } from "../../common/ui_event_messages";
 
 export const defaultIteratorSize: Readonly<Size> = { width: 1280, height: 720 };
 
@@ -19,6 +20,16 @@ export const createNode = (
     parent?: Node<NodeData>,
     selected = false
 ): Node<NodeData>[] => {
+    const outputChannelData = schemata.get(data.schemaId).outputs.flatMap((output) => {
+        return output.ui_message_registry.map((channel) => {
+            const id = createUniqueId();
+            const channel_with_id: OutputChannel = {
+                channel_name: channel.channel_name,
+                channel_id: id as ChannelId,
+            };
+            return channel_with_id;
+        });
+    });
     const newNode: Node<Mutable<NodeData>> = {
         type: nodeType,
         id,
@@ -27,6 +38,7 @@ export const createNode = (
             ...data,
             id,
             inputData: data.inputData ?? schemata.getDefaultInput(data.schemaId),
+            outputChannelData,
         },
         selected,
     };
@@ -61,6 +73,7 @@ export const createNode = (
                     position: newNode.position,
                     data: {
                         schemaId,
+                        outputChannelData,
                     },
                 },
                 schemata,

@@ -92,9 +92,6 @@ UIMessageType = TypeVar('UIMessageType', bound=TypedDict)
 
 
 class ToUIOutputMessage(TypedDict):
-    node_id: NodeId
-    output_id: OutputId
-
     channel_id: str
     message_tag: str
 

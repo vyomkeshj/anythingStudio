@@ -16,10 +16,10 @@ class ChatOutput(BaseOutput):
     ):
         ui_channels = [UIEvtChannelSchema(channel_name='msg_from_chatbot',
                                           channel_direction='uplink',
-                                          channel_id=str(uuid.uuid4())),
+                                          channel_id=''),
                        UIEvtChannelSchema(channel_name='msg_from_user',
                                           channel_direction='downlink',
-                                          channel_id=str(uuid.uuid4()))]
+                                          channel_id='')]
 
         super().__init__(model_type, label, kind=kind, channels=ui_channels)
 

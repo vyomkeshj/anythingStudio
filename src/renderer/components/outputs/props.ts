@@ -1,6 +1,5 @@
 import { Type } from '@chainner/navi';
-import { OutputId, OutputKind, SchemaId } from "../../../common/common-types";
-import { UIEvtChannelSchema } from "../../../common/ui_event_messages";
+import { OutputChannel, OutputId, OutputKind, SchemaId } from "../../../common/common-types";
 
 export interface UseOutputData<T> {
     /** The current output data. Current here means most recent + up to date (= same input hash). */
@@ -29,5 +28,10 @@ export interface OutputProps {
     // readonly useOutputEvents: <T>(evt_channel_id: OutputId) => UseOutputEvents<T>;
     readonly animated: boolean;
     readonly kind: OutputKind;
-    readonly ui_message_registry: UIEvtChannelSchema[]
+    readonly ui_message_registry: OutputChannel[]
 }
+export const findChannelIdByName = (channelName: string, channels: OutputChannel[]): string | undefined => {
+    const channel = channels.find(channel => channel.channel_name === channelName);
+    return channel?.channel_id;
+};
+

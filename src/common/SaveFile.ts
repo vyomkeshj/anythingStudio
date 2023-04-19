@@ -82,6 +82,7 @@ export class SaveFile {
                         isDisabled: n.data.isDisabled,
                         isLocked: n.data.isLocked,
                         parentNode: n.data.parentNode,
+                        outputChannelData: n.data.outputChannelData,
                     },
                     id: n.id,
                     position: n.position,
