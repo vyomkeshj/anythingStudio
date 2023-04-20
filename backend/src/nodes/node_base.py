@@ -105,6 +105,10 @@ class NodeBase(metaclass=ABCMeta):
         """Abstract method to run a node's logic"""
         return
 
+    async def run_async(self):
+        """Implement when something needs to keep running"""
+        return
+
 
 # pylint: disable=abstract-method
 class IteratorNodeBase(NodeBase):

@@ -21,7 +21,7 @@ class ChatOutput(BaseOutput):
                                           channel_direction='downlink',
                                           channel_id='')]
 
-        super().__init__(model_type, label, kind=kind, channels=ui_channels)
+        super().__init__(model_type, label, kind=kind, channels=ui_channels, has_handle=False)
 
     def get_broadcast_data(self, value: str):
         return value

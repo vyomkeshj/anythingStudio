@@ -1,7 +1,5 @@
-import concurrent
-from concurrent.futures import wait
 from enum import Enum
-from typing import TypedDict, Coroutine
+from typing import TypedDict
 
 from sanic.log import logger
 
@@ -49,42 +47,29 @@ class ChatQComponent(NodeBase):
 
     def run(self, use_model: str) -> str:
         """
-            Starts the chat node
+            Initializes the chat node
         """
-        # run_async(self.send_ui_event(MsgFromChatbot(msg="hello")), self.event_loop)
-        # message_from_user = run_async(self.receive_ui_event(), self.event_loop)
-        # print(f"message_from_user: {message_from_user}")
-        send_future = asyncio.run_coroutine_threadsafe(self.send_ui_event(MsgFromChatbot(msg="hello")), self.event_loop)
-        receive_future = asyncio.run_coroutine_threadsafe(self.receive_ui_event(), self.event_loop)
-
-        done, _ = wait([send_future, receive_future], return_when=concurrent.futures.ALL_COMPLETED)
-
-        message_from_user = receive_future.result()
-        print(f"message_from_user: {message_from_user}")
 
         return ''
 
+    async def run_async(self):
+        await self.send_ui_event(MsgFromChatbot(msg="gonna say what you say 5 sec later"))
+
+        while True:
+            received = await self.receive_ui_event()
+            if received['msg'] == 'quit':
+                break
+            await asyncio.sleep(5)
+            await self.send_ui_event(MsgFromChatbot(msg=f"Echo: {received['msg']}"))
+
     async def send_ui_event(self, message: MsgFromChatbot):
-        # channel id is unique to the output
         channel_id = self.chat_output.get_channel_id_by_name('msg_from_chatbot')
 
         out_message = ToUIOutputMessage(channel_id=channel_id,
                                         data=message,
                                         message_tag="msg_from_chatbot")
         await self.chat_output.send_ui_event(event=out_message)
-        await asyncio.sleep(10)
-        await self.chat_output.send_ui_event(event=out_message)
-        logger.info("Sent...")
 
     async def receive_ui_event(self) -> MsgFromUser:
-        return await self.chat_output.receive_ui_event(channel_name='msg_from_user')
-
-
-async def run_async(run_func: Coroutine):
-    try:
-        task = asyncio.create_task(run_func)
-        result = await task
-        return result
-    except Exception as e:
-        logger.error(e)
-        return None
+        event = await self.chat_output.receive_ui_event(channel_name='msg_from_user')
+        return event['data']

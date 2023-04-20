@@ -262,6 +262,7 @@ class Executor:
             parent=parent_executor.cache if parent_executor else parent_cache
         )
         self.__broadcast_tasks: List[asyncio.Task[None]] = []
+        self.__node_async_runners: List[asyncio.Task[None]] = []
 
         self.progress = (
             ProgressController() if not parent_executor else parent_executor.progress
@@ -353,6 +354,10 @@ class Executor:
                 )
                 output = to_output(raw_output, node_instance)
                 del run_func
+                # Call run_async if it's implemented in the node instance
+                if hasattr(node_instance, "run_async") and callable(node_instance.run_async):
+                    await node_instance.run_async()
+
             except Aborted:
                 raise
             except NodeExecutionError:
