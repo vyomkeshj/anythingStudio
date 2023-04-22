@@ -1,7 +1,7 @@
 from ...category import Category
 
 category = Category(
-    name="Data Loaders",
+    name="Utilities",
     description="Various utility nodes.",
     icon="BsGearFill",
     color="#718096",

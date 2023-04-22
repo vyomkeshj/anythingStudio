@@ -8,10 +8,10 @@ from ...node_factory import NodeFactory
 from ...io.inputs import TextInput
 from ...io.outputs import TextOutput
 from ...utils.utils import ALPHABET
-from . import category as DatabaseCategory
+from ..text import category as TextCategory
 
 
-@NodeFactory.register("machines:database:text_append")
+@NodeFactory.register("machines:text:text_append")
 class TextAppendNode(NodeBase):
     def __init__(self):
         super().__init__()
@@ -55,7 +55,7 @@ class TextAppendNode(NodeBase):
             )
         ]
 
-        self.category = DatabaseCategory
+        self.category = TextCategory
         self.name = "++"
         self.icon = "MdTextFields"
         self.sub = "Text"

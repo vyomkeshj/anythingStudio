@@ -1,8 +1,8 @@
 from ...category import Category
 
 category = Category(
-    name="Image Processing",
-    description="Nodes to handle images.",
+    name="Loaders",
+    description="Components to load various kinds of data.",
     icon="BsFillImageFill",
     color="#C53030",
 )

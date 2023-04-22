@@ -27,7 +27,7 @@ class Models(Enum):
 
 
 # some way to just tag this as websocket node?
-@NodeFactory.register("machines:database:chat_node")
+@NodeFactory.register("machines:chat:chat_node")
 class ChatQComponent(NodeBase):
     def __init__(self):
         super().__init__()
@@ -39,7 +39,7 @@ class ChatQComponent(NodeBase):
         self.outputs = [self.chat_output]
 
         self.category = ChatCategory
-        self.sub = "Dbase"
+        self.sub = "Chat"
         self.name = "ChatQ"
         self.icon = "BsFillDatabaseFill"
 

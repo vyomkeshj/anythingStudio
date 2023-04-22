@@ -2,11 +2,13 @@ import asyncio
 from typing import TypedDict
 
 from src.events import ToUIOutputMessage
-from ...io.inputs.queue_input import QueueInput
+from ...io.inputs.queue_input import SubjectInput
 from ...io.outputs.tic_tac_toe_output import TicTacToeOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from . import category as ChatCategory
+from ...nodes.chat import category as ChatCategory
+
+from reactivex.subject import Subject
 
 
 class MoveFromUser(TypedDict):
@@ -19,27 +21,27 @@ class MoveFromComputer(TypedDict):
     col: int
 
 
-@NodeFactory.register("machines:database:tic_tac_toe")
+@NodeFactory.register("machines:games:tic_tac_toe")
 class TicTacToeNode(NodeBase):
     def __init__(self):
         super().__init__()
         self.description = "Play Tic Tac Toe against the computer."
 
         self.tic_tac_toe_output = TicTacToeOutput()
-        self.inputs = [QueueInput(label="controller")]
+        # self.inputs = [SubjectInput(label="controller")]
         self.outputs = [self.tic_tac_toe_output]
 
         self.category = ChatCategory
         self.sub = "TicTacToe"
         self.name = "TicTacToe"
         self.icon = "MdOutlineColorLens"
-        self.queue: asyncio.Queue = None    # type: ignore
+        self.controller: Subject = None    # type: ignore
 
         self.side_effects = True
 
-    def run(self, input_queue: asyncio.Queue) -> str:
+    def run(self) -> str:
         """Initialize the tic tac toe node"""
-        self.queue = input_queue
+        # self.controller = input_controller
         return ''
 
     async def run_async(self):
@@ -48,7 +50,7 @@ class TicTacToeNode(NodeBase):
             received: MoveFromUser = await self.receive_ui_event()
             print(f"Echo: {received}")
 
-            await self.queue.put(received)
+            # self.controller.on_next(received)
 
     async def send_ui_event(self, message: MoveFromComputer):
         channel_id = self.tic_tac_toe_output.get_channel_id_by_name('move_from_computer')

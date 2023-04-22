@@ -29,6 +29,7 @@ export interface OutputProps {
     readonly animated: boolean;
     readonly kind: OutputKind;
     readonly ui_message_registry: OutputChannel[]
+
 }
 export const findChannelIdByName = (channelName: string, channels: OutputChannel[]): string | undefined => {
     const channel = channels.find(channel => channel.channel_name === channelName);

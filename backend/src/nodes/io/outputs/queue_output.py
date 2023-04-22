@@ -2,7 +2,7 @@ from .. import expression
 from ...io.outputs.base_output import BaseOutput, OutputKind
 
 
-class QueueOutput(BaseOutput):
+class SubjectOutput(BaseOutput):
     def __init__(
             self,
             op_type: expression.ExpressionJson = "string",

@@ -22,19 +22,21 @@ export const Header = memo(() => {
                 spacing={1}
             >
                 <AppInfo />
-                <Box
-                    alignContent="right"
-                    alignItems="right"
-                    w="full"
-                >
-                    <HStack
-                        ml="auto"
-                        mr={0}
-                        width="fit-content"
-                    >
-                        <ExecutionButtons />
-                    </HStack>
-                </Box>
+                <ExecutionButtons />
+
+                {/*<Box*/}
+                {/*    alignContent="right"*/}
+                {/*    alignItems="right"*/}
+                {/*    w="full"*/}
+                {/*>*/}
+                {/*    <HStack*/}
+                {/*        ml="auto"*/}
+                {/*        mr={0}*/}
+                {/*        width="fit-content"*/}
+                {/*    >*/}
+                {/*        /!*<ExecutionButtons />*!/*/}
+                {/*    </HStack>*/}
+                {/*</Box>*/}
             </SimpleGrid>
         </Box>
     );

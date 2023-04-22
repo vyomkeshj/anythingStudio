@@ -1,8 +1,8 @@
 from ...category import Category
 
 category = Category(
-    name="Image Processing",
-    description="Nodes to handle images.",
+    name="Games",
+    description="Components providing game support.",
     icon="BsFillImageFill",
     color="#C53030",
 )

@@ -1,8 +1,8 @@
 from ...category import Category
 
 category = Category(
-    name="Image Processing",
-    description="Nodes to handle images.",
+    name="LLM Nodes",
+    description="Components providing LLM support for different LLM tasks.",
     icon="BsFillImageFill",
     color="#C53030",
 )

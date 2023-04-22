@@ -1,25 +1,15 @@
 from enum import Enum
 
-import openai
 import pandas as pd
 
-from ...io.inputs.dataframe_input import DataframeInput
 from ...io.outputs.dataframe_output import DataframeOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from ...io.inputs import TextLineInput
-from ...io.outputs import ChatOutput, ImageOutput
-from . import category as DatabaseCategory
-import json as json_lib
+from . import category as LoaderCategory
 
 
-class Models(Enum):
-    GPT3 = "text-davinci-003"
-    GPT35 = "gpt-3.5-turbo"
-
-
-# some way to just tag this as websocket node?
-@NodeFactory.register("machines:database:dataframe_loader")
+@NodeFactory.register("machines:loaders:dataframe_loader")
 class UrlDfLoader(NodeBase):
     def __init__(self):
         super().__init__()
@@ -29,10 +19,10 @@ class UrlDfLoader(NodeBase):
         ]
         self.outputs = [DataframeOutput(label='Data')]
 
-        self.category = DatabaseCategory
-        self.sub = "Dbase"
-        self.name = "Dataframe Loader"
-        self.icon = "BsFillDatabaseFill"
+        self.category = LoaderCategory
+        self.sub = "Pandas"
+        self.name = "Dataframe [URL]"
+        self.icon = "BsTable"
 
         self.side_effects = True
         self.schema = ""

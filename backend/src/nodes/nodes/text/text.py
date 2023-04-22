@@ -3,12 +3,12 @@ from __future__ import annotations
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from ...io.inputs import TextInput
-from ...io.outputs import MarkdownOutput
-from . import category as DatabaseCategory
+from ...io.outputs import TextOutput
+from ..text import category as TextCategory
 
 
-@NodeFactory.register("machines:database:markdown")
-class MarkdownRendererNode(NodeBase):
+@NodeFactory.register("machines:text:text")
+class TextValueNode(NodeBase):
     def __init__(self):
         super().__init__()
         self.description = "Outputs the given text."
@@ -16,13 +16,13 @@ class MarkdownRendererNode(NodeBase):
             TextInput("Text", min_length=0),
         ]
         self.outputs = [
-            MarkdownOutput(),
+            TextOutput("Text", output_type="Input0"),
         ]
 
         self.resizable = True
         self.side_effects: bool = True
-        self.category = DatabaseCategory
-        self.name = "Markdown"
+        self.category = TextCategory
+        self.name = "str"
         self.icon = "MdTextFields"
         self.sub = "Value"
 

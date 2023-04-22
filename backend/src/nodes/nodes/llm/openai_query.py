@@ -6,7 +6,7 @@ from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from ...io.inputs import TextAreaInput, TextInput, EnumInput, SliderInput
 from ...io.outputs import TextOutput
-from . import category as DatabaseCategory
+from . import category as LLMCategory
 
 
 class Models(Enum):
@@ -60,7 +60,7 @@ class OpenAISQLMaker(NodeBase):
         ]
         self.outputs = [TextOutput("SQL")]
 
-        self.category = DatabaseCategory
+        self.category = LLMCategory
         self.sub = "Dbase"
         self.name = "OAI SQL"
         self.icon = "BsFillDatabaseFill"

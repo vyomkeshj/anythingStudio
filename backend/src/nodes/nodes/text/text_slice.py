@@ -7,7 +7,7 @@ from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from ...io.inputs import EnumInput, NumberInput, TextInput
 from ...io.outputs import TextOutput
-from . import category as DatabaseCategory
+from ..text import category as TextCategory
 
 class SliceOperation(Enum):
     START = 0
@@ -20,7 +20,7 @@ class SliceAlignment(Enum):
     END = "end"
 
 
-@NodeFactory.register("machines:database:text_slice")
+@NodeFactory.register("machines:text:text_slice")
 class TextSliceNode(NodeBase):
     def __init__(self):
         super().__init__()
@@ -78,7 +78,7 @@ class TextSliceNode(NodeBase):
             )
         ]
 
-        self.category = DatabaseCategory
+        self.category = TextCategory
         self.name = "Text Slice"
         self.icon = "MdTextFields"
         self.sub = "Text"

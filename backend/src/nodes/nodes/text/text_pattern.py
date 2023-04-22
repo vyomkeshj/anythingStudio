@@ -8,9 +8,9 @@ from ...node_factory import NodeFactory
 from ...io.inputs import TextInput
 from ...io.outputs import TextOutput
 from ...utils.replacement import ReplacementString
-from . import category as DatabaseCategory
+from ..text import category as TextCategory
 
-@NodeFactory.register("machines:database:text_pattern")
+@NodeFactory.register("machines:text:text_pattern")
 class TextPatternNode(NodeBase):
     def __init__(self):
         super().__init__()
@@ -49,7 +49,7 @@ class TextPatternNode(NodeBase):
             )
         ]
 
-        self.category = DatabaseCategory
+        self.category = TextCategory
         self.name = "Text Pattern"
         self.icon = "MdTextFields"
         self.sub = "Text"

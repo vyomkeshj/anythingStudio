@@ -5,10 +5,10 @@ from ...node_factory import NodeFactory
 from ...io.inputs import TextInput
 from ...io.outputs import NumberOutput
 
-from . import category as DatabaseCategory
+from ..text import category as TextCategory
 
 
-@NodeFactory.register("machines:database:text_length")
+@NodeFactory.register("machines:text:text_length")
 class TextLengthNode(NodeBase):
     def __init__(self):
         super().__init__()
@@ -20,7 +20,7 @@ class TextLengthNode(NodeBase):
             NumberOutput("Length", output_type="string::len(Input0)"),
         ]
 
-        self.category = DatabaseCategory
+        self.category = TextCategory
         self.name = "Text Length"
         self.icon = "MdTextFields"
         self.sub = "Text"
