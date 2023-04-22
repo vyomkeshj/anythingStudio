@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import TypedDict
+import random
 
 from sanic.log import logger
 
@@ -13,12 +14,9 @@ from . import category as ChartCategory
 import asyncio
 
 
-class MsgFromUser(TypedDict):
-    msg: str
-
-
-class MsgFromchartbot(TypedDict):
-    msg: str
+class NewDatapoint(TypedDict):
+    value: int
+    label: str
 
 
 class Models(Enum):
@@ -53,4 +51,19 @@ class ChartQComponent(NodeBase):
         return ''
 
     async def run_async(self):
-        pass
+        datapoint = int(random.uniform(1, 1000))
+        await self.send_ui_event(NewDatapoint(value=datapoint, label=str(datapoint)))
+
+        while True:
+            await asyncio.sleep(5)
+            datapoint = int(random.uniform(1, 1000))
+            print(f"Sending new datapoint: {NewDatapoint(value=datapoint, label=str(datapoint))}")
+            await self.send_ui_event(NewDatapoint(value=datapoint, label=str(datapoint)))
+
+    async def send_ui_event(self, message: NewDatapoint):
+        channel_id = self.chart_output.get_channel_id_by_name('new_datapoint')
+
+        out_message = ToUIOutputMessage(channel_id=channel_id,
+                                        data=message,
+                                        message_tag="new_datapoint")
+        await self.chart_output.send_ui_event(event=out_message)

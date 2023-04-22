@@ -14,4 +14,10 @@ class ChartOutput(BaseOutput):
             label: str = "Chart Viewer",
             kind: OutputKind = "chart",
     ):
-        super().__init__(model_type, label, kind=kind, has_handle=False)
+        ui_channels = [UIEvtChannelSchema(channel_name='new_datapoint',
+                                          channel_direction='uplink',
+                                          channel_id='')]
+        super().__init__(model_type, label, kind=kind, channels=ui_channels, has_handle=False)
+
+    async def send_ui_event(self, event: ToUIOutputMessage):
+        await self.uplink_channel.put(event)
