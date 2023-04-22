@@ -129,7 +129,7 @@ export type Input =
     | SliderInput
     | NumberInput;
 
-export type OutputKind = 'markdown' | 'html' | 'chat' |'tic_tac_toe'| 'image' | 'large-image' | 'tagged' | 'generic';
+export type OutputKind = 'markdown' | 'html' | 'chat' |'tic_tac_toe'| 'chart'| 'image' | 'large-image' | 'tagged' | 'generic';
 
 export interface Output {
     readonly id: OutputId;

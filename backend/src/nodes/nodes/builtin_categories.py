@@ -1,6 +1,7 @@
 from .database import category as DatabaseCategory
 from .utility import category as UtilityCategory
 from .chat import category as ChatCategory
+from .charts import category as ChartCategory
 from .games import category as GamesCategory
 from .image import category as ImageCategory
 from .text import category as TextCategory
@@ -15,6 +16,7 @@ builtin_categories = [
     DatabaseCategory,
     UtilityCategory,
     TextCategory,
-    ImageCategory
+    ImageCategory,
+    ChartCategory
 ]
 category_order = [x.name for x in builtin_categories]

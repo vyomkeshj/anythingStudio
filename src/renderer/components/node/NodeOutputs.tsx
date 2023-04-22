@@ -20,6 +20,7 @@ import { OutputProps, UseOutputData } from '../outputs/props';
 import { TaggedOutput } from '../outputs/TaggedOutput';
 import ChatComponent from "../outputs/chat/ChatComponent";
 import TicTacToeComponent from "../outputs/ticTacToe/TicTacToeComponent";
+import ChartComponent from "../outputs/chart/ChartComponent";
 
 interface FullOutputProps extends Omit<Output, 'id' | 'type'>, OutputProps {
     definitionType: Type;
@@ -32,6 +33,7 @@ const OutputComponents: Readonly<
     markdown: MarkdownOutput,
     html: HtmlOutput,
     chat: ChatComponent,
+    chart: ChartComponent,
     'tic_tac_toe': TicTacToeComponent,
     image: DefaultImageOutput,
     'large-image': LargeImageOutput,
@@ -43,6 +45,7 @@ const OutputIsGeneric: Readonly<Record<OutputKind, boolean>> = {
     markdown: false,
     html: false,
     chat: false,
+    chart: false,
     image: true,
     'large-image': false,
     tagged: false,
