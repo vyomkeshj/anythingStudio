@@ -7,6 +7,7 @@ from .image import category as ImageCategory
 from .text import category as TextCategory
 from .llm import category as LLMCategory
 from .data_loaders import category as DataLoaderCategory
+from .langchain import category as LangchainCategory
 
 builtin_categories = [
     DataLoaderCategory,
@@ -17,6 +18,7 @@ builtin_categories = [
     UtilityCategory,
     TextCategory,
     ImageCategory,
-    ChartCategory
+    ChartCategory,
+    LangchainCategory,
 ]
 category_order = [x.name for x in builtin_categories]

@@ -43,27 +43,6 @@ export const ExecutionButtons = memo(() => {
                 closeOnClick
                 closeOnMouseDown
                 borderRadius={8}
-                label={`${t('header.pause', 'Pause')} (F6)`}
-                px={2}
-                py={1}
-            >
-                <IconButton
-                    aria-label={t('header.pauseButton', 'Pause button')}
-                    colorScheme="yellow"
-                    disabled={status !== ExecutionStatus.RUNNING}
-                    icon={<IoPause />}
-                    size="md"
-                    variant="outline"
-                    onClick={() => {
-                        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                        pause();
-                    }}
-                />
-            </Tooltip>
-            <Tooltip
-                closeOnClick
-                closeOnMouseDown
-                borderRadius={8}
                 label={`${t('header.stop', 'Stop')} (F7)`}
                 px={2}
                 py={1}

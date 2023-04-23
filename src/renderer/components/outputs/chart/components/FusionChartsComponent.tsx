@@ -30,7 +30,6 @@ const FusionChartsComponent: React.FC<FusionChartsComponentProps> = ({ type, wid
     const chartRef = useRef(null);
 
     const handle_new_datapoint = (message: ToUIOutputMessage<NewDatapoint>) => {
-        log.info("Got message from backend: ", message);
         setLabels(() => [...labels, message.data.label]);
         setDataPoints(() => [...dataPoints, message.data.value]);
     };
@@ -41,7 +40,6 @@ const FusionChartsComponent: React.FC<FusionChartsComponentProps> = ({ type, wid
 
     const { sendMessage } = useWebSocketUILink(handlers, ui_message_registry);
     useEffect(()=>{
-        console.log(labels, dataPoints)
     }, [labels, dataPoints])
     useEffect(() => {
         if (dataPoints.length > 0 && labels.length > 0) {
@@ -53,7 +51,7 @@ const FusionChartsComponent: React.FC<FusionChartsComponentProps> = ({ type, wid
                 dataSource: {
                     chart: {
                         caption: 'Data Chart',
-                        subCaption: 'Using FusionCharts in React',
+                        subCaption: '<More information here>',
                     },
                     data: dataPoints.map((value, index) => ({ value, label: labels[index] })),
                 },

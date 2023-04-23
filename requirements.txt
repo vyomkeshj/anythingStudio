@@ -31,9 +31,11 @@ openai
 langchain
 protobuf
 reactivex
+langchain
 
 openai-async
-aioreactive
+async-signals
+
 # torch
 # torchvision
 # google-re2

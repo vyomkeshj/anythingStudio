@@ -14,8 +14,6 @@
     }
   },
   "header": {
-    "pause": "Pause",
-    "pauseButton": "Pause button",
     "resume": "Resume",
     "run": "Run",
     "runButton": "Run button",

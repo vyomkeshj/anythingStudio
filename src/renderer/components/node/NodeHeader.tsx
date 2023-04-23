@@ -16,7 +16,7 @@ interface NodeHeaderProps {
 }
 
 export const NodeHeader = memo(
-    ({ name, width, icon, accentColor, selected, parentNode, disabledStatus }: NodeHeaderProps) => {
+    ({ name, width, accentColor, selected, parentNode, disabledStatus }: NodeHeaderProps) => {
         const bgColor = useThemeColor('--bg-700');
         const gradL = interpolateColor(accentColor, bgColor, 0.9);
         const gradR = bgColor;
@@ -39,18 +39,6 @@ export const NodeHeader = memo(
                     pr={6}
                     verticalAlign="middle"
                 >
-                    <Center
-                        alignContent="center"
-                        alignItems="center"
-                        h={4}
-                        verticalAlign="middle"
-                        w={4}
-                    >
-                        <IconFactory
-                            accentColor={selected ? accentColor : 'var(--node-icon-color)'}
-                            icon={icon}
-                        />
-                    </Center>
                     <Center verticalAlign="middle">
                         <Heading
                             alignContent="center"

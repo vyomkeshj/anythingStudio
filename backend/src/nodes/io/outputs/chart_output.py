@@ -16,6 +16,9 @@ class ChartOutput(BaseOutput):
     ):
         ui_channels = [UIEvtChannelSchema(channel_name='new_datapoint',
                                           channel_direction='uplink',
+                                          channel_id=''),
+                       UIEvtChannelSchema(channel_name='change_type',
+                                          channel_direction='uplink',
                                           channel_id='')]
         super().__init__(model_type, label, kind=kind, channels=ui_channels, has_handle=False)
 

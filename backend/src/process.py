@@ -275,6 +275,7 @@ class Executor:
 
         self.pool: ThreadPoolExecutor = pool
 
+
         self.parent_executor = parent_executor
 
         self.cache_strategy: Dict[NodeId, CacheStrategy] = (
@@ -356,7 +357,7 @@ class Executor:
                 del run_func
                 # Call run_async if it's implemented in the node instance
                 if hasattr(node_instance, "run_async") and callable(node_instance.run_async):
-                    await node_instance.run_async()
+                    self.__node_async_runners.append(self.loop.create_task(node_instance.run_async()))
 
             except Aborted:
                 raise
@@ -501,10 +502,15 @@ class Executor:
         logger.debug(self.cache.keys())
 
         # await all broadcasts
+        node_async_tasks = self.__node_async_runners
         tasks = self.__broadcast_tasks
         self.__broadcast_tasks = []
         for task in tasks:
             await task
+
+        for async_task in node_async_tasks:
+            print("awaiting task")
+            await async_task
 
     async def run(self):
         logger.debug(f"Running executor {self.execution_id}")
@@ -524,6 +530,10 @@ class Executor:
 
     def kill(self):
         logger.debug(f"Killing executor {self.execution_id}")
+        for task in self.__node_async_runners:
+            task.cancel()
+        self.__node_async_runners = []
+
         self.progress.abort()
 
 

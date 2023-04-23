@@ -6,8 +6,7 @@ from typing import List, Tuple
 import numpy as np
 from sanic.log import logger
 
-from process import IteratorContext
-
+from src.process import IteratorContext
 from ...impl.image_formats import get_available_image_formats
 from ...node_base import IteratorNodeBase, NodeBase
 from ...node_factory import NodeFactory
@@ -54,7 +53,7 @@ class ImageFileIteratorLoadImageNode(NodeBase):
         return img, root_dir, rel_path, basename, index
 
 
-# @NodeFactory.register("machines:image:file_iterator")
+@NodeFactory.register("machines:image:file_iterator")
 class ImageFileIteratorNode(IteratorNodeBase):
     def __init__(self):
         super().__init__()

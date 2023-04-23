@@ -51,7 +51,7 @@ export const useWebSocketUILink = <T>(
     }
 
     const messageListener = (event: MessageEvent) => {
-      log.info('Received message from WebSocket: ', event.data);
+      // log.info('Received message from WebSocket: ', event.data);
       try {
         const message: ToUIOutputMessage<T> = JSON.parse(event.data);
         const handler = handlers[message.message_tag];

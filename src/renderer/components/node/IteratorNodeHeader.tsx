@@ -17,7 +17,6 @@ export const IteratorNodeHeader = memo(
     ({
         name,
         width,
-        icon,
         accentColor,
         selected,
         percentComplete,
@@ -45,18 +44,6 @@ export const IteratorNodeHeader = memo(
                         pr={6}
                         verticalAlign="middle"
                     >
-                        <Center
-                            alignContent="center"
-                            alignItems="center"
-                            h={4}
-                            verticalAlign="middle"
-                            w={4}
-                        >
-                            <IconFactory
-                                accentColor={selected ? accentColor : 'var(--node-icon-color)'}
-                                icon={icon}
-                            />
-                        </Center>
                         <Center verticalAlign="middle">
                             <Heading
                                 alignContent="center"
