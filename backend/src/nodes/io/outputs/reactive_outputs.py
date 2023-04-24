@@ -8,7 +8,7 @@ from src.nodes.io.outputs.base_output import BaseOutput, OutputKind
 
 
 class SubmitText(TypedDict):
-    submitted_text: str
+    text: str
 
 
 class SubmittedResponse(TypedDict):

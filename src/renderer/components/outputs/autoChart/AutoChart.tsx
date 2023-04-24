@@ -1,72 +1,34 @@
 import React, { memo, useState } from "react";
 import { Chart } from "./components/ChartComponent";
-import axios from "axios";
 import { OutputProps } from "../props";
 import { ToUIOutputMessage } from "../../../../common/ui_event_messages";
 import log from "electron-log";
 import { useWebSocketUILink } from "../../../hooks/useWebSocketUILink";
-import { SubmitText } from "../text_sender/TextSenderComponent";
+
+interface ChartData {
+  kind: string;
+  data: string;
+}
 
 const AutoChart = memo(({ ui_message_registry }: OutputProps) => {
-  const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [chartType, setChartType] = useState("");
   const [chartData, setChartData] = useState([]);
 
-  const generateChartData = async (prompt: string) => {
+  const handle_new_input = (message: ToUIOutputMessage<ChartData>) => {
+    log.info("AutoChart: submit_text: message: ", message.data);
     try {
-      const response = await axios.post("/api/parse-graph", { prompt });
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.error("Failed to generate chart data:", error);
-      throw error;
-    }
-  };
-
-  const getChartType = async (inputData: string) => {
-    try {
-      const response = await axios.post("/api/get-type", { inputData });
-      return response;
-    } catch (error) {
-      console.error("Failed to generate chart type:", error);
-      throw error;
-    }
-  };
-
-  const handleSubmit = async (event: { preventDefault: () => void }) => {
-    event.preventDefault();
-    setIsLoading(true);
-    console.log(inputValue);
-    const chartType = await getChartType(inputValue);
-
-    try {
-      const libraryPrompt = `Generate a valid JSON in which each element is an object. Strictly using this FORMAT and naming:
-[{ "name": "a", "value": 12 }] for the following description for Recharts. \n\n${inputValue}\n`;
-
-      const chartDataGenerate = await generateChartData(libraryPrompt);
-
-      try {
-        setChartData(JSON.parse(chartDataGenerate));
-        setChartType(chartType.data);
-      } catch (error) {
-        console.error("Failed to parse chart data:", error);
-      }
-    } catch (error) {
-      console.error("Failed to generate graph data:", error);
-    } finally {
+      setChartData(JSON.parse(message.data.data));
+      setChartType(message.data.kind);
       setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to parse chart data:", error);
     }
-  };
-
-  const handle_new_input = (message: ToUIOutputMessage<SubmitText>) => {
-    log.info("AutoChart: submit_text: message: ", message.data.submitted_text);
-    setInputValue(message.data.submitted_text);
   };
 
 
   const handlers = {
-    'submit_text': handle_new_input,
+    'chart_data': handle_new_input,
   };
 
   const { sendMessage } = useWebSocketUILink(handlers, ui_message_registry);

@@ -5,7 +5,7 @@ from ...io.inputs import TextLineInput
 from ...io.inputs.signal_input import SignalInput
 from ...io.outputs import BaseOutput
 from ...io.outputs.chart_output import ChartOutput
-from ...io.rx.datapoint_observer import ReactiveForwarder
+from ...io.rx.message_forwarder import ReactiveForwarder
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from . import category as ChartCategory
