@@ -1,16 +1,13 @@
-from enum import Enum
 from typing import TypedDict
 import random
 
 from aioreactive import AsyncSubject
-from sanic.log import logger
 
 from ...io.outputs.signal_output import SignalOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from ...io.inputs import SliderInput
 from . import category as ChartCategory
-from async_signals import Signal
 
 import asyncio
 
@@ -18,11 +15,6 @@ import asyncio
 class NewDatapoint(TypedDict):
     value: int
     label: str
-
-
-class Models(Enum):
-    GPT3 = "text-davinci-003"
-    GPT35 = "gpt-3.5-turbo"
 
 
 # some way to just tag this as websocket node?
@@ -58,6 +50,3 @@ class RandomPointGen(NodeBase):
             await asyncio.sleep(self.delay)
             datapoint = int(random.uniform(1, 1000))
             await self.signal_src.asend(NewDatapoint(value=datapoint, label=str(datapoint)))
-
-    async def send_ui_event(self, message: NewDatapoint):
-        pass

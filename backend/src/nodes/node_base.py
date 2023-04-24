@@ -8,8 +8,6 @@ from .category import Category
 from .group import Group, GroupId, NestedGroup, NestedIdGroup
 from .io.inputs.base_input import BaseInput
 from .io.outputs.base_output import BaseOutput
-# from reactivex.subject import Subject
-from src.events import UIEventChannel
 
 NodeType = Literal["regularNode", "iterator", "iteratorHelper"]
 

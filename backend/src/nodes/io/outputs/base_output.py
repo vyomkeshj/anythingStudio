@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Literal, Union, List
 
 from base_types import OutputId
-import json
 
 from src.events import UIEventChannel, ToUIOutputMessage, UIEvtChannelSchema
 from .. import expression

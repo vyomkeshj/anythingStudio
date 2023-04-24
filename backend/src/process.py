@@ -328,6 +328,10 @@ class Executor:
         # Create node based on given category/name information
         node_instance = node.get_node()
 
+        if hasattr(node_instance, "run_async") and callable(node_instance.run_async):
+            logger.info("added once")
+            self.__node_async_runners.append(self.loop.create_task(node_instance.run_async()))
+
         # Enforce that all inputs match the expected input schema
         enforced_inputs = []
         if node_instance.type == "iteratorHelper":
@@ -355,9 +359,6 @@ class Executor:
                 )
                 output = to_output(raw_output, node_instance)
                 del run_func
-                # Call run_async if it's implemented in the node instance
-                if hasattr(node_instance, "run_async") and callable(node_instance.run_async):
-                    self.__node_async_runners.append(self.loop.create_task(node_instance.run_async()))
 
             except Aborted:
                 raise
@@ -377,7 +378,6 @@ class Executor:
                         h, w, c = get_h_w_c(input_value)
                         input_dict[input_id] = {"width": w, "height": h, "channels": c}
                 raise NodeExecutionError(node, str(e), input_dict) from e
-
             await self.__broadcast_data(node_instance, node.id, execution_time, output)
 
         del node_instance

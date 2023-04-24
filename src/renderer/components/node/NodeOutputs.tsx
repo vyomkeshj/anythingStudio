@@ -21,6 +21,8 @@ import { TaggedOutput } from '../outputs/TaggedOutput';
 import ChatComponent from "../outputs/chat/ChatComponent";
 import TicTacToeComponent from "../outputs/ticTacToe/TicTacToeComponent";
 import ChartComponent from "../outputs/chart/ChartComponent";
+import AutoChart from "../outputs/autoChart/AutoChart";
+import TextSenderComponent from "../outputs/text_sender/TextSenderComponent";
 
 interface FullOutputProps extends Omit<Output, 'id' | 'type'>, OutputProps {
     definitionType: Type;
@@ -32,8 +34,10 @@ const OutputComponents: Readonly<
 > = {
     markdown: MarkdownOutput,
     html: HtmlOutput,
+    'text_sender': TextSenderComponent,
     chat: ChatComponent,
     chart: ChartComponent,
+    'auto_chart': AutoChart,
     'tic_tac_toe': TicTacToeComponent,
     image: DefaultImageOutput,
     'large-image': LargeImageOutput,
@@ -41,7 +45,9 @@ const OutputComponents: Readonly<
     generic: GenericOutput,
 };
 const OutputIsGeneric: Readonly<Record<OutputKind, boolean>> = {
+    'text_sender': false,
     'tic_tac_toe': false,
+    'auto_chart': false,
     markdown: false,
     html: false,
     chat: false,

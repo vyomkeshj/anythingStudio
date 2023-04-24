@@ -1,17 +1,16 @@
-from typing import TypedDict, Any, Union
-
-from sanic.log import logger
+from typing import TypedDict, Any
 
 from src.events import ToUIOutputMessage
-from ...io.inputs import TextInput, TextLineInput
-from ...io.inputs.chart_dropdown import ChartTypeInput
+from ...io.inputs import TextLineInput
 from ...io.inputs.signal_input import SignalInput
+from ...io.outputs import BaseOutput
 from ...io.outputs.chart_output import ChartOutput
+from ...io.rx.datapoint_observer import ReactiveForwarder
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from . import category as ChartCategory
 
-from aioreactive import AsyncSubject, AsyncObserver
+from aioreactive import AsyncSubject
 
 
 class NewDatapoint(TypedDict):
@@ -45,7 +44,7 @@ class ChartQComponent(NodeBase):
         self.chart_type_name = 'line'
 
         self.consumer_subject = None
-        self.subscriber = DatapointObserver(self.chart_output)
+        self.subscriber = ReactiveForwarder(self.chart_output, 'new_datapoint')
 
         self.side_effects = True
 
@@ -59,27 +58,10 @@ class ChartQComponent(NodeBase):
         await self.consumer_subject.subscribe_async(self.subscriber)
 
 
-async def send_ui_event(message_tag: str, chart_output: ChartOutput, message: Union[NewDatapoint, ChangeType]):
-    channel_id = chart_output.get_channel_id_by_name(message_tag)
+async def send_ui_event(message_tag: str, output: BaseOutput, message: Any):
+    channel_id = output.get_channel_id_by_name(message_tag)
 
     out_message = ToUIOutputMessage(channel_id=channel_id,
                                     data=message,
                                     message_tag=message_tag)
-    await chart_output.send_ui_event(event=out_message)
-
-
-class DatapointObserver(AsyncObserver):
-
-    def __init__(self, chart_output: ChartOutput):
-        super().__init__()
-        self.chart_output = chart_output
-
-    async def asend(self, value: NewDatapoint) -> None:
-        await send_ui_event('new_datapoint', self.chart_output, value)
-
-    async def athrow(self, error: Exception) -> None:
-        print("Error:", error)
-
-    async def aclose(self) -> None:
-        print("Stream closed")
-
+    await output.send_ui_event(event=out_message)
