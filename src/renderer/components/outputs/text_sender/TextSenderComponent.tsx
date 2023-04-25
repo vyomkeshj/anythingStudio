@@ -4,6 +4,8 @@ import log from "electron-log";
 import { OutputProps } from "../props";
 import { ToUIOutputMessage } from "../../../../common/ui_event_messages";
 import { useWebSocketUILink } from "../../../hooks/useWebSocketUILink";
+import {Button} from "@chakra-ui/react";
+import {ArrowForwardIcon} from "@chakra-ui/icons";
 
 
 export interface SubmitText {
@@ -40,7 +42,7 @@ const TextSenderComponent = memo(({ ui_message_registry }: OutputProps) => {
     <div className="flex flex-col px-4 items-center justify-center min-h-screen bg-gradient-to-r from-slate-300 to-indigo-50 overflow-x-hidden">
       <div className="flex flex-col items-center w-full max-w-xl mb-6 gap-6 border-gray-300 bg-indigo-50 dark:text-white dark:bg-black dark:border dark:border-white/20 rounded-2xl p-2">
         <form onSubmit={handleSubmit} className="w-full max-w-xl mb-6">
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-row items-center justify-center" style={{ display: "flex", flexDirection: "column"}}>
             {/*<label*/}
             {/*  htmlFor="textInput"*/}
             {/*  className="block font-inter font-semibold text-gray-700 dark:text-gray-200"*/}
@@ -57,13 +59,9 @@ const TextSenderComponent = memo(({ ui_message_registry }: OutputProps) => {
               autoFocus
               onChange={(e) => setInputValue(e.target.value)}
             />
-
-            <button
-              type="submit"
-              className="cursor-pointer font-inter font-semibold py-2 px-4 mt-10 rounded-full blue-button-w-gradient-border text-white text-shadow-0_0_1px_rgba(0,0,0,0.25) shadow-2xl flex flex-row items-center justify-center mt-3"
-            >
+            <Button type="submit" rightIcon={<ArrowForwardIcon />} colorScheme='red' color="#c53030" variant='outline' marginTop="10px">
               Send
-            </button>
+            </Button>
           </div>
         </form>
       </div>

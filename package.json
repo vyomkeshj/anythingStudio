@@ -132,6 +132,7 @@
     "react-markdown": "^8.0.3",
     "react-use-websocket": "3.0.0",
     "reactflow": "^11.5.6",
+    "recharts": "^2.5.0",
     "remark-gfm": "^3.0.1",
     "rregex": "^1.5.1",
     "scheduler": "^0.22.0",
