@@ -24,6 +24,7 @@ sanic==21.12.2
 sanic_cors==2.2.0
 scipy==1.9.3
 websockets==10.4
+jupyter_server=2.5.0
 
 pandas
 pymysql
@@ -36,6 +37,7 @@ langchain
 openai-async
 async-signals
 nbclient
+jupyter_server
 
 # torch
 # torchvision

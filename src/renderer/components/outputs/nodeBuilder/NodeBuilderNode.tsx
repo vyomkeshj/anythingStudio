@@ -40,7 +40,6 @@ const NodeBuilderNode = memo(({ ui_message_registry }: OutputProps) => {
   };
 
   return (
-    <div>
       <Jupyter startDefaultKernel={true}>
         <CellComponents/>
         <hr/>
@@ -49,7 +48,6 @@ const NodeBuilderNode = memo(({ ui_message_registry }: OutputProps) => {
           CellSidebar={CellSidebarDefault}
         />
       </Jupyter>
-    </div>
   );
 });
 
