@@ -3,9 +3,7 @@ import log from "electron-log";
 import { OutputProps } from "../props";
 import { ToUIOutputMessage } from "../../../../common/ui_event_messages";
 import { useWebSocketUILink } from "../../../hooks/useWebSocketUILink";
-import {Button} from "@chakra-ui/react";
-import {ArrowForwardIcon} from "@chakra-ui/icons";
-import { Jupyter, IpyWidgetsComponent, Notebook, CellSidebarDefault } from '@datalayer/jupyter-react';
+import { Jupyter, Notebook, CellSidebarDefault } from '@datalayer/jupyter-react';
 import CellComponents from "./components/cell/CellComponents";
 
 
@@ -40,14 +38,15 @@ const NodeBuilderNode = memo(({ ui_message_registry }: OutputProps) => {
   };
 
   return (
-      <Jupyter startDefaultKernel={true}>
-        <CellComponents/>
-        <hr/>
-        <Notebook
-          path="/ping.ipynb"
-          CellSidebar={CellSidebarDefault}
-        />
+    <div style={{ backgroundColor: "white", height:"800px", width: "800px" }}>
+      <Jupyter startDefaultKernel={false} lite={false} >
+        <CellComponents />
+        {/*<Notebook*/}
+        {/*  path="/notebooks/ping.ipynb"*/}
+        {/*  CellSidebar={CellSidebarDefault}*/}
+        {/*/>*/}
       </Jupyter>
+    </div>
   );
 });
 

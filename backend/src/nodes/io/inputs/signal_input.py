@@ -10,8 +10,9 @@ class SignalInput(BaseInput):
             self,
             label: str = "Signal",
             input_type: ExpressionJson = "string",
+            has_handle: bool = True,
     ):
-        super().__init__(input_type, label)
+        super().__init__(input_type, label, has_handle=has_handle)
 
     def enforce(self, value):
         if AsyncSubject is not None:

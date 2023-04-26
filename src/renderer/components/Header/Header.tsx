@@ -16,7 +16,7 @@ export const Header = memo(() => {
             w="100%"
         >
             <SimpleGrid
-                columns={6}
+                columns={3}
                 h="100%"
                 p={2}
                 spacing={1}

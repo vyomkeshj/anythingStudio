@@ -43,13 +43,6 @@ const TextSenderComponent = memo(({ ui_message_registry }: OutputProps) => {
       <div className="flex flex-col items-center w-full max-w-xl mb-6 gap-6 border-gray-300 bg-indigo-50 dark:text-white dark:bg-black dark:border dark:border-white/20 rounded-2xl p-2">
         <form onSubmit={handleSubmit} className="w-full max-w-xl mb-6">
           <div className="flex flex-row items-center justify-center" style={{ display: "flex", flexDirection: "column"}}>
-            {/*<label*/}
-            {/*  htmlFor="textInput"*/}
-            {/*  className="block font-inter font-semibold text-gray-700 dark:text-gray-200"*/}
-            {/*>*/}
-            {/*  Input data schema and desired chart:*/}
-            {/*</label>*/}
-
             <textarea
               id="input"
               rows={3}

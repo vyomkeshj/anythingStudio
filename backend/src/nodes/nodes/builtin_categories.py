@@ -8,17 +8,19 @@ from .text import category as TextCategory
 from .llm import category as LLMCategory
 from .data_loaders import category as DataLoaderCategory
 from .langchain import category as LangchainCategory
+from .builder import category as BuilderCategory
 
 builtin_categories = [
-    DataLoaderCategory,
+    BuilderCategory,
+    ChartCategory,
     GamesCategory,
+    DataLoaderCategory,
     ChatCategory,
     LLMCategory,
     DatabaseCategory,
     UtilityCategory,
     TextCategory,
     ImageCategory,
-    ChartCategory,
     LangchainCategory,
 ]
 category_order = [x.name for x in builtin_categories]

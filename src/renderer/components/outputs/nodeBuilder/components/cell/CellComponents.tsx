@@ -1,19 +1,7 @@
 import { selectCell, Cell } from "@datalayer/jupyter-react";
 import CellToolbar from './CellToolbar';
 
-const SOURCE_EXAMPLE = `"""
-import ipywidgets as widgets
-widgets.IntSlider(
-    value=7,
-    min=0,
-    max=10,
-    step=1,
-)
-"""
-from IPython.display import display
-for i in range(3):
-    display('😃 String {} added to the DOM in separated DIV.'.format(i))
-
+const SOURCE_EXAMPLE = `
 import numpy as np
 import matplotlib.pyplot as plt
 x1 = np.linspace(0.0, 5.0)
@@ -27,7 +15,8 @@ ax1.set_ylabel('Damped oscillation')
 ax2.plot(x2, y2, '.-')
 ax2.set_xlabel('time (s)')
 ax2.set_ylabel('Undamped')
-plt.show()`;
+plt.show()
+`;
 
 const CellPreview = () => {
   const cell = selectCell();
@@ -42,11 +31,10 @@ const CellPreview = () => {
 }
 
 const CellComponents = () => (
-  <>
-    {/*<CellPreview/>*/}
+  <div>
     <CellToolbar />
-    {/*<Cell source={SOURCE_EXAMPLE} />*/}
-  </>
+    <Cell source={SOURCE_EXAMPLE}  />
+  </div>
 )
 
 export default CellComponents;

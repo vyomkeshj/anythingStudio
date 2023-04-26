@@ -4,12 +4,11 @@ from src.events import ToUIOutputMessage
 from ...io.inputs import TextLineInput
 from ...io.inputs.signal_input import SignalInput
 from ...io.outputs import BaseOutput
-from ...io.outputs.chart_output import ChartOutput
 from ...io.outputs.jupyter_out import JupyterOutput
 from ...io.rx.message_forwarder import ReactiveForwarder
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from . import category as ChartCategory
+from . import category as BuilderCategory
 
 from aioreactive import AsyncSubject
 
@@ -19,17 +18,15 @@ class ChartQComponent(NodeBase):
     def __init__(self):
         super().__init__()
         self.description = "Widget for displaying notebooks."
-        self.chart_type = TextLineInput(label='Chart Type', default='pie2d')
 
         self.inputs = [
-            SignalInput(label="Input Points"),
-            self.chart_type,
+            SignalInput(label="->", has_handle=False),
         ]
         self.jupyter_output = JupyterOutput()
         self.outputs = [self.jupyter_output]
 
-        self.category = ChartCategory
-        self.sub = "chart"
+        self.category = BuilderCategory
+        self.sub = "jupyter"
         self.name = "Jupyter"
         self.icon = "BsFillDatabaseFill"
 

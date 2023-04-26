@@ -6,10 +6,9 @@ const CellToolbar: React.FC = () => {
   const cell = selectCell();
   return (
     <>
-      <Text as="h5">Cell Example</Text>
       <Button
         color="primary"
-        onClick={() => console.log('run')}
+        onClick={() => cellActions.execute()}
         >
           Run
       </Button>
