@@ -129,7 +129,7 @@ export type Input =
     | SliderInput
     | NumberInput;
 
-export type OutputKind = 'text_sender' | 'markdown' | 'html' | 'auto_chart' | 'chat' |'tic_tac_toe'| 'chart'| 'image' | 'large-image' | 'tagged' | 'generic';
+export type OutputKind = 'jupyter' | 'text_sender' | 'markdown' | 'html' | 'auto_chart' | 'chat' |'tic_tac_toe'| 'chart'| 'image' | 'large-image' | 'tagged' | 'generic';
 
 export interface Output {
     readonly id: OutputId;

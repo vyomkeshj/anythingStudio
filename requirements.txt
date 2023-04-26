@@ -35,6 +35,7 @@ langchain
 
 openai-async
 async-signals
+nbclient
 
 # torch
 # torchvision

@@ -36,7 +36,7 @@ class AutoChartController(NodeBase):
     def run(self, model: str, subject: AsyncSubject) -> AsyncSubject:
         logger.info("subject is: " + str(subject))
         self.consumer_subject = subject
-        self.listener = Listener(self.output_subject, model)
+        self.listener = OpenAIListener(self.output_subject, model)
 
         return self.output_subject
 
@@ -44,7 +44,7 @@ class AutoChartController(NodeBase):
         await self.consumer_subject.subscribe_async(self.listener)
 
 
-class Listener(AsyncObserver):
+class OpenAIListener(AsyncObserver):
     def __init__(self, send_to: AsyncSubject, model: str):
         super().__init__()
         self.output_subject = send_to

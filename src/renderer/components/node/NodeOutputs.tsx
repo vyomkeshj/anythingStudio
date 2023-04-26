@@ -22,7 +22,8 @@ import ChatComponent from "../outputs/chat/ChatComponent";
 import TicTacToeComponent from "../outputs/ticTacToe/TicTacToeComponent";
 import ChartComponent from "../outputs/chart/ChartComponent";
 import AutoChart from "../outputs/autoChart/AutoChart";
-import TextSenderComponent from "../outputs/text_sender/TextSenderComponent";
+import TextSenderComponent from "../outputs/textSender/TextSenderComponent";
+import NodeBuilderNode from "../outputs/nodeBuilder/NodeBuilderNode";
 
 interface FullOutputProps extends Omit<Output, 'id' | 'type'>, OutputProps {
     definitionType: Type;
@@ -32,6 +33,7 @@ const OutputComponents: Readonly<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Record<OutputKind, React.MemoExoticComponent<(props: any) => JSX.Element>>
 > = {
+    jupyter: NodeBuilderNode,
     markdown: MarkdownOutput,
     html: HtmlOutput,
     'text_sender': TextSenderComponent,
@@ -46,6 +48,7 @@ const OutputComponents: Readonly<
 };
 const OutputIsGeneric: Readonly<Record<OutputKind, boolean>> = {
     'text_sender': false,
+    'jupyter': false,
     'tic_tac_toe': false,
     'auto_chart': false,
     markdown: false,

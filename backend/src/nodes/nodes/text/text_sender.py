@@ -20,7 +20,7 @@ class TextSenderNode(NodeBase):
         self.description = "Sends the text to the connected nodes reactively."
         self.signal_output = SignalOutput(label="->")
         self.inputs = [
-            SliderInput("Debounce", default=0.1, minimum=1, maximum=10, slider_step=0.5),
+            SliderInput("Debounce", default=2, minimum=1, maximum=10, slider_step=0.5),
         ]
         self.text_sender_output = TextSenderOutput()
         self.outputs = [
@@ -31,15 +31,16 @@ class TextSenderNode(NodeBase):
         self.resizable = True
         self.side_effects: bool = True
         self.category = TextCategory
-        self.name = "Text Sender"
+        self.name = "Text ->"
         self.icon = "MdTextFields"
         self.sub = "Reactive"
         self.signal_src = AsyncSubject()
         self.delay = 0.1
 
     def run(self, delay: float) -> Tuple[str, AsyncSubject]:
-        # fixme: every node must have at least one input!
-        self.delay = delay
+        # fixme: every node must have at least one input, why???
+        # self.delay = delay
+        # Belay the delay
         return '', self.signal_src
 
     async def run_async(self):
