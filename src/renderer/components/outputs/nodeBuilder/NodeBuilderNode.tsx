@@ -37,8 +37,14 @@ const NodeBuilderNode = memo(({ ui_message_registry }: OutputProps) => {
     sendMessage('submit_text', response)
   };
 
+  const handleScroll = (event: { deltaY: number; currentTarget: { style: { transform: string } }; }) => {
+    const deltaY = event.deltaY;
+    const node = event.currentTarget;
+    node.style.transform = `translateY(${deltaY}px)`;
+  };
+
   return (
-    <div style={{ backgroundColor: "white", height:"800px", width: "800px" }}>
+    <div style={{ backgroundColor: "white", height:"800px", width: "800px" }} onWheel={handleScroll}>
       <Jupyter startDefaultKernel={false} lite={false} >
         <CellComponents />
         {/*<Notebook*/}

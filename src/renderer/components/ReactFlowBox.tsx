@@ -638,6 +638,7 @@ export const ReactFlowBox = memo(({ wrapperRef, nodeTypes, edgeTypes }: ReactFlo
                     zIndex: 0,
                     borderRadius: '0.5rem',
                 }}
+                zoomOnScroll={false}
                 onConnect={createConnection}
                 onConnectEnd={onConnectStop}
                 onConnectStart={onConnectStart}
