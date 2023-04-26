@@ -43,9 +43,9 @@ const CellPreview = () => {
 
 const CellComponents = () => (
   <>
-    <CellPreview/>
+    {/*<CellPreview/>*/}
     <CellToolbar />
-    <Cell source={SOURCE_EXAMPLE} />
+    {/*<Cell source={SOURCE_EXAMPLE} />*/}
   </>
 )
 

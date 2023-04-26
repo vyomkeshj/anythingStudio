@@ -1,34 +1,27 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import { Button, Text } from '@chakra-ui/react';
 import { selectCell, cellActions } from '@datalayer/jupyter-react';
 
 const CellToolbar: React.FC = () => {
   const cell = selectCell();
-  const dispatch = useDispatch();
   return (
     <>
-      <Typography variant="h5" gutterBottom>
-        Cell Example
-      </Typography>
+      <Text as="h5">Cell Example</Text>
       <Button
-        variant="contained"
         color="primary"
-        onClick={() => dispatch(cellActions.execute())}
+        onClick={() => console.log('run')}
         >
           Run
       </Button>
       <Button
-        variant="outlined"
         color="secondary"
-        onClick={() => dispatch(cellActions.outputsCount(0))}
+        onClick={() => console.log('run')}
         >
           Reset outputs count
       </Button>
-      <Typography variant="subtitle1" gutterBottom>
+      <Text>
         Outputs count: {cell.outputsCount}
-      </Typography>
+      </Text>
     </>
   );
 }

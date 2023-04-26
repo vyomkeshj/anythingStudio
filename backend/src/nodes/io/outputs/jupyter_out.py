@@ -7,7 +7,7 @@ class JupyterOutput(BaseOutput):
     def __init__(
             self,
             model_type: expression.ExpressionJson = "string",
-            label: str = "Dataframe Viewer",
+            label: str = "Notebook Viewer",
             kind: OutputKind = "jupyter",
     ):
         ui_channels = [UIEvtChannelSchema(channel_name='change_file',

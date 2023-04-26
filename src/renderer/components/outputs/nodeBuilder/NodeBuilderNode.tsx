@@ -5,10 +5,8 @@ import { ToUIOutputMessage } from "../../../../common/ui_event_messages";
 import { useWebSocketUILink } from "../../../hooks/useWebSocketUILink";
 import {Button} from "@chakra-ui/react";
 import {ArrowForwardIcon} from "@chakra-ui/icons";
-import { Cell, CellSidebarDefault, IpyWidgetsComponent, Jupyter, Notebook } from "@datalayer/jupyter-react";
+import { Jupyter, IpyWidgetsComponent, Notebook, CellSidebarDefault } from '@datalayer/jupyter-react';
 import CellComponents from "./components/cell/CellComponents";
-import OutputsComponents from "./components/outputs/OutputsComponents";
-import IPyWidgetsSimple from "./components/ipywidgets/IPyWidgetsSimple";
 
 
 export interface SubmitText {
@@ -42,35 +40,16 @@ const NodeBuilderNode = memo(({ ui_message_registry }: OutputProps) => {
   };
 
   return (
-    <>
+    <div>
       <Jupyter startDefaultKernel={true}>
-        <IpyWidgetsComponent Widget={IPyWidgetsSimple}/>
-        <OutputsComponents/>
         <CellComponents/>
+        <hr/>
         <Notebook
-          // path={"/ping.ipynb"}
+          path="/ping.ipynb"
           CellSidebar={CellSidebarDefault}
         />
-        {/*
-        <FileBrowserTree/>
-*/}
       </Jupyter>
-      <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    </>
+    </div>
   );
 });
 
