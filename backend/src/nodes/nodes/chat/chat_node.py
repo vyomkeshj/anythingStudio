@@ -1,66 +1,66 @@
-from enum import Enum
-from typing import TypedDict
-
+from aioreactive import AsyncSubject
 from sanic.log import logger
 
 from src.events import ToUIOutputMessage
+from src.nodes.nodes.chat.impl.protocol import MsgFromChatbot, MsgFromUser
+from ...io.inputs.signal_input import SignalInput
 from ...io.outputs.chat_output import ChatOutput
+from ...io.rx.message_forwarder import ReactiveForwarder
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from ...io.inputs import TextLineInput
 from . import category as ChatCategory
 
-import asyncio
 
-
-class MsgFromUser(TypedDict):
-    msg: str
-
-
-class MsgFromChatbot(TypedDict):
-    msg: str
-
-
-class Models(Enum):
-    GPT3 = "text-davinci-003"
-    GPT35 = "gpt-3.5-turbo"
-
-
-# some way to just tag this as websocket node?
 @NodeFactory.register("machines:chat:chat_node")
 class ChatQComponent(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Chat with your database."
+        self.description = "Chat chat chat."
         self.inputs = [
-            TextLineInput("ModelName", default="gpt-3.5-turbo")
+            TextLineInput(label="<i>"),
+            SignalInput(label="-> chatbot msg in"),
+            SignalInput(label="<- usr msg out"),
         ]
         self.chat_output = ChatOutput()
         self.outputs = [self.chat_output]
 
         self.category = ChatCategory
         self.sub = "Chat"
-        self.name = "ChatQ"
+        self.name = "Chat"
         self.icon = "BsFillDatabaseFill"
+
+        self.chatbot_input: AsyncSubject = None     # type: ignore
+        # gets the string message that the user types in
+        self.user_msg_input: AsyncSubject = None    # type: ignore
+        self.info = "Chat chat chat."
+
+        self.chatbot_msg_forwarder = ReactiveForwarder(self.chat_output, 'msg_from_chatbot')
 
         self.side_effects = True
 
-    def run(self, use_model: str) -> str:
+    def run(self, info: str, chatbot_input: AsyncSubject, user_msg_input: AsyncSubject) -> str:
         """
-            Initializes the chat node
+            `user_output` receives messages from the user
+            `chatbot_input` sends messages to the chatbot ui
         """
+        self.info = info
+        self.chatbot_input = chatbot_input
+        # used to send the user message to the node the provides
+        self.user_msg_input = user_msg_input
 
         return ''
 
     async def run_async(self):
-        await self.send_ui_event(MsgFromChatbot(msg="gonna say what you say 5 sec later"))
+        # subscribes to and sends the message received on the chatbot input
+        await self.chatbot_input.subscribe_async(self.chatbot_msg_forwarder)
+        await self.send_ui_event(MsgFromChatbot(msg=self.info))
 
         while True:
-            received = await self.receive_ui_event()
+            received: MsgFromUser = await self.receive_ui_event()
             if received['msg'] == 'quit':
                 break
-            await asyncio.sleep(5)
-            await self.send_ui_event(MsgFromChatbot(msg=f"Echo: {received['msg']}"))
+            await self.user_msg_input.asend(("msg_from_user", received))
 
     async def send_ui_event(self, message: MsgFromChatbot):
         channel_id = self.chat_output.get_channel_id_by_name('msg_from_chatbot')

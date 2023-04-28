@@ -19,12 +19,11 @@ interface MsgFromUser {
 
 const ChatComponent = memo(({ label, id, outputId, schemaId, ui_message_registry }: OutputProps) => {
   const [messages, setMessages] = useState([
-    { from: "computer", text: "Hi, My Name is ChatQ, Please connect the database and press run to begin!" },
+    { from: "computer", text: "Press run to begin!" },
   ]);
   const [inputMessage, setInputMessage] = useState("");
 
   const handle_from_chatbot_msg = (message: ToUIOutputMessage<MsgFromChatbot>) => {
-    log.info("Got message from chatbot_x: ", message);
     setMessages((old) => [...old, { from: "computer", text: message.data.msg }]);
   };
 
@@ -39,7 +38,6 @@ const ChatComponent = memo(({ label, id, outputId, schemaId, ui_message_registry
       return;
     }
     const data = inputMessage;
-    console.log(data);
     setMessages((old) => [...old, { from: "me", text: data }]);
     setInputMessage("");
 
@@ -51,7 +49,7 @@ const ChatComponent = memo(({ label, id, outputId, schemaId, ui_message_registry
   };
 
   return (
-    <Flex w="500dp" h="300dp" justify="center" align="center">
+    <Flex w="600dp" h="300dp" justify="center" align="center">
       <Flex w={["100%", "100%", "100%"]} h="90%" flexDir="column">
         <Header />
         <Divider />
