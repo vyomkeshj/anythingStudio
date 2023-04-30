@@ -17,7 +17,6 @@ import {
   Radar,
   RadialBarChart,
   RadialBar,
-  Sankey,
   Treemap,
   FunnelChart,
   Funnel,

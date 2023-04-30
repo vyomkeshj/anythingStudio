@@ -13,7 +13,7 @@ class TextValueNode(NodeBase):
         super().__init__()
         self.description = "Outputs the given text."
         self.inputs = [
-            TextInput("Text", min_length=0),
+            TextInput("Text", min_length=0, kind="text"),
         ]
         self.outputs = [
             TextOutput("Text", output_type="Input0"),
@@ -22,7 +22,7 @@ class TextValueNode(NodeBase):
         self.resizable = True
         self.side_effects: bool = True
         self.category = TextCategory
-        self.name = "str"
+        self.name = "string"
         self.icon = "MdTextFields"
         self.sub = "Value"
 

@@ -24,8 +24,7 @@ from sanic_cors import CORS
 from base_types import NodeId
 from nm_graph.cache import OutputCache
 from nm_graph.json import JsonNode, parse_json
-from nm_graph.optimize import optimize
-from events import EventChannel, ExecutionErrorData, UIEventChannel, ToUIOutputMessage, UIEvtChannelSchema, \
+from events import EventChannel, ExecutionErrorData, UIEventChannel, ToUIOutputMessage, \
     UIEvtChannelKind, FromUIOutputMessage
 from nodes.group import Group
 from nodes.node_factory import NodeFactory
@@ -457,7 +456,7 @@ async def kill(request: Request):
         logger.info("Executor found. Attempting to kill...")
         ctx.executor.kill()
         while ctx.executor:
-            await asyncio.sleep(0.0001)
+            await asyncio.sleep(0.01)
         return json(successResponse("Successfully killed execution!"), status=200)
     except Exception as exception:
         logger.log(2, exception, exc_info=True)
@@ -488,16 +487,16 @@ async def python_info(_request: Request):
     return json({"python": sys.executable, "version": version})
 
 
-@app.websocket("/to_front_ui")
-async def ui_sse(request: Request, ws):
-    ctx = AppContext.get(request.app)
-
-    while True:
-        message: ToUIOutputMessage = await ctx.to_ui_channel.get()
-        logger.info(f"Sending message to UI Finally: {message}")
-        # todo: wait for some response depending on the message sent?
-        # todo: use protobuf
-        await ws.send(json_lib.dumps(message))
+# @app.websocket("/to_front_ui")
+# async def ui_sse(request: Request, ws):
+#     ctx = AppContext.get(request.app)
+#
+#     while True:
+#         message: ToUIOutputMessage = await ctx.to_ui_channel.get()
+#         logger.info(f"Sending message to UI Finally: {message}")
+#         # todo: wait for some response depending on the message sent?
+#         # todo: use protobuf
+#         await ws.send(json_lib.dumps(message))
 
 
 @app.websocket("/ui")
@@ -534,7 +533,7 @@ if __name__ == "__main__":
         port = int(sys.argv[1]) or 8000
     except:
         port = 8000
-    app.update_config({"RESPONSE_TIMEOUT": 500, "KEEP_ALIVE_TIMEOUT": 500, "REQUEST_TIMEOUT": 500})
+    app.update_config({"RESPONSE_TIMEOUT": 5000, "KEEP_ALIVE_TIMEOUT": 5000, "REQUEST_TIMEOUT": 5000})
     app.run(port=port, protocol=WebSocketProtocol)
 
     if sys.argv[1] != "--no-run":

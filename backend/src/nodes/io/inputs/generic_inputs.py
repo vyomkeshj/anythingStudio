@@ -17,7 +17,7 @@ from ...utils.utils import (
     split_snake_case,
 )
 from .. import expression
-from .base_input import BaseInput, InputConversion
+from .base_input import BaseInput, InputConversion, InputKind
 from .numeric_inputs import NumberInput
 
 
@@ -198,12 +198,13 @@ class TextInput(BaseInput):
         placeholder: Union[str, None] = None,
         allow_numbers: bool = True,
         default: Union[str, None] = None,
+        kind: InputKind = "text-line",
     ):
         super().__init__(
             "string",
             label,
             has_handle=has_handle,
-            kind="text",
+            kind=kind,
         )
         self.min_length = min_length
         self.max_length = max_length

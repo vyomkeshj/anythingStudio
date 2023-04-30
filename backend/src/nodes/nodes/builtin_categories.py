@@ -9,8 +9,10 @@ from .llm import category as LLMCategory
 from .data_loaders import category as DataLoaderCategory
 from .langchain import category as LangchainCategory
 from .builder import category as BuilderCategory
+# from .huggingface import category as HuggingfaceCategory
 
 builtin_categories = [
+    # HuggingfaceCategory,
     BuilderCategory,
     ChartCategory,
     GamesCategory,

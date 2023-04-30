@@ -16,7 +16,7 @@ from . import category as ChatCategory
 class ChatQComponent(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Chat chat chat."
+        self.description = "Chat with your database."
         self.inputs = [
             TextLineInput(label="<i>"),
             SignalInput(label="-> chatbot msg in"),
@@ -27,7 +27,7 @@ class ChatQComponent(NodeBase):
 
         self.category = ChatCategory
         self.sub = "Chat"
-        self.name = "Chat"
+        self.name = "Emoji Chat"
         self.icon = "BsFillDatabaseFill"
 
         self.chatbot_input: AsyncSubject = None     # type: ignore

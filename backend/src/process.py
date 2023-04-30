@@ -329,7 +329,6 @@ class Executor:
         node_instance = node.get_node()
 
         if hasattr(node_instance, "run_async") and callable(node_instance.run_async):
-            logger.info("added once")
             self.__node_async_runners.append(self.loop.create_task(node_instance.run_async()))
 
         # Enforce that all inputs match the expected input schema
