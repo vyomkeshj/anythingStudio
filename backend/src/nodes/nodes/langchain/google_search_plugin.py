@@ -1,7 +1,7 @@
 from langchain import SerpAPIWrapper
 from langchain.agents import Tool
 
-from .io.tools import ToolOutput
+from .io.plugins import PluginOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from ...nodes.langchain import category as LangchainCategory
@@ -11,12 +11,12 @@ from ...nodes.langchain import category as LangchainCategory
 class PythonReplTool(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Langchain google search repl tool."
+        self.description = "Langchain google search repl plugin."
 
-        self.outputs = [ToolOutput(label="Search Tool ->", output_type="string")]
+        self.outputs = [PluginOutput(label="Search Plugin ->", output_type="string")]
 
         self.category = LangchainCategory
-        self.sub = "Tools"
+        self.sub = "Plugins"
         self.name = "Google Search"
 
         self.side_effects = True

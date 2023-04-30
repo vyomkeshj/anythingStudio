@@ -1,22 +1,22 @@
 from langchain import LLMChain, OpenAI, PromptTemplate
 from langchain.agents import Tool
 
-from .io.tools import ToolOutput
+from .io.plugins import PluginOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from ...nodes.langchain import category as LangchainCategory
 
 
-@NodeFactory.register("machines:langchain:todo_list_tool")
+@NodeFactory.register("machines:langchain:todo_list_plugin")
 class PythonReplTool(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Langchain todo list tool."
+        self.description = "Langchain todo list plugin."
 
-        self.outputs = [ToolOutput(label="Todo Tool Out ->", output_type="string")]
+        self.outputs = [PluginOutput(label="Todo Plugin Out ->", output_type="string")]
 
         self.category = LangchainCategory
-        self.sub = "Tools"
+        self.sub = "Plugins"
         self.name = "Todo List"
 
         self.side_effects = True

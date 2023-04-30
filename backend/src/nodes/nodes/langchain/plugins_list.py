@@ -2,7 +2,7 @@ from typing import Union, List
 
 from langchain.agents import Tool
 
-from .io.tools import ToolInput, ToolListOutput
+from .io.plugins import PluginInput, PluginListOutput
 from ...group import group
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
@@ -11,7 +11,7 @@ from ...nodes.langchain import category as LangchainCategory
 from ...utils.utils import ALPHABET
 
 
-@NodeFactory.register("machines:langchain:tools_list")
+@NodeFactory.register("machines:langchain:plugins_list")
 class LangchainToolList(NodeBase):
 
     def __init__(self):
@@ -19,19 +19,19 @@ class LangchainToolList(NodeBase):
         self.description = "Creates a list of Langchain tools."
 
         self.inputs = [
-            ToolInput("+A"),
+            PluginInput("+Plugin A"),
             group("optional-list")(
                 *[
-                    ToolInput(f"+{letter}").make_optional()
+                    PluginInput(f"+Plugin {letter}").make_optional()
                     for letter in ALPHABET[1:10]
                 ],
             ),
         ]
-        self.outputs = [ToolListOutput(label="Tools List ->")]
+        self.outputs = [PluginListOutput(label="Plugins List ->")]
 
         self.category = LangchainCategory
-        self.sub = "Tools"
-        self.name = "Tools Provider"
+        self.sub = "Plugins"
+        self.name = "Plugins Provider"
 
         self.side_effects = True
 

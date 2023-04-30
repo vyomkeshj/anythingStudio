@@ -1,7 +1,7 @@
 from langchain.agents import Tool
 from langchain.utilities import PythonREPL
 
-from .io.tools import ToolOutput
+from .io.plugins import PluginOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 from ...nodes.langchain import category as LangchainCategory
@@ -13,10 +13,10 @@ class PythonReplTool(NodeBase):
         super().__init__()
         self.description = "Langchain python repl tool."
 
-        self.outputs = [ToolOutput(label="REPL Tool Out ->", output_type="string")]
+        self.outputs = [PluginOutput(label="REPL Plugin Out ->", output_type="string")]
 
         self.category = LangchainCategory
-        self.sub = "Tools"
+        self.sub = "Plugins"
         self.name = "Python Repl"
 
         self.side_effects = True

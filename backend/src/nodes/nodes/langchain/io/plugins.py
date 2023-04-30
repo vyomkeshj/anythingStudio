@@ -8,7 +8,7 @@ from src.nodes.io.inputs import BaseInput
 from src.nodes.io.outputs import BaseOutput, OutputKind
 
 
-class ToolInput(BaseInput):
+class PluginInput(BaseInput):
     """Langchain Tool as Input."""
 
     def __init__(
@@ -24,7 +24,7 @@ class ToolInput(BaseInput):
         return value
 
 
-class ToolListInput(BaseInput):
+class PluginListInput(BaseInput):
     """Langchain Tools list as Input."""
 
     def __init__(
@@ -40,7 +40,7 @@ class ToolListInput(BaseInput):
         return value
 
 
-class ToolListOutput(BaseOutput):
+class PluginListOutput(BaseOutput):
     """Output list of Langchain tools"""
 
     def __init__(
@@ -56,7 +56,7 @@ class ToolListOutput(BaseOutput):
         assert isinstance(value, List)
 
 
-class ToolOutput(BaseOutput):
+class PluginOutput(BaseOutput):
     """Output a Langchain tool"""
 
     def __init__(

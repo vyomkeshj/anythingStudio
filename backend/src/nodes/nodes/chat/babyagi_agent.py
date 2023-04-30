@@ -7,7 +7,7 @@ from langchain.embeddings import OpenAIEmbeddings
 from sanic.log import logger
 
 from .babyagi.babyagi import BabyAGI
-from ..langchain.io.tools import ToolListInput
+from ..langchain.io.plugins import PluginListInput
 from ...io.outputs import TextOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
@@ -19,6 +19,8 @@ from langchain.docstore import InMemoryDocstore
 import faiss
 
 
+
+
 @NodeFactory.register("machines:chat:bubbagi_agent")
 class OAIChatbot(NodeBase):
     def __init__(self):
@@ -26,7 +28,7 @@ class OAIChatbot(NodeBase):
         self.description = "BubbaAGI."
         self.inputs = [
             TextInput(label="Task"),
-            ToolListInput(label="Tools List ->"),
+            PluginListInput(label="Tools List ->"),
             SliderInput(
                 "Completion Len",
                 minimum=30,
@@ -77,13 +79,14 @@ class OAIChatbot(NodeBase):
 
         self.side_effects = True
 
-    def run(self, system_message: str, tools_list: List[Tool], completion_len: float, temp: float) -> str:
+    def run(self, objective: str, tools_list: List[Tool], completion_len: float, temp: float) -> str:
         """
             Initializes the controller
         """
+        logger.info(f"Objective AGI: {objective}")
         self.completion_len = completion_len
         self.api_key = "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"
-        self.system_message = system_message
+        self.system_message = objective
 
         # Define your embedding model
         embeddings_model = OpenAIEmbeddings()
@@ -94,7 +97,7 @@ class OAIChatbot(NodeBase):
         vector_store = FAISS(embeddings_model.embed_query, index, InMemoryDocstore({}), {})
 
         # Logging of LLMChains
-        llm = OpenAI(temperature=temp, api_key=self.api_key, model_name="gpt-4")
+        llm = OpenAI(temperature=temp, api_key=self.api_key)
 
         verbose = True
         # If None, will keep on going forever
@@ -102,7 +105,7 @@ class OAIChatbot(NodeBase):
         baby_agi = BabyAGI.from_llm(
             llm=llm, vectorstore=vector_store, verbose=verbose, max_iterations=max_iterations, tool_list=tools_list
         )
-        response = baby_agi({"objective": system_message})
+        response = baby_agi({"objective": objective})
         logger.info(f"BubbaAGI Response: {response}")
 
         return 'response'
