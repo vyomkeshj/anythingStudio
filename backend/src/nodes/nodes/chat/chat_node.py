@@ -1,3 +1,5 @@
+import asyncio
+
 from aioreactive import AsyncSubject
 from sanic.log import logger
 
@@ -16,7 +18,7 @@ from . import category as ChatCategory
 class ChatQComponent(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Chat with your database."
+        self.description = "Chat with chatgpt."
         self.inputs = [
             TextLineInput(label="<i>"),
             SignalInput(label="-> chatbot msg in"),
@@ -27,8 +29,10 @@ class ChatQComponent(NodeBase):
 
         self.category = ChatCategory
         self.sub = "Chat"
-        self.name = "Emoji Chat"
+        self.name = "Chat UI"
         self.icon = "BsFillDatabaseFill"
+
+        self.subscription = None
 
         self.chatbot_input: AsyncSubject = None     # type: ignore
         # gets the string message that the user types in
@@ -39,22 +43,26 @@ class ChatQComponent(NodeBase):
 
         self.side_effects = True
 
-    def run(self, info: str, chatbot_input: AsyncSubject, user_msg_input: AsyncSubject) -> str:
+    def run(self, info: str, chatbot: AsyncSubject, user_msg: AsyncSubject) -> str:
         """
             `user_output` receives messages from the user
             `chatbot_input` sends messages to the chatbot ui
         """
         self.info = info
-        self.chatbot_input = chatbot_input
+        self.chatbot_input = chatbot
         # used to send the user message to the node the provides
-        self.user_msg_input = user_msg_input
+        self.user_msg_input = user_msg
+        logger.info(f"subjectx: {self.chatbot_input} {self.user_msg_input}")
 
         return ''
 
     async def run_async(self):
         # subscribes to and sends the message received on the chatbot input
-        await self.chatbot_input.subscribe_async(self.chatbot_msg_forwarder)
-        await self.send_ui_event(MsgFromChatbot(msg=self.info))
+        await asyncio.sleep(1)
+        if self.subscription is None:
+            self.subscription = await self.chatbot_input.subscribe_async(self.chatbot_msg_forwarder)
+            await self.send_ui_event(MsgFromChatbot(msg=self.info))
+        logger.info(f"subject2: {self.chatbot_input} {self.user_msg_input}")
 
         while True:
             received: MsgFromUser = await self.receive_ui_event()

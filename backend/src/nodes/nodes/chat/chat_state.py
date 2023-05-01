@@ -34,6 +34,9 @@ class ChatState(NodeBase):
         self.bot_nxt_msg_in: AsyncSubject = AsyncSubject()  # type: ignore
         self.history_out: AsyncSubject = AsyncSubject()  # type: ignore
 
+        self.bot_nxt_msg_in_sub = None
+        self.usr_msg_input_sub = None
+
         self.msg_history: List[MsgHistoryItem] = []
 
         self.info = "Stores the state of the chat box."
@@ -51,9 +54,12 @@ class ChatState(NodeBase):
         return self.next_msg_output, self.usr_msg_input
 
     async def run_async(self):
-        self.msg_observer = MessageObserver(self)
-        await self.bot_nxt_msg_in.subscribe_async(self.msg_observer)
-        await self.usr_msg_input.subscribe_async(self.msg_observer)
+        if self.msg_observer is None:
+            self.msg_observer = MessageObserver(self)
+        if self.bot_nxt_msg_in_sub is None:
+            self.bot_nxt_msg_in_sub = await self.bot_nxt_msg_in.subscribe_async(self.msg_observer)
+        if self.usr_msg_input_sub is None:
+            self.usr_msg_input_sub = await self.usr_msg_input.subscribe_async(self.msg_observer)
 
 
 class MessageObserver(AsyncObserver):

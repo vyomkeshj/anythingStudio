@@ -13,7 +13,7 @@ class PythonReplTool(NodeBase):
         super().__init__()
         self.description = "Langchain python repl tool."
 
-        self.outputs = [PluginOutput(label="REPL Plugin Out ->", output_type="string")]
+        self.outputs = [PluginOutput(label="REPL Plugin ->", output_type="string")]
 
         self.category = LangchainCategory
         self.sub = "Plugins"

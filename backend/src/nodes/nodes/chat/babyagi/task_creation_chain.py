@@ -14,7 +14,7 @@ class TaskCreationChain(LLMChain):
             " The last completed task has the result: {result}."
             " This result was based on this task description: {task_description}."
             " These are incomplete tasks: {incomplete_tasks}."
-            " Based on the result, create new tasks to be completed"
+            " Based on the result, create minimum number of new tasks to be completed"
             " by the AI system that do not overlap with incomplete tasks."
             " Return the tasks as an array."
         )

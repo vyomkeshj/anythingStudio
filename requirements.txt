@@ -38,7 +38,7 @@ async-signals
 nbclient
 jupyter_server
 google-search-results
-
+wolframalpha
 # torch
 # torchvision
 # google-re2

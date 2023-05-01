@@ -53,6 +53,7 @@ class OAIChatbot(NodeBase):
 
         self.info = "Stores the state of the chat box."
         self.controller = StateObserver(self)
+        self.history_input_sub = None
 
         self.side_effects = True
 
@@ -67,7 +68,8 @@ class OAIChatbot(NodeBase):
         return self.history_input, self.nxt_msg_op
 
     async def run_async(self):
-        await self.history_input.subscribe_async(self.controller)
+        if self.history_input_sub is None:
+            self.history_input_sub = await self.history_input.subscribe_async(self.controller)
 
 
 class StateObserver(AsyncObserver):

@@ -13,7 +13,7 @@ class PythonReplTool(NodeBase):
         super().__init__()
         self.description = "Langchain todo list plugin."
 
-        self.outputs = [PluginOutput(label="Todo Plugin Out ->", output_type="string")]
+        self.outputs = [PluginOutput(label="Todo Plugin ->", output_type="string")]
 
         self.category = LangchainCategory
         self.sub = "Plugins"

@@ -1,17 +1,20 @@
-from typing import Tuple, List, Optional
+import asyncio
+from typing import Tuple, List, Optional, Union
 
-from aioreactive import AsyncSubject
+from aioreactive import AsyncSubject, AsyncObserver
 from langchain import OpenAI
 from langchain.agents import Tool
 from langchain.embeddings import OpenAIEmbeddings
+from reactivex import Subject
 from sanic.log import logger
 
 from .babyagi.babyagi import BabyAGI
+from .impl.protocol import MsgFromUser, MsgFromChatbot
 from ..langchain.io.plugins import PluginListInput
-from ...io.outputs import TextOutput
+from ...io.outputs.signal_output import SignalOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...io.inputs import SliderInput, TextInput
+from ...io.inputs import SliderInput
 from . import category as ChatCategory
 from langchain.vectorstores import FAISS
 from langchain.docstore import InMemoryDocstore
@@ -19,16 +22,13 @@ from langchain.docstore import InMemoryDocstore
 import faiss
 
 
-
-
 @NodeFactory.register("machines:chat:bubbagi_agent")
 class OAIChatbot(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "BubbaAGI."
+        self.description = "Baby AGI Node."
         self.inputs = [
-            TextInput(label="Task"),
-            PluginListInput(label="Tools List ->"),
+            PluginListInput(label="Plugins List ->"),
             SliderInput(
                 "Completion Len",
                 minimum=30,
@@ -61,32 +61,53 @@ class OAIChatbot(NodeBase):
                     "#ff00ff",
                     "#ff0000",
                 ]),
+            SliderInput(
+                "#Attempts",
+                minimum=1,
+                maximum=5,
+                default=1,
+                precision=1,
+                controls_step=1,
+                gradient=[
+                    "#ff0000",
+                    "#ffff00",
+                    "#00ff00",
+                    "#00ffff",
+                    "#0000ff",
+                    "#ff00ff",
+                    "#ff0000",
+                ]),
         ]
-        self.outputs = [TextOutput(label="agi response->")]
+        self.outputs = [SignalOutput(label="-> bot msg out"), SignalOutput(label="<- usr msg in")]
+
+        self.bot_msg_output: AsyncSubject = AsyncSubject()
+        self.usr_nxt_msg_in: AsyncSubject = AsyncSubject()
 
         self.category = ChatCategory
         self.sub = "AGI"
-        self.name = "Bubba AGI"
+        self.name = "Baby AGI"
         self.icon = "BsFillDatabaseFill"
 
+        self.baby_agi = None
         self.completion_len = 150
         self.controller = None
 
         self.api_key = None
-        self.system_message: str = ''   # type: ignore
+        self.objective: str = None  # type: ignore
+        self.observer = None
+        self.subscription = None
 
         self.info = "The taskmaster."
+        self.babyagi_observer = Subject()
 
         self.side_effects = True
 
-    def run(self, objective: str, tools_list: List[Tool], completion_len: float, temp: float) -> str:
+    def run(self, tools_list: List[Tool], completion_len: float, temp: float, attempts: float) -> Tuple[AsyncSubject, AsyncSubject]:
         """
-            Initializes the controller
+            baby agi node
         """
-        logger.info(f"Objective AGI: {objective}")
         self.completion_len = completion_len
         self.api_key = "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"
-        self.system_message = objective
 
         # Define your embedding model
         embeddings_model = OpenAIEmbeddings()
@@ -101,14 +122,45 @@ class OAIChatbot(NodeBase):
 
         verbose = True
         # If None, will keep on going forever
-        max_iterations: Optional[int] = 3
-        baby_agi = BabyAGI.from_llm(
+        max_iterations: Optional[int] = int(attempts)
+        self.baby_agi = BabyAGI.from_llm(
             llm=llm, vectorstore=vector_store, verbose=verbose, max_iterations=max_iterations, tool_list=tools_list
         )
-        response = baby_agi({"objective": objective})
-        logger.info(f"BubbaAGI Response: {response}")
-
-        return 'response'
+        self.observer = MessageObserver(self)
+        logger.info(f"the subjects are: {self.bot_msg_output}, {self.usr_nxt_msg_in}")
+        return self.bot_msg_output, self.usr_nxt_msg_in
 
     async def run_async(self):
-        logger.info("Running BubbaAGI")
+        if self.subscription is None:
+            self.subscription = await self.usr_nxt_msg_in.subscribe_async(self.observer)
+        await asyncio.sleep(0.2)
+
+
+class MessageObserver(AsyncObserver):
+
+    def __init__(self, state_node: OAIChatbot):
+        super().__init__()
+        self.state_node: OAIChatbot = state_node
+
+    async def asend(self, input_msg: Tuple[str, Union[MsgFromUser, MsgFromChatbot]]) -> None:
+        logger.info(f"Received {input_msg} in state node")
+        if input_msg[0] == "msg_from_user":
+            # run babyagi
+            if self.state_node.objective is None:
+                self.state_node.objective = input_msg[1]["msg"]
+                self.state_node.baby_agi({"objective": input_msg[1]["msg"]})
+                result = self.state_node.baby_agi.get_result()
+                if result:
+                    logger.info(f"Final response: {result}")
+                    await self.state_node.bot_msg_output.asend(MsgFromChatbot(msg=str(result)))
+                self.state_node.objective = None
+            else:
+                await self.state_node.bot_msg_output.asend(MsgFromChatbot(msg="I'm busy right now, please wait a bit."))
+        else:
+            logger.error(f"Received {input_msg} in state node from unknown source")
+
+    async def athrow(self, error: Exception) -> None:
+        print("Error:", error)
+
+    async def aclose(self) -> None:
+        print("Stream closed")

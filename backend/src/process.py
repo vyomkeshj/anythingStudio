@@ -328,9 +328,6 @@ class Executor:
         # Create node based on given category/name information
         node_instance = node.get_node()
 
-        if hasattr(node_instance, "run_async") and callable(node_instance.run_async):
-            self.__node_async_runners.append(self.loop.create_task(node_instance.run_async()))
-
         # Enforce that all inputs match the expected input schema
         enforced_inputs = []
         if node_instance.type == "iteratorHelper":
@@ -378,6 +375,11 @@ class Executor:
                         input_dict[input_id] = {"width": w, "height": h, "channels": c}
                 raise NodeExecutionError(node, str(e), input_dict) from e
             await self.__broadcast_data(node_instance, node.id, execution_time, output)
+
+        if hasattr(node_instance, "run_async") and callable(node_instance.run_async):
+            task = self.loop.create_task(node_instance.run_async())
+            self.__node_async_runners.append(task)
+            await task
 
         del node_instance
 
@@ -501,15 +503,14 @@ class Executor:
         logger.debug(self.cache.keys())
 
         # await all broadcasts
-        node_async_tasks = self.__node_async_runners
         tasks = self.__broadcast_tasks
         self.__broadcast_tasks = []
         for task in tasks:
             await task
 
-        for async_task in node_async_tasks:
-            print("awaiting task")
-            await async_task
+        # for async_task in self.__node_async_runners:
+        #     print("awaiting task")
+        #     await async_task
 
     async def run(self):
         logger.debug(f"Running executor {self.execution_id}")

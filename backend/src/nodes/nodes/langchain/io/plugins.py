@@ -1,6 +1,7 @@
 from typing import List
 
 from langchain.agents import Tool
+from langchain.tools import BaseTool
 
 from src.nodes.io import expression
 from src.nodes.io.expression import ExpressionJson
@@ -20,7 +21,7 @@ class PluginInput(BaseInput):
 
     def enforce(self, value):
         if Tool is not None:
-            assert isinstance(value, Tool), "Expected a Langchain tool."
+            assert isinstance(value, BaseTool), "Expected a Langchain tool."
         return value
 
 
@@ -69,4 +70,4 @@ class PluginOutput(BaseOutput):
         super().__init__(output_type, label, kind=kind, has_handle=has_handle)
 
     def validate(self, value) -> None:
-        assert isinstance(value, Tool)
+        assert isinstance(value, BaseTool)
