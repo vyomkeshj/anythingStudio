@@ -11,7 +11,7 @@ from sanic.log import logger
 from .babyagi.babyagi import BabyAGI
 from .impl.protocol import MsgFromUser, MsgFromChatbot
 from .openai_chatbot import OAIChatbot
-from src.nodes.nodes.chat.io.plugins import PluginListInput
+from ...nodes.chat.io.plugins import PluginListInput
 from ...io.outputs.signal_output import SignalOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory

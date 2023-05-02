@@ -2,11 +2,11 @@ import chromadb
 from chromadb.api.models import Collection
 from sanic.log import logger
 
-from src.nodes.nodes.chroma import category as ChromaDB
-from src.nodes.nodes.chat.io.chroma_collection import ChromaCollectionOutput
-from src.nodes.io.inputs import TextInput
-from src.nodes.node_base import NodeBase
-from src.nodes.node_factory import NodeFactory
+from ...nodes.chroma import category as ChromaDB
+from ...nodes.chat.io.chroma_collection import ChromaCollectionOutput
+from ...io.inputs import TextInput
+from ...node_base import NodeBase
+from ...node_factory import NodeFactory
 
 
 @NodeFactory.register("machines:chroma:chroma_create")

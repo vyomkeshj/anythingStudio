@@ -1,10 +1,10 @@
 from langchain import SerpAPIWrapper
 from langchain.agents import Tool
 
-from src.nodes.nodes.chat.io.plugins import PluginOutput
-from src.nodes.node_base import NodeBase
-from src.nodes.node_factory import NodeFactory
-from src.nodes.nodes.chat import category as ChatCategory
+from ...nodes.chat.io.plugins import PluginOutput
+from ...node_base import NodeBase
+from ...node_factory import NodeFactory
+from ...nodes.chat import category as ChatCategory
 
 
 @NodeFactory.register("machines:langchain:serp_tool")

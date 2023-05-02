@@ -4,7 +4,7 @@ from aioreactive import AsyncSubject
 from sanic.log import logger
 
 from src.events import ToUIOutputMessage
-from src.nodes.nodes.chat.impl.protocol import MsgFromChatbot, MsgFromUser
+from ...nodes.chat.impl.protocol import MsgFromChatbot, MsgFromUser
 from ...io.inputs.signal_input import SignalInput
 from ...io.outputs.chat_output import ChatOutput
 from ...io.rx.message_forwarder import ReactiveForwarder
