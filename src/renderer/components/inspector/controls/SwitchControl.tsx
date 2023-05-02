@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react'
 import { Switch } from '@chakra-ui/react'
 import FormControl from './FormControl'
-import { useForm } from '../useForm'
-import usePropsSelector from '../usePropsSelector'
+import { useForm } from "../../../hooks/useForm";
+import usePropsSelector from "../../../hooks/usePropsSelector";
 
 type SwitchControlPropsType = {
   name: string

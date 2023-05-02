@@ -1,10 +1,10 @@
 import React, { memo } from 'react'
 import { Select } from '@chakra-ui/react'
-import { useForm } from '../useForm'
-import FormControl from '~components/inspector/controls/FormControl'
-import ChildrenControl from '~components/inspector/controls/ChildrenControl'
-import usePropsSelector from '../usePropsSelector'
-import SwitchControl from '~components/inspector/controls/SwitchControl'
+import { useForm } from "../../../../hooks/useForm";
+import usePropsSelector from "../../../../hooks/usePropsSelector";
+import ChildrenControl from "../../controls/ChildrenControl";
+import FormControl from "../../controls/FormControl";
+import SwitchControl from "../../controls/SwitchControl";
 
 const HeadingPanel = () => {
   const { setValueFromEvent } = useForm()

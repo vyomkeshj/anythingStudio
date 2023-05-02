@@ -11,6 +11,7 @@ import { theme } from './theme';
 import './i18n';
 import store from "./redux/store";
 import { Provider } from "react-redux";
+import UIBuilder from "./ui_builder";
 
 const LoadingComponent = memo(() => (
     <Box
@@ -57,7 +58,8 @@ export const App = memo(() => {
                             {!port || !storageInitialized ? (
                                 <LoadingComponent />
                             ) : (
-                                <MainComponent port={port} />
+                                // <MainComponent port={port} />
+                                <UIBuilder />
                             )}
                         </AlertBoxProvider>
                     </ContextMenuProvider>

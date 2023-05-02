@@ -2,15 +2,14 @@ import React, { memo } from 'react'
 
 import ButtonPanel from './components/ButtonPanel'
 import BadgePanel from './components/BadgePanel'
-import IconPanel from './components/IconPanel'
 import ImagePanel from './components/ImagePanel'
 import BoxPanel from './components/BoxPanel'
-import AvatarPanel from './components/AvatarPanel'
-import AvatarGroupPanel from './components/AvatarGroupPanel'
-import AvatarBadgePanel from './components/AvatarBadgePanel'
+// import AvatarPanel from './components/AvatarPanel'
+// import AvatarGroupPanel from './components/AvatarGroupPanel'
+// import AvatarBadgePanel from './components/AvatarBadgePanel'
 import CheckboxPanel from './components/CheckboxPanel'
 import IconButtonPanel from './components/IconButtonPanel'
-import ProgressPanel from './components/ProgressPanel'
+// import ProgressPanel from './components/ProgressPanel'
 import LinkPanel from './components/LinkPanel'
 import SpinnerPanel from './components/SpinnerPanel'
 import CloseButtonPanel from './components/CloseButtonPanel'
@@ -27,12 +26,12 @@ import AlertIconPanel from './components/AlertIconPanel'
 import AlertTitlePanel from './components/AlertTitlePanel'
 import AlertDescriptionPanel from './components/AlertDescriptionPanel'
 import FlexPanel from './styles/FlexPanel'
-import StackPanel from './components/StackPanel'
+// import StackPanel from './components/StackPanel'
 import FormControlPanel from './components/FormControlPanel'
-import TabsPanel from './components/TabsPanel'
+// import TabsPanel from './components/TabsPanel'
 import InputPanel from './components/InputPanel'
 import RadioPanel from './components/RadioPanel'
-import SelectPanel from './components/SelectPanel'
+// import SelectPanel from './components/SelectPanel'
 import ListPanel from './components/ListPanel'
 import ListItemPanel from './components/ListItemPanel'
 import ListIconPanel from './components/ListIconPanel'
@@ -51,7 +50,7 @@ import KbdPanel from './components/KbdPanel'
 import TabPanel from './components/TabPanel'
 import StatArrowPanel from './components/StatArrowPanel'
 import StatLabelPanel from './components/StatLabelPanel'
-import SkeletonPanel from './components/SkeletonPanel'
+// import SkeletonPanel from './components/SkeletonPanel'
 import RadioGroupPanel from "./components/RadioGroupPanel";
 import ChildrenControl from "../controls/ChildrenControl";
 
@@ -72,20 +71,20 @@ const Panels: React.FC<{ component: IComponent; isRoot: boolean }> = ({
       {type === 'Box' && <BoxPanel />}
       {type === 'Badge' && <BadgePanel />}
       {type === 'Image' && <ImagePanel />}
-      {type === 'Icon' && <IconPanel />}
+      {/*{type === 'Icon' && <IconPanel />}*/}
       {type === 'IconButton' && <IconButtonPanel />}
-      {type === 'Progress' && <ProgressPanel />}
+      {/*{type === 'Progress' && <ProgressPanel />}*/}
       {type === 'Text' && <ChildrenControl />}
       {type === 'Link' && <LinkPanel />}
-      {type === 'Avatar' && <AvatarPanel />}
-      {type === 'AvatarGroup' && <AvatarGroupPanel />}
-      {type === 'AvatarBadge' && <AvatarBadgePanel />}
+      {/*{type === 'Avatar' && <AvatarPanel />}*/}
+      {/*{type === 'AvatarGroup' && <AvatarGroupPanel />}*/}
+      {/*{type === 'AvatarBadge' && <AvatarBadgePanel />}*/}
       {type === 'Spinner' && <SpinnerPanel />}
       {type === 'Code' && <CodePanel />}
       {type === 'CloseButton' && <CloseButtonPanel />}
       {type === 'Divider' && <DividerPanel />}
       {type === 'Textarea' && <TextareaPanel />}
-      {type === 'CircularProgress' && <CircularProgressPanel />}
+      {/*{type === 'CircularProgress' && <CircularProgressPanel />}*/}
       {type === 'Heading' && <HeadingPanel />}
       {type === 'Highlight' && <HighlightPanel />}
       {type === 'SimpleGrid' && <SimpleGridPanel />}
@@ -96,17 +95,17 @@ const Panels: React.FC<{ component: IComponent; isRoot: boolean }> = ({
       {type === 'AlertDescription' && <AlertDescriptionPanel />}
       {type === 'Tag' && <TagPanel />}
       {type === 'Flex' && <FlexPanel />}
-      {type === 'Stack' && <StackPanel />}
+      {/*{type === 'Stack' && <StackPanel />}*/}
       {type === 'FormControl' && <FormControlPanel />}
-      {type === 'Tabs' && <TabsPanel />}
+      {/*{type === 'Tabs' && <TabsPanel />}*/}
       {type === 'Tab' && <TabPanel />}
       {type === 'Input' && <InputPanel />}
       {type === 'Radio' && <RadioPanel />}
       {type === 'RadioGroup' && <RadioGroupPanel />}
-      {type === 'Select' && <SelectPanel />}
-      {type === 'Skeleton' && <SkeletonPanel />}
-      {type === 'SkeletonCircle' && <SkeletonPanel isSkeletonCircle />}
-      {type === 'SkeletonText' && <SkeletonPanel isSkeletonText />}
+      {/*{type === 'Select' && <SelectPanel />}*/}
+      {/*{type === 'Skeleton' && <SkeletonPanel />}*/}
+      {/*{type === 'SkeletonCircle' && <SkeletonPanel isSkeletonCircle />}*/}
+      {/*{type === 'SkeletonText' && <SkeletonPanel isSkeletonText />}*/}
       {type === 'List' && <ListPanel />}
       {type === 'ListItem' && <ListItemPanel />}
       {type === 'ListIcon' && <ListIconPanel />}

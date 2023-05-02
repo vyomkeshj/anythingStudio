@@ -1,12 +1,11 @@
 import React, { memo } from 'react'
-import ColorsControl from '~components/inspector/controls/ColorsControl'
-import SizeControl from '~components/inspector/controls/SizeControl'
 import { Select } from '@chakra-ui/react'
-import ChildrenControl from '~components/inspector/controls/ChildrenControl'
-import FormControl from '~components/inspector/controls/FormControl'
-import { useForm } from '../useForm'
-import usePropsSelector from '../usePropsSelector'
-import IconControl from '~components/inspector/controls/IconControl'
+import { useForm } from "../../../../hooks/useForm";
+import usePropsSelector from "../../../../hooks/usePropsSelector";
+import ChildrenControl from "../../controls/ChildrenControl";
+import SizeControl from "../../controls/SizeControl";
+import FormControl from "../../controls/FormControl";
+import ColorsControl from "../../controls/ColorsControl";
 
 const ButtonPanel = () => {
   const { setValueFromEvent } = useForm()
@@ -37,8 +36,8 @@ const ButtonPanel = () => {
       </FormControl>
 
       <ColorsControl label="Color Scheme" name="colorScheme" />
-      <IconControl label="Left icon" name="leftIcon" />
-      <IconControl label="Right icon" name="rightIcon" />
+      {/*<IconControl label="Left icon" name="leftIcon" />*/}
+      {/*<IconControl label="Right icon" name="rightIcon" />*/}
     </>
   )
 }

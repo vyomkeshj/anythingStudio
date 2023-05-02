@@ -1,8 +1,8 @@
 import useDispatch from './useDispatch'
 import { useSelector } from 'react-redux'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
-import { getSelectedComponent } from '~core/selectors/components'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { getSelectedComponent } from "../core/selectors/components";
 
 const keyMap = {
   DELETE_NODE: 'Backspace, del',

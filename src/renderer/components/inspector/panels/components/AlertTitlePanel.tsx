@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
-import SizeControl from '~components/inspector/controls/SizeControl'
-import ChildrenControl from '~components/inspector/controls/ChildrenControl'
-import usePropsSelector from '../usePropsSelector'
+import usePropsSelector from "../../../../hooks/usePropsSelector";
+import ChildrenControl from "../../controls/ChildrenControl";
+import SizeControl from "../../controls/SizeControl";
 
 const AlertTitlePanel = () => {
   const fontSize = usePropsSelector('fontSize')

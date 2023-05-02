@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
 import { Input, Select } from '@chakra-ui/react'
-import FormControl from '~components/inspector/controls/FormControl'
-import { useForm } from '../useForm'
-import SizeControl, { Size } from '~components/inspector/controls/SizeControl'
-import usePropsSelector from '../usePropsSelector'
+import usePropsSelector from "../../../../hooks/usePropsSelector";
+import SizeControl, { Size } from "../../controls/SizeControl";
+import FormControl from "../../controls/FormControl";
+import { useForm } from "../../../../hooks/useForm";
 
 const options = ['sm', 'md', 'lg'] as Size[]
 

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import FormControl from './FormControl'
 import { Select } from '@chakra-ui/react'
-import { useForm } from '../useForm'
+import { useForm } from "../../../hooks/useForm";
 
 export type Size = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 type SizeControlPropsType = {

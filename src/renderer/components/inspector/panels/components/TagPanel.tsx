@@ -1,12 +1,12 @@
 import React from 'react'
 import { Select } from '@chakra-ui/react'
-import { useForm } from '../useForm'
-import SizeControl from '~components/inspector/controls/SizeControl'
-import ChildrenControl from '~components/inspector/controls/ChildrenControl'
-import ColorsControl from '~components/inspector/controls/ColorsControl'
-import FormControl from '~components/inspector/controls/FormControl'
-import usePropsSelector from '../usePropsSelector'
-import SwitchControl from '~components/inspector/controls/SwitchControl'
+import { useForm } from "../../../../hooks/useForm";
+import usePropsSelector from "../../../../hooks/usePropsSelector";
+import ChildrenControl from "../../controls/ChildrenControl";
+import SizeControl from "../../controls/SizeControl";
+import FormControl from "../../controls/FormControl";
+import ColorsControl from "../../controls/ColorsControl";
+import SwitchControl from "../../controls/SwitchControl";
 
 const TagPanel = () => {
   const { setValueFromEvent } = useForm()

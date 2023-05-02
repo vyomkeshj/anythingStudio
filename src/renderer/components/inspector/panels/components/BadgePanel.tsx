@@ -1,11 +1,10 @@
 import React, { memo } from 'react'
 import { Select } from '@chakra-ui/react'
+import usePropsSelector from "../../../../hooks/usePropsSelector";
+import { useForm } from "../../../../hooks/useForm";
+import FormControl from "../../controls/FormControl";
+import ColorsControl from "../../controls/ColorsControl";
 
-import ColorsControl from '~components/inspector/controls/ColorsControl'
-import ChildrenControl from '~components/inspector/controls/ChildrenControl'
-import FormControl from '~components/inspector/controls/FormControl'
-import { useForm } from '../useForm'
-import usePropsSelector from '../usePropsSelector'
 
 const BadgePanel = () => {
   const { setValueFromEvent } = useForm()

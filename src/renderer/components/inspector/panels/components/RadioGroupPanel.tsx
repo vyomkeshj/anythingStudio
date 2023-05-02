@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
-import usePropsSelector from '../usePropsSelector'
-import SwitchControl from '~components/inspector/controls/SwitchControl'
 import { Input } from '@chakra-ui/react'
-import { useForm } from '../useForm'
-import FormControl from '~components/inspector/controls/FormControl'
+import { useForm } from "../../../../hooks/useForm";
+import usePropsSelector from "../../../../hooks/usePropsSelector";
+import FormControl from "../../controls/FormControl";
+import SwitchControl from "../../controls/SwitchControl";
 
 const RadioGroupPanel = () => {
   const { setValueFromEvent } = useForm()
