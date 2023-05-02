@@ -1,20 +1,21 @@
-import { init } from '@rematch/core';
-import { combineReducers } from 'redux';
-import undoable from 'redux-undo';
-import { persistReducer, persistStore } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import models from './models';
-import filterUndoableActions from '../utils/undo';
+import { init } from '@rematch/core'
+import { combineReducers } from 'redux'
+import undoable from 'redux-undo'
+import { persistReducer, persistStore } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import { createWrapper, MakeStore } from 'next-redux-wrapper'
 
-import { ComponentsStateWithUndo } from './models/components';
-import { AppState } from './models/app';
+import { ComponentsStateWithUndo } from './models/components'
+import { AppState } from './models/app'
+import models from './models'
+import filterUndoableActions from '../utils/undo'
 
 export type RootState = {
-  app: AppState;
-  components: ComponentsStateWithUndo;
-};
+  app: AppState
+  components: ComponentsStateWithUndo
+}
 
-const version = parseInt(process.env.VERSION || '1', 10);
+const version = parseInt(process.env.NEXT_PUBLIC_VERSION || '1', 10)
 
 const persistConfig = {
   key: `openchakra_v${version}`,
@@ -22,18 +23,21 @@ const persistConfig = {
   whitelist: ['present'],
   version,
   throttle: 500,
-};
+}
 
 const persistPlugin = {
   onStoreCreated(store: any) {
-    persistStore(store);
+    if (process.browser) {
+      persistStore(store)
+    }
   },
-};
+}
 
 export const storeConfig = {
   models,
   redux: {
-    combineReducers: (reducers: any) => {
+    // @ts-ignore
+    combineReducers: reducers => {
       return combineReducers({
         ...reducers,
         components: persistReducer(
@@ -43,13 +47,14 @@ export const storeConfig = {
               filter: filterUndoableActions,
             }),
         ),
-      });
+      })
     },
   },
   plugins: [persistPlugin],
-};
+}
 
-export const makeStore = () => init(storeConfig);
+// @ts-ignore
+export const makeStore: MakeStore<RootState> = () => init(storeConfig)
 
-
+// @ts-ignore
 export const wrapper = createWrapper<RootState>(makeStore)

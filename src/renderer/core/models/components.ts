@@ -24,6 +24,7 @@ export const INITIAL_COMPONENTS: IComponents = {
   root: {
     id: DEFAULT_ID,
     parent: DEFAULT_ID,
+// @ts-ignore
     type: 'Box' as ComponentType,
     children: [],
     props: {},
@@ -158,6 +159,7 @@ const components = createModel({
     ): ComponentsState {
       return produce(state, (draftState: ComponentsState) => {
         const id = payload.testId || generateId()
+        // @ts-ignore
         const { form, ...defaultProps } = DEFAULT_PROPS[payload.type] || {}
         draftState.selectedId = id
         draftState.components[payload.parentName].children.push(id)
@@ -165,8 +167,10 @@ const components = createModel({
           id,
           props: defaultProps || {},
           children: [],
+          // @ts-ignore
           type: payload.type,
           parent: payload.parentName,
+          // @ts-ignore
           rootParentType: payload.rootParentType || payload.type,
         }
       })

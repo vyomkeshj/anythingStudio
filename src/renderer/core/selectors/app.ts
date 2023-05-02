@@ -1,4 +1,4 @@
-import { RootState } from '~core/store'
+import { RootState } from '../store'
 
 export const getShowLayout = (state: RootState) => state.app.showLayout
 
