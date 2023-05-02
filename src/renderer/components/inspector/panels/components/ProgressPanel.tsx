@@ -7,9 +7,9 @@ import {
 } from '@chakra-ui/react'
 import ColorsControl from '~components/inspector/controls/ColorsControl'
 import FormControl from '~components/inspector/controls/FormControl'
-import { useForm } from '~hooks/useForm'
+import { useForm } from '../useForm'
 import SizeControl from '~components/inspector/controls/SizeControl'
-import usePropsSelector from '~hooks/usePropsSelector'
+import usePropsSelector from '../usePropsSelector'
 import SwitchControl from '~components/inspector/controls/SwitchControl'
 
 const ProgressPanel = () => {

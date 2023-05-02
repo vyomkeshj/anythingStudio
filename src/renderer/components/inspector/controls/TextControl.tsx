@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react'
 import { Input } from '@chakra-ui/react'
 import FormControl from './FormControl'
-import { useForm } from '~hooks/useForm'
-import usePropsSelector from '~hooks/usePropsSelector'
+import { useForm } from "../../../hooks/useForm";
+import usePropsSelector from "../../../hooks/usePropsSelector";
 
 type TextControlPropsType = {
   name: string

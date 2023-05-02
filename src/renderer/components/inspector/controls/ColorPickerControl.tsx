@@ -18,9 +18,9 @@ import {
 } from '@chakra-ui/react'
 import ColorPicker from 'coloreact'
 import HuesPickerControl from './HuesPickerControl'
-import { useForm } from '~hooks/useForm'
 import omit from 'lodash/omit'
-import usePropsSelector from '~hooks/usePropsSelector'
+import usePropsSelector from "../../../hooks/usePropsSelector";
+import { useForm } from "../../../hooks/useForm";
 
 type ColorPickerPropType = {
   withFullColor?: boolean

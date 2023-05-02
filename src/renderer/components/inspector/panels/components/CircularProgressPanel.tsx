@@ -6,9 +6,9 @@ import {
   SliderThumb,
 } from '@chakra-ui/react'
 import FormControl from '~components/inspector/controls/FormControl'
-import { useForm } from '~hooks/useForm'
+import { useForm } from '../useForm'
 import ColorsControl from '~components/inspector/controls/ColorsControl'
-import usePropsSelector from '~hooks/usePropsSelector'
+import usePropsSelector from '../usePropsSelector'
 import SwitchControl from '~components/inspector/controls/SwitchControl'
 import TextControl from '~components/inspector/controls/TextControl'
 

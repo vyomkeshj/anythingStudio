@@ -3,7 +3,7 @@ import ColorPickerControl from '~components/inspector/controls/ColorPickerContro
 import ColorsControl from '~components/inspector/controls/ColorsControl'
 import SwitchControl from '~components/inspector/controls/SwitchControl'
 import TextControl from '~components/inspector/controls/TextControl'
-import usePropsSelector from '~hooks/usePropsSelector'
+import usePropsSelector from '../usePropsSelector'
 
 interface SkeletonPanelProps {
   isSkeletonText?: boolean

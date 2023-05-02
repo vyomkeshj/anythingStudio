@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 import FormControl from '~components/inspector/controls/FormControl'
 import { Select } from '@chakra-ui/react'
-import { useForm } from '~hooks/useForm'
-import usePropsSelector from '~hooks/usePropsSelector'
+import { useForm } from '../useForm'
+import usePropsSelector from '../usePropsSelector'
 
 const CodePanel = () => {
   const { setValueFromEvent } = useForm()

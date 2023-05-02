@@ -1,5 +1,4 @@
 import React, { memo } from 'react'
-import dynamic from 'next/dynamic'
 import {
   Box,
   Button,
@@ -42,8 +41,6 @@ const CustomMenuButton: React.FC<
 
 CustomMenuButton.displayName = 'CustomMenuButton'
 
-const ExportMenuItem = dynamic(() => import('./ExportMenuItem'), { ssr: false })
-const ImportMenuItem = dynamic(() => import('./ImportMenuItem'), { ssr: false })
 
 const HeaderMenu = () => {
   return (
@@ -59,8 +56,8 @@ const HeaderMenu = () => {
       <Portal>
         <LightMode>
           <MenuList bg="white" zIndex={999}>
-            <ExportMenuItem />
-            <ImportMenuItem />
+            {/*<ExportMenuItem />*/}
+            {/*<ImportMenuItem />*/}
 
             <MenuDivider />
 

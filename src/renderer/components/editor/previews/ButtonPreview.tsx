@@ -1,8 +1,8 @@
 import React from 'react'
-import { useDropComponent } from '~hooks/useDropComponent'
-import { useInteractive } from '~hooks/useInteractive'
 import { Button } from '@chakra-ui/react'
-import icons from '~iconsList'
+import { useDropComponent } from "../../../hooks/useDropComponent";
+import { useInteractive } from "../../../hooks/useInteractive";
+// import { icons } from "react-icons";
 
 interface Props {
   component: IComponent
@@ -16,23 +16,23 @@ const ButtonPreview = ({ component }: Props) => {
     props.bg = 'teal.50'
   }
 
-  if (props.leftIcon) {
-    if (Object.keys(icons).includes(props.leftIcon)) {
-      const Icon = icons[props.leftIcon as keyof typeof icons]
-      props.leftIcon = <Icon path="" />
-    } else {
-      props.leftIcon = undefined
-    }
-  }
+  // if (props.leftIcon) {
+  //   if (Object.keys(icons).includes(props.leftIcon)) {
+  //     const Icon = icons[props.leftIcon as keyof typeof icons]
+  //     // props.leftIcon = <Icon path="" />
+  //   } else {
+  //     props.leftIcon = undefined
+  //   }
+  // }
 
-  if (props.rightIcon) {
-    if (Object.keys(icons).includes(props.rightIcon)) {
-      const Icon = icons[props.rightIcon as keyof typeof icons]
-      props.rightIcon = <Icon path="" />
-    } else {
-      props.rightIcon = undefined
-    }
-  }
+  // if (props.rightIcon) {
+  //   if (Object.keys(icons).includes(props.rightIcon)) {
+  //     const Icon = icons[props.rightIcon as keyof typeof icons]
+  //     props.rightIcon = <Icon path="" />
+  //   } else {
+  //     props.rightIcon = undefined
+  //   }
+  // }
 
   return <Button ref={ref} {...props} />
 }

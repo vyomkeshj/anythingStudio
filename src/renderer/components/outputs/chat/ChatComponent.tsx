@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useState } from "react";
 import Divider from "./components/Divider";
 import Footer from "./components/Footer";
 import Header from "./components/Header";

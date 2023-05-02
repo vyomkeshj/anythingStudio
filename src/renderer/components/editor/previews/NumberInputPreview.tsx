@@ -1,5 +1,4 @@
 import React from 'react'
-import { useInteractive } from '~hooks/useInteractive'
 import {
   NumberInput,
   NumberInputField,
@@ -7,6 +6,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
 } from '@chakra-ui/react'
+import { useInteractive } from "../../../hooks/useInteractive";
 
 interface IProps {
   component: IComponent

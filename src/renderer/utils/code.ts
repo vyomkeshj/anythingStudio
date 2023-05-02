@@ -1,6 +1,5 @@
 import isBoolean from 'lodash/isBoolean'
 import filter from 'lodash/filter'
-import icons from '~iconsList'
 
 const capitalize = (value: string) => {
   return value.charAt(0).toUpperCase() + value.slice(1)
@@ -9,17 +8,17 @@ const capitalize = (value: string) => {
 export const formatCode = async (code: string) => {
   let formattedCode = `// 🚨 Your props contains invalid code`
 
-  const prettier = await import('prettier/standalone')
-  const babylonParser = await import('prettier/parser-babylon')
+  // const prettier = await import('prettier/standalone')
+  // const babylonParser = await import('prettier/parser-babylon')
 
-  try {
-    formattedCode = prettier.format(code, {
-      parser: 'babel',
-      plugins: [babylonParser],
-      semi: false,
-      singleQuote: true,
-    })
-  } catch (e) {}
+  // try {
+  //   formattedCode = prettier.format(code, {
+  //     parser: 'babel',
+  //     plugins: [babylonParser],
+  //     semi: false,
+  //     singleQuote: true,
+  //   })
+  // } catch (e) {}
 
   return formattedCode
 }
@@ -36,30 +35,30 @@ const buildStyledProps = (propsNames: string[], childComponent: IComponent) => {
   propsNames.forEach((propName: string) => {
     const propsValue = childComponent.props[propName]
 
-    if (
-      propName.toLowerCase().includes('icon') &&
-      childComponent.type !== 'Icon'
-    ) {
-      if (Object.keys(icons).includes(propsValue)) {
-        let operand = `={<${propsValue} />}`
-
-        propsContent += `${propName}${operand} `
-      }
-    } else if (propName !== 'children' && propsValue) {
-      let operand = `='${propsValue}'`
-
-      if (propsValue === true || propsValue === 'true') {
-        operand = ``
-      } else if (
-        propsValue === 'false' ||
-        isBoolean(propsValue) ||
-        !isNaN(propsValue)
-      ) {
-        operand = `={${propsValue}}`
-      }
-
-      propsContent += `${propName}${operand} `
-    }
+    // if (
+    //   propName.toLowerCase().includes('icon') &&
+    //   childComponent.type !== 'Icon'
+    // ) {
+    //   if (Object.keys(icons).includes(propsValue)) {
+    //     let operand = `={<${propsValue} />}`
+    //
+    //     propsContent += `${propName}${operand} `
+    //   }
+    // } else if (propName !== 'children' && propsValue) {
+    //   let operand = `='${propsValue}'`
+    //
+    //   if (propsValue === true || propsValue === 'true') {
+    //     operand = ``
+    //   } else if (
+    //     propsValue === 'false' ||
+    //     isBoolean(propsValue) ||
+    //     !isNaN(propsValue)
+    //   ) {
+    //     operand = `={${propsValue}}`
+    //   }
+    //
+    //   propsContent += `${propName}${operand} `
+    // }
   })
 
   return propsContent

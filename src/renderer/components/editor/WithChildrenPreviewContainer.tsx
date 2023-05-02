@@ -1,8 +1,8 @@
 import React, { FunctionComponent, ComponentClass } from 'react'
-import { useInteractive } from '~hooks/useInteractive'
-import { useDropComponent } from '~hooks/useDropComponent'
-import ComponentPreview from '~components/editor/ComponentPreview'
 import { Box } from '@chakra-ui/react'
+import { useDropComponent } from "../../hooks/useDropComponent";
+import { useInteractive } from "../../hooks/useInteractive";
+import ComponentPreview from "./ComponentPreview";
 
 const WithChildrenPreviewContainer: React.FC<{
   component: IComponent

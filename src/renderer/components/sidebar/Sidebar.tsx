@@ -10,7 +10,6 @@ import {
 } from '@chakra-ui/react'
 import { CloseIcon, SearchIcon } from '@chakra-ui/icons'
 import DragItem from './DragItem'
-import { menuItems, MenuItem } from '~componentsList'
 
 const Menu = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -59,57 +58,7 @@ const Menu = () => {
               )}
             </InputRightElement>
           </InputGroup>
-        </Box>
-        <Box p={5} pt={0}>
-          {(Object.keys(menuItems) as ComponentType[])
-            .filter(c => c.toLowerCase().includes(searchTerm.toLowerCase()))
-            .map(name => {
-              const { children, soon } = menuItems[name] as MenuItem
-
-              if (children) {
-                const elements = Object.keys(children).map(childName => (
-                  <DragItem
-                    isChild
-                    key={childName}
-                    label={childName}
-                    type={childName as any}
-                    id={childName as any}
-                    rootParentType={menuItems[name]?.rootParentType || name}
-                  >
-                    {childName}
-                  </DragItem>
-                ))
-
-                return [
-                  <DragItem
-                    isMeta
-                    soon={soon}
-                    key={`${name}Meta`}
-                    label={name}
-                    type={`${name}Meta` as any}
-                    id={`${name}Meta` as any}
-                    rootParentType={menuItems[name]?.rootParentType || name}
-                  >
-                    {name}
-                  </DragItem>,
-                  ...elements,
-                ]
-              }
-
-              return (
-                <DragItem
-                  soon={soon}
-                  key={name}
-                  label={name}
-                  type={name as any}
-                  id={name as any}
-                  rootParentType={menuItems[name]?.rootParentType || name}
-                >
-                  {name}
-                </DragItem>
-              )
-            })}
-        </Box>
+        </Box>s
       </Box>
     </DarkMode>
   )

@@ -1,8 +1,8 @@
 import React from 'react'
-import { useInteractive } from '~hooks/useInteractive'
-import { useDropComponent } from '~hooks/useDropComponent'
-import ComponentPreview from '~components/editor/ComponentPreview'
 import { Alert, Box } from '@chakra-ui/react'
+import { useDropComponent } from "../../../hooks/useDropComponent";
+import { useInteractive } from "../../../hooks/useInteractive";
+import ComponentPreview from "../ComponentPreview";
 
 const AlertPreview: React.FC<IPreviewProps> = ({ component }) => {
   const acceptedTypes = [

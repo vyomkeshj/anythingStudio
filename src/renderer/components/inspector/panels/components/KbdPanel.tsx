@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import ChildrenControl from '~components/inspector/controls/ChildrenControl'
+import ChildrenControl from '../../controls/ChildrenControl'
 
 const KdbPanel = () => (
   <>

@@ -1,6 +1,6 @@
 import React from 'react'
-import SwitchControl from '~components/inspector/controls/SwitchControl'
-import TextControl from '~components/inspector/controls/TextControl'
+import SwitchControl from "../../controls/SwitchControl";
+import TextControl from "../../controls/TextControl";
 
 const TabPanel = () => {
   return (

@@ -25,14 +25,14 @@ import { ExternalLinkIcon, SmallCloseIcon, CheckIcon } from '@chakra-ui/icons'
 import { DiGithubBadge } from 'react-icons/di'
 import { AiFillThunderbolt } from 'react-icons/ai'
 import { SiTypescript } from 'react-icons/si'
-import { buildParameters } from '~utils/codesandbox'
-import { generateCode } from '~utils/code'
-import useDispatch from '~hooks/useDispatch'
-import { useSelector } from 'react-redux'
-import { getComponents } from '~core/selectors/components'
-import { getShowLayout, getShowCode } from '~core/selectors/app'
-import HeaderMenu from '~components/headerMenu/HeaderMenu'
 import { FaReact } from 'react-icons/fa'
+import { generateCode } from "../utils/code";
+import { getComponents } from "../core/selectors/components";
+import { getShowCode, getShowLayout } from "../core/selectors/app";
+import { buildParameters } from "../utils/codesandbox";
+import HeaderMenu from "./headerMenu/HeaderMenu";
+import { useSelector } from "react-redux";
+import useDispatch from "../hooks/useDispatch";
 
 const CodeSandboxButton = () => {
   const components = useSelector(getComponents)

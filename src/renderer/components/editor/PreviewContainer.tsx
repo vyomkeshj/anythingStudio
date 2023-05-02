@@ -1,6 +1,6 @@
 import React, { FunctionComponent, ComponentClass } from 'react'
-import { useInteractive } from '~hooks/useInteractive'
 import { Box } from '@chakra-ui/react'
+import { useInteractive } from "../../hooks/useInteractive";
 
 const PreviewContainer: React.FC<{
   component: IComponent

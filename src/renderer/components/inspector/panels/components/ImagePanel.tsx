@@ -1,8 +1,8 @@
 import React from 'react'
 import { Input } from '@chakra-ui/react'
 import FormControl from '~components/inspector/controls/FormControl'
-import { useForm } from '~hooks/useForm'
-import usePropsSelector from '~hooks/usePropsSelector'
+import { useForm } from '../useForm'
+import usePropsSelector from '../usePropsSelector'
 
 const ImagePanel = () => {
   const { setValueFromEvent } = useForm()

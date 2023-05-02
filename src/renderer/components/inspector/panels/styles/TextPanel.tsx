@@ -1,6 +1,5 @@
 import React, { memo } from 'react'
-import { IconButton, ButtonGroup, useTheme } from '@chakra-ui/react'
-import ColorsControl from '~components/inspector/controls/ColorsControl'
+import { IconButton, ButtonGroup, useTheme, FormControl } from "@chakra-ui/react";
 import { GoBold, GoItalic } from 'react-icons/go'
 import {
   MdFormatAlignLeft,
@@ -8,11 +7,11 @@ import {
   MdFormatAlignCenter,
   MdFormatAlignJustify,
 } from 'react-icons/md'
-import FormControl from '~components/inspector/controls/FormControl'
 import { ComboboxOption } from '@reach/combobox'
-import InputSuggestion from '~components/inspector/inputs/InputSuggestion'
-import { useForm } from '~hooks/useForm'
-import usePropsSelector from '~hooks/usePropsSelector'
+import { useForm } from "../../../../hooks/useForm";
+import usePropsSelector from "../../../../hooks/usePropsSelector";
+import InputSuggestion from "../../inputs/InputSuggestion";
+import ColorsControl from "../../controls/ColorsControl";
 
 const TextPanel = () => {
   const { setValue, setValueFromEvent } = useForm()
@@ -99,7 +98,7 @@ const TextPanel = () => {
         </ButtonGroup>
       </FormControl>
 
-      <FormControl label="Font size" htmlFor="fontSize">
+      <FormControl label="Font size">
         <InputSuggestion
           value={fontSize}
           handleChange={setValueFromEvent}
@@ -113,7 +112,7 @@ const TextPanel = () => {
 
       <ColorsControl withFullColor enableHues name="color" label="Color" />
 
-      <FormControl label="Line height" htmlFor="lineHeight">
+      <FormControl label="Line height">
         <InputSuggestion
           value={lineHeight}
           handleChange={setValueFromEvent}
@@ -125,7 +124,7 @@ const TextPanel = () => {
         </InputSuggestion>
       </FormControl>
 
-      <FormControl label="Letter spacing" htmlFor="letterSpacing">
+      <FormControl label="Letter spacing">
         <InputSuggestion
           value={letterSpacing}
           handleChange={setValueFromEvent}

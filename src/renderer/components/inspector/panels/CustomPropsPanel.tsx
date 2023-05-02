@@ -1,6 +1,4 @@
 import React, { memo, useState, FormEvent, ChangeEvent, useRef } from 'react'
-import { useInspectorState } from '~contexts/inspector-context'
-import { getSelectedComponent } from '~core/selectors/components'
 import { useSelector } from 'react-redux'
 import { IoIosFlash } from 'react-icons/io'
 import {
@@ -14,8 +12,10 @@ import {
   ButtonGroup,
 } from '@chakra-ui/react'
 import { EditIcon, SmallCloseIcon } from '@chakra-ui/icons'
-import useDispatch from '~hooks/useDispatch'
-import { useForm } from '~hooks/useForm'
+import useDispatch from "../../../hooks/useDispatch";
+import { useForm } from "../../../hooks/useForm";
+import { useInspectorState } from "../../../contexts/inspector-context";
+import { getSelectedComponent } from "../../../core/selectors/components";
 
 const SEPARATOR = '='
 

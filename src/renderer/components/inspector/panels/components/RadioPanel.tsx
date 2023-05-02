@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import usePropsSelector from '~hooks/usePropsSelector'
+import usePropsSelector from '../usePropsSelector'
 import SizeControl from '~components/inspector/controls/SizeControl'
 import ColorsControl from '~components/inspector/controls/ColorsControl'
 import SwitchControl from '~components/inspector/controls/SwitchControl'

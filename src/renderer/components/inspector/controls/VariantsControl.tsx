@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Select } from '@chakra-ui/react'
 import FormControl from './FormControl'
-import { useForm } from '~hooks/useForm'
+import { useForm } from "../../../hooks/useForm";
 
 type VariantsControlPropsType = {
   name: string

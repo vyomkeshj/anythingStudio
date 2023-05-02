@@ -19,37 +19,23 @@ export const Header = memo(() => {
                 columns={3}
                 h="100%"
                 p={2}
-                spacing={1}
+                spacing={3}
             >
                 <AppInfo />
                 <ExecutionButtons />
-
-                {/*<Box*/}
-                {/*    alignContent="right"*/}
-                {/*    alignItems="right"*/}
-                {/*    w="full"*/}
-                {/*>*/}
-                {/*    <HStack*/}
-                {/*        ml="auto"*/}
-                {/*        mr={0}*/}
-                {/*        width="fit-content"*/}
-                {/*    >*/}
-                {/*        /!*<ExecutionButtons />*!/*/}
-                {/*    </HStack>*/}
-                {/*</Box>*/}
                 <Tabs align='end'>
                     <TabList>
-                        <Tab>One</Tab>
-                        <Tab>Two</Tab>
+                        <Tab>Machine</Tab>
+                        <Tab>Interface</Tab>
                     </TabList>
-                    <TabPanels>
-                        <TabPanel>
-                            <p>one!</p>
-                        </TabPanel>
-                        <TabPanel>
-                            <p>two!</p>
-                        </TabPanel>
-                    </TabPanels>
+                    {/*<TabPanels>*/}
+                    {/*    <TabPanel>*/}
+                    {/*        <p>one!</p>*/}
+                    {/*    </TabPanel>*/}
+                    {/*    <TabPanel>*/}
+                    {/*        <p>two!</p>*/}
+                    {/*    </TabPanel>*/}
+                    {/*</TabPanels>*/}
                 </Tabs>
             </SimpleGrid>
         </Box>

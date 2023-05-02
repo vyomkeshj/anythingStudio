@@ -1,5 +1,4 @@
 import React, { memo } from 'react'
-import TextControl from '~components/inspector/controls/TextControl'
 
 const GridPanel = () => {
   return (

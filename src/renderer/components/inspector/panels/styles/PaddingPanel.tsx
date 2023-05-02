@@ -14,8 +14,8 @@ import {
   ArrowUpIcon,
   ChevronDownIcon,
 } from '@chakra-ui/icons'
-import { useForm } from '~hooks/useForm'
-import usePropsSelector from '~hooks/usePropsSelector'
+import { useForm } from "../../../../hooks/useForm";
+import usePropsSelector from "../../../../hooks/usePropsSelector";
 
 type PaddingPanelPropsType = {
   type: 'margin' | 'padding'

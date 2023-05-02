@@ -1,16 +1,12 @@
 import React from 'react'
-import { useInteractive } from '~hooks/useInteractive'
-import { useDropComponent } from '~hooks/useDropComponent'
 import {
-  Box,
   Stat,
-  StatArrow,
   StatGroup,
   StatHelpText,
-  StatLabel,
-  StatNumber,
 } from '@chakra-ui/react'
-import ComponentPreview from '~components/editor/ComponentPreview'
+import { useInteractive } from "../../../hooks/useInteractive";
+import { useDropComponent } from "../../../hooks/useDropComponent";
+import ComponentPreview from "../ComponentPreview";
 
 const acceptedTypesStat: ComponentType[] = [
   'StatLabel',

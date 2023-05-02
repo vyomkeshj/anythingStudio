@@ -20,24 +20,23 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { CopyIcon, CheckIcon, EditIcon } from '@chakra-ui/icons'
-import Panels from '~components/inspector/panels/Panels'
 import { GoRepo, GoCode } from 'react-icons/go'
 import { FiTrash2 } from 'react-icons/fi'
 import { IoMdRefresh } from 'react-icons/io'
 import { useSelector } from 'react-redux'
-import useDispatch from '~hooks/useDispatch'
-import StylesPanel from '~components/inspector/panels/StylesPanel'
-import {
-  getSelectedComponent,
-  getComponents,
-  getSelectedComponentId,
-  getComponentNames,
-} from '~core/selectors/components'
 import ActionButton from './ActionButton'
-import { generateComponentCode, formatCode } from '~utils/code'
-import useClipboard from '~hooks/useClipboard'
-import { useInspectorUpdate } from '~contexts/inspector-context'
-import { componentsList } from '~componentsList'
+import {
+  getComponentNames,
+  getComponents,
+  getSelectedComponent,
+  getSelectedComponentId
+} from "../../core/selectors/components";
+import { formatCode, generateComponentCode } from "../../utils/code";
+import useDispatch from "../../hooks/useDispatch";
+import { useInspectorUpdate } from "../../contexts/inspector-context";
+import Panels from "./panels/Panels";
+import StylesPanel from "./panels/StylesPanel";
+import useClipboard from "../../hooks/useClipboard";
 
 const CodeActionButton = memo(() => {
   const [isLoading, setIsLoading] = useState(false)

@@ -4,8 +4,8 @@ import InputSuggestion from '~components/inspector/inputs/InputSuggestion'
 import theme from '@chakra-ui/theme'
 import { ComboboxOption } from '@reach/combobox'
 import FormControl from '~components/inspector/controls/FormControl'
-import { useForm } from '~hooks/useForm'
-import usePropsSelector from '~hooks/usePropsSelector'
+import { useForm } from '../useForm'
+import usePropsSelector from '../usePropsSelector'
 import IconControl from '~components/inspector/controls/IconControl'
 
 const IconPanel = () => {

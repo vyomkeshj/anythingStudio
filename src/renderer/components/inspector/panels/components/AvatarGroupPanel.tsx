@@ -12,8 +12,8 @@ import {
   Select,
   Slider,
 } from '@chakra-ui/react'
-import { useForm } from '~hooks/useForm'
-import usePropsSelector from '~hooks/usePropsSelector'
+import { useForm } from '../useForm'
+import usePropsSelector from '../usePropsSelector'
 
 const AvatarGroupPanel = () => {
   const { setValue, setValueFromEvent } = useForm()

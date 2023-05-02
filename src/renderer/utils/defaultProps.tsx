@@ -69,7 +69,6 @@ import {
   SkeletonProps,
 } from '@chakra-ui/react'
 
-import iconsList from '~iconsList'
 
 type PropsWithForm<T> = T & { form?: T }
 

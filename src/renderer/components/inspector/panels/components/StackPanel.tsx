@@ -3,8 +3,8 @@ import SwitchControl from '~components/inspector/controls/SwitchControl'
 import TextControl from '~components/inspector/controls/TextControl'
 import FormControl from '~components/inspector/controls/FormControl'
 import { Select } from '@chakra-ui/react'
-import usePropsSelector from '~hooks/usePropsSelector'
-import { useForm } from '~hooks/useForm'
+import usePropsSelector from '../usePropsSelector'
+import { useForm } from '../useForm'
 
 const StackPanel = () => {
   const { setValueFromEvent } = useForm()

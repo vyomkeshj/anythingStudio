@@ -1,9 +1,9 @@
 import React from 'react'
 import { Select } from '@chakra-ui/react'
-import ColorsControl from '~components/inspector/controls/ColorsControl'
-import FormControl from '~components/inspector/controls/FormControl'
-import { useForm } from '~hooks/useForm'
-import usePropsSelector from '~hooks/usePropsSelector'
+import { useForm } from "../../../../hooks/useForm";
+import usePropsSelector from "../../../../hooks/usePropsSelector";
+import FormControl from "../../controls/FormControl";
+import ColorsControl from "../../controls/ColorsControl";
 
 const CloseButtonPanel = () => {
   const { setValueFromEvent } = useForm()

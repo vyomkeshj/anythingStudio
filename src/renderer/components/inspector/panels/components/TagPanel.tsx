@@ -1,11 +1,11 @@
 import React from 'react'
 import { Select } from '@chakra-ui/react'
-import { useForm } from '~hooks/useForm'
+import { useForm } from '../useForm'
 import SizeControl from '~components/inspector/controls/SizeControl'
 import ChildrenControl from '~components/inspector/controls/ChildrenControl'
 import ColorsControl from '~components/inspector/controls/ColorsControl'
 import FormControl from '~components/inspector/controls/FormControl'
-import usePropsSelector from '~hooks/usePropsSelector'
+import usePropsSelector from '../usePropsSelector'
 import SwitchControl from '~components/inspector/controls/SwitchControl'
 
 const TagPanel = () => {

@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
-import SwitchControl from '~components/inspector/controls/SwitchControl'
-import TextControl from '~components/inspector/controls/TextControl'
-import ChildrenControl from '~components/inspector/controls/ChildrenControl'
+import ChildrenControl from '../../controls/ChildrenControl'
+import TextControl from '../../controls/TextControl'
+import SwitchControl from '../../controls/SwitchControl'
 
 const LinkPanel = () => {
   return (

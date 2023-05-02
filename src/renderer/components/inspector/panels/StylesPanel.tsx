@@ -1,17 +1,17 @@
 import React, { memo } from 'react'
 import { Accordion } from '@chakra-ui/react'
-import PaddingPanel from '~components/inspector/panels/styles/PaddingPanel'
-import DimensionPanel from '~components/inspector/panels/styles/DimensionPanel'
-import BorderPanel from '~components/inspector/panels/styles/BorderPanel'
-import DisplayPanel from '~components/inspector/panels/styles/DisplayPanel'
-import TextPanel from '~components/inspector/panels/styles/TextPanel'
-import AccordionContainer from '~components/inspector/AccordionContainer'
-import ColorsControl from '~components/inspector/controls/ColorsControl'
-import GradientControl from '~components/inspector/controls/GradientControl'
 import EffectsPanel from './styles/EffectsPanel'
-import ChildrenInspector from '~components/inspector/ChildrenInspector'
-import ParentInspector from '~components/inspector/ParentInspector'
 import CustomPropsPanel from './CustomPropsPanel'
+import PaddingPanel from "./styles/PaddingPanel";
+import ParentInspector from "../ParentInspector";
+import ChildrenInspector from "../ChildrenInspector";
+import AccordionContainer from "../AccordionContainer";
+import DisplayPanel from "./styles/DisplayPanel";
+import DimensionPanel from "./styles/DimensionPanel";
+import TextPanel from "./styles/TextPanel";
+import ColorsControl from "../controls/ColorsControl";
+import GradientControl from "../controls/GradientControl";
+import BorderPanel from "./styles/BorderPanel";
 
 interface Props {
   isRoot: boolean
