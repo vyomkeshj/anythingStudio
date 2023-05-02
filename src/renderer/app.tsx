@@ -2,6 +2,7 @@ import { Box, Center, ChakraProvider, ColorModeScript, Spinner } from '@chakra-u
 import { LocalStorage } from 'node-localstorage';
 import { memo, useState } from 'react';
 import { ipcRenderer } from '../common/safeIpc';
+import { wrapper } from './core/store'
 import { AlertBoxProvider } from './contexts/AlertBoxContext';
 import { ContextMenuProvider } from './contexts/ContextMenuContext';
 import { HotkeysProvider } from './contexts/HotKeyContext';
@@ -26,7 +27,7 @@ const LoadingComponent = memo(() => (
 
 const MainComponent = memo(({ port }: { port: number }) => <Main port={port} />);
 
-export const App = memo(() => {
+export const App = memo(wrapper.withRedux(() => {
     const [port, setPort] = useState<number | null>(null);
     const [storageInitialized, setStorageInitialized] = useState(false);
 
@@ -61,4 +62,4 @@ export const App = memo(() => {
             </HotkeysProvider>
         </ChakraProvider>
     );
-});
+}));
