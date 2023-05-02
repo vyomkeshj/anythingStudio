@@ -5,7 +5,7 @@ from ...node_factory import NodeFactory
 from ...io.inputs import TextInput
 from ...io.outputs import MarkdownOutput
 
-from ..text import category as TextCategory
+from ...nodes.database import category as DatabaseCategory
 
 
 @NodeFactory.register("machines:text:markdown")
@@ -14,7 +14,7 @@ class MarkdownRendererNode(NodeBase):
         super().__init__()
         self.description = "Outputs the given text."
         self.inputs = [
-            TextInput("Text", min_length=0),
+            TextInput("Markdown Response ->", min_length=0),
         ]
         self.outputs = [
             MarkdownOutput(),
@@ -22,11 +22,9 @@ class MarkdownRendererNode(NodeBase):
 
         self.resizable = True
         self.side_effects: bool = True
-        self.category = TextCategory
-        self.name = "Markdown"
-        self.icon = "MdTextFields"
-        self.sub = "Value"
-
+        self.category = DatabaseCategory
+        self.sub = "Viewers"
+        self.name = "Markdown Viewer"
 
     def run(self, text: str) -> str:
         return text

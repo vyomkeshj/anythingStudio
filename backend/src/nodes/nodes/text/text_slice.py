@@ -80,7 +80,6 @@ class TextSliceNode(NodeBase):
 
         self.category = TextCategory
         self.name = "Text Slice"
-        self.icon = "MdTextFields"
         self.sub = "Text"
 
     def run(

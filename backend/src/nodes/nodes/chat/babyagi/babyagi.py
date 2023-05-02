@@ -116,6 +116,7 @@ class BabyAGI(Chain, BaseModel):
                 print(
                     "\033[91m\033[1m" + "\n*****TASK ENDING*****\n" + "\033[0m\033[0m"
                 )
+                self.task_list = deque()
                 self.last_result = result if result else "No result"
                 break
         return {}

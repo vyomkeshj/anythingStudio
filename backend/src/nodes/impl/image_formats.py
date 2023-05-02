@@ -68,6 +68,7 @@ def get_pil_formats():
         ".pnm",
         # TGA
         ".tga",
+
     ]
 
 

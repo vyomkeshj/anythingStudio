@@ -28,7 +28,7 @@ class ChartQComponent(NodeBase):
         self.category = BuilderCategory
         self.sub = "jupyter"
         self.name = "Jupyter"
-        self.icon = "BsFillDatabaseFill"
+
 
         self.chart_type_name = 'line'
 

@@ -102,7 +102,6 @@ class RoundNode(NodeBase):
 
         self.category = UtilityCategory
         self.name = "Round"
-        self.icon = "MdCalculate"
         self.sub = "Math"
 
     def run(

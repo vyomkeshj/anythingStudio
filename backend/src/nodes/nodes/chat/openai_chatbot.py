@@ -36,12 +36,12 @@ class OAIChatbot(NodeBase):
                     "#ff0000",
                 ]),
         ]
-        self.outputs = [SignalOutput(label="history in <-"), SignalOutput(label="next msg out ->")]
+        self.outputs = [SignalOutput(label="[R] history in <-"), SignalOutput(label="[R] next msg out ->")]
 
         self.category = ChatCategory
-        self.sub = "Chatbots"
+        self.sub = "ChatGPT"
         self.name = "OpenAI Chatbot"
-        self.icon = "BsFillDatabaseFill"
+
 
         self.history_input: AsyncSubject = AsyncSubject()     # type: ignore
         self.nxt_msg_op: AsyncSubject = AsyncSubject()    # type: ignore

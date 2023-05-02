@@ -1,8 +1,8 @@
 from ...category import Category
 
 category = Category(
-    name="Langchain Support",
-    description="Build tools with langchain.",
+    name="Chroma Vec DB",
+    description="Chroma Vector Db.",
     icon="BsFillImageFill",
     color="#C53030",
 )

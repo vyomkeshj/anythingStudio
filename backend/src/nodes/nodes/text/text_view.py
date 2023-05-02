@@ -23,7 +23,6 @@ class TextValueNode(NodeBase):
         self.side_effects: bool = True
         self.category = TextCategory
         self.name = "ErrorPopup"
-        self.icon = "MdTextFields"
         self.sub = "Value"
 
     def run(self, text: str) -> None:

@@ -4,9 +4,9 @@ import openai
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...io.inputs import TextAreaInput, TextInput, EnumInput, SliderInput
+from ...io.inputs import  TextInput, SliderInput
 from ...io.outputs import TextOutput
-from . import category as LLMCategory
+from . import category as ApiCategory
 
 
 class Models(Enum):
@@ -14,16 +14,15 @@ class Models(Enum):
     GPT35 = "gpt-3.5-turbo"
 
 
-@NodeFactory.register("machines:database:openai_api")
+@NodeFactory.register("machines:api:gpt-api")
 class OpenAISQLMaker(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "NL to sql for insurance."
+        self.description = "Hit GPT-x API with input."
         self.inputs = [
-            TextInput("Secret"),
-            TextInput("Schema"),
-            TextInput("Question"),
-            TextInput("ModelName"),
+            TextInput("System Message"),
+            TextInput("Prompt"),
+            TextInput("ModelName", default="gpt-4"),
             SliderInput(
                 "Completion Len",
                 minimum=30,
@@ -45,7 +44,7 @@ class OpenAISQLMaker(NodeBase):
                 "Temperature",
                 minimum=0,
                 maximum=1,
-                default=0,
+                default=0.5,
                 controls_step=0.1,
                 gradient=[
                     "#ff0000",
@@ -58,30 +57,23 @@ class OpenAISQLMaker(NodeBase):
                 ],
             ),
         ]
-        self.outputs = [TextOutput("SQL")]
+        self.outputs = [TextOutput("Out")]
 
-        self.category = LLMCategory
+        self.category = ApiCategory
         self.sub = "Dbase"
-        self.name = "OAI SQL"
-        self.icon = "BsFillDatabaseFill"
+        self.name = "Openai API"
+
 
         self.side_effects = True
 
-    def run(self, secret: str, schema: str, prompt: str, model_name: str, num_tokens: float, temp: float) -> str:
-        openai.api_key = secret
-        prompt_init = f"""### Instruction: Given below is the database schema for MySQL database, use it to write a SQL query corresponding to the user's question, the table schemas are separated by ';'
-        ### {schema}
-        ### {prompt}
-        ### SQL:"""
-        print(prompt_init)
-
-        response = openai.Completion.create(
+    def run(self, system_message: str, prompt: str, model_name: str, num_tokens: float, temp: float) -> str:
+        openai.api_key = "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"
+        response = openai.ChatCompletion.create(
             model=model_name,
-            prompt=prompt_init,
-            temperature=temp,
-            max_tokens=round(num_tokens),
-            top_p=1.0,
-            frequency_penalty=0.0,
-            presence_penalty=0.0
+            messages=[
+                {"role": "system", "content": f"{system_message}"},
+                {"role": "user", "content": f"Question: {prompt}"}
+            ]
         )
-        return response.choices[0].text.strip()
+        resp = response['choices'][0]['message']['content'].strip()
+        return resp

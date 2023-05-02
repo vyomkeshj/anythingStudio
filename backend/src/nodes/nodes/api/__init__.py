@@ -1,8 +1,8 @@
 from ...category import Category
 
 category = Category(
-    name="LLM Nodes",
-    description="Components providing LLM support for different LLM tasks.",
+    name="API Nodes",
+    description="Nodes that hit an api and return string.",
     icon="BsFillImageFill",
     color="#C53030",
 )

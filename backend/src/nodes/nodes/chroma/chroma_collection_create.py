@@ -2,15 +2,14 @@ import chromadb
 from chromadb.api.models import Collection
 from sanic.log import logger
 
-from . import category as ChatCategory
-from .io.chroma_collection import ChromaCollectionOutput
-from ...io.inputs import TextInput
-from ...node_base import NodeBase
-from ...node_factory import NodeFactory
+from src.nodes.nodes.chroma import category as ChromaDB
+from src.nodes.nodes.chat.io.chroma_collection import ChromaCollectionOutput
+from src.nodes.io.inputs import TextInput
+from src.nodes.node_base import NodeBase
+from src.nodes.node_factory import NodeFactory
 
 
-# some way to just tag this as websocket node?
-@NodeFactory.register("machines:chat:chroma_create")
+@NodeFactory.register("machines:chroma:chroma_create")
 class PineconeCreate(NodeBase):
     def __init__(self):
         super().__init__()
@@ -20,10 +19,10 @@ class PineconeCreate(NodeBase):
         ]
         self.outputs = [ChromaCollectionOutput(label="Collection ->")]
 
-        self.category = ChatCategory
+        self.category = ChromaDB
         self.sub = "Chroma Collection"
         self.name = "Get/Create"
-        self.icon = "BsFillDatabaseFill"
+
         self.subject = None
         # self.info = "Stores the state of the chat box."
 

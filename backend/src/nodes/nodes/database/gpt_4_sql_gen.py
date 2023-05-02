@@ -4,7 +4,7 @@ import openai
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...io.inputs import TextAreaInput, TextInput, EnumInput, SliderInput
+from ...io.inputs import TextInput, SliderInput
 from ...io.outputs import TextOutput
 from . import category as DatabaseCategory
 
@@ -12,21 +12,18 @@ from . import category as DatabaseCategory
 class Models(Enum):
     GPT3 = "text-davinci-003"
     GPT35 = "gpt-3.5-turbo"
-    GPT_J = "gpt-j"
-    Llama = "llama"
-    Alpaca = "alpaca"
 
 
-@NodeFactory.register("machines:database:gpt_query")
-class GPTQueryNode(NodeBase):
+@NodeFactory.register("machines:database:gpt4_sql")
+class OpenAISQLMaker(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "GPT SQL."
+        self.description = "NL to sql."
         self.inputs = [
             TextInput("Secret"),
-            TextInput("Question"),
             TextInput("Schema"),
-            EnumInput(enum=Models, label="select model"),
+            TextInput("Question"),
+            TextInput("ModelName"),
             SliderInput(
                 "Completion Len",
                 minimum=30,
@@ -61,28 +58,26 @@ class GPTQueryNode(NodeBase):
                 ],
             ),
         ]
-        self.outputs = [TextOutput("Completion")]
+        self.outputs = [TextOutput("SQL")]
 
         self.category = DatabaseCategory
-        self.sub = "Dbase"
-        self.name = "SQL Maker Models"
-        self.icon = "BsFillDatabaseFill"
+        self.sub = "SQL Tools"
+        self.name = "gpt-4-nl-sql"
 
         self.side_effects = True
 
-    def run(self, secret: str, question: str, schema: str, model_name: Models, num_tokens: float, temp: float) -> str:
+    def run(self, secret: str, schema: str, prompt: str, model_name: str, num_tokens: float, temp: float) -> str:
         openai.api_key = secret
-        prompt_init = f"""### Instruction: Given below is the database schema for MySQL database, use it to 
-        write a SQL query corresponding to the user's question: ### {schema}
-        ### {question}
-        ### SQL:"""
-        response = openai.Completion.create(
-            model=str(model_name.name),
-            prompt=prompt_init,
-            temperature=temp,
-            max_tokens=round(num_tokens),
-            top_p=1.0,
-            frequency_penalty=0.0,
-            presence_penalty=0.0
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "Given below are the table schemas for a MySQL database, use it to "
+                                              "write a SQL query corresponding to the user's question, "
+                                              "the table names are mentioned as [table_name] before each schema"},
+                {"role": "system", "content": f"Schema: {schema}"},
+                {"role": "system", "content": f"You only respond with correct SQL according to MySQL syntax and given columns and nothing else. Don't hallucinate new column names, use the ones from schema"},
+                {"role": "user", "content": f"Question: {prompt}, SQL:"}
+            ]
         )
-        return response.choices[0].text.strip()
+        resp = response['choices'][0]['message']['content'].strip()
+        return resp

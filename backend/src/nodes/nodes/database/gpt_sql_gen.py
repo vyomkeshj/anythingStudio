@@ -4,9 +4,9 @@ import openai
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...io.inputs import TextAreaInput, TextInput, EnumInput, SliderInput
+from ...io.inputs import TextInput, EnumInput, SliderInput
 from ...io.outputs import TextOutput
-from . import category as LLMCategory
+from . import category as DatabaseCategory
 
 
 class Models(Enum):
@@ -17,7 +17,7 @@ class Models(Enum):
     Alpaca = "alpaca"
 
 
-@NodeFactory.register("machines:llm:gpt_query")
+@NodeFactory.register("machines:database:gpt_query")
 class GPTQueryNode(NodeBase):
     def __init__(self):
         super().__init__()
@@ -63,10 +63,10 @@ class GPTQueryNode(NodeBase):
         ]
         self.outputs = [TextOutput("Completion")]
 
-        self.category = LLMCategory
-        self.sub = "SQL"
-        self.name = "SQL Maker Models"
-        self.icon = "BsFillDatabaseFill"
+        self.category = DatabaseCategory
+        self.sub = "SQL Tools"
+        self.name = "GPT - [?] SQL"
+
 
         self.side_effects = True
 

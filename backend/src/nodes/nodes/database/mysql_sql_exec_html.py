@@ -3,16 +3,16 @@ import pandas as pd
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...io.inputs import TextAreaInput, TextInput
+from ...io.inputs import TextInput
 from ...io.outputs import TextOutput
 from . import category as DatabaseCategory
 
 
-@NodeFactory.register("machines:image:run_sql")
+@NodeFactory.register("machines:dbase:run_sql")
 class MySQLQueryNode(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Execute a SQL query on a MySQL database and return the data as a pandas DataFrame."
+        self.description = "Execute a SQL query on a MySQL database and return the data as a pandas DataFrame ser to html."
         self.inputs = [
             TextInput("Host"),
             TextInput("User"),
@@ -20,12 +20,12 @@ class MySQLQueryNode(NodeBase):
             TextInput("Database"),
             TextInput("SQL Query"),
         ]
-        self.outputs = [TextOutput("Data Preview")]
+        self.outputs = [TextOutput("HTML Result->")]
 
         self.category = DatabaseCategory
-        self.sub = "Dbase"
-        self.name = "MySQL Query"
-        self.icon = "BsFillDatabaseFill"
+        self.sub = "SQL Tools"
+        self.name = "MySQL Query Executor"
+
 
         self.side_effects = True
 

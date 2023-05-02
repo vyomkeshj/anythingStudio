@@ -1,10 +1,10 @@
 from langchain.agents import Tool
 from langchain.utilities import PythonREPL
 
-from .io.plugins import PluginOutput
-from ...node_base import NodeBase
-from ...node_factory import NodeFactory
-from ...nodes.langchain import category as LangchainCategory
+from src.nodes.nodes.chat.io.plugins import PluginOutput
+from src.nodes.node_base import NodeBase
+from src.nodes.node_factory import NodeFactory
+from src.nodes.nodes.chat import category as ChatCategory
 
 
 @NodeFactory.register("machines:langchain:python_repl")
@@ -15,8 +15,8 @@ class PythonReplTool(NodeBase):
 
         self.outputs = [PluginOutput(label="REPL Plugin ->", output_type="string")]
 
-        self.category = LangchainCategory
-        self.sub = "Plugins"
+        self.category = ChatCategory
+        self.sub = "Auto GPT Plugins"
         self.name = "Python Repl"
 
         self.side_effects = True

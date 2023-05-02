@@ -11,6 +11,7 @@ class ExecutionChain(LLMChain):
         execution_template = (
             "You are an AI who performs one task based on the following objective: {objective}."
             " Take into account these previously completed tasks: {context}."
+            " Use tools over your internal knowledge base to complete the task."
             " Your task: {task}."
             " Response:"
         )

@@ -22,8 +22,6 @@ class UrlDfLoader(NodeBase):
         self.category = LoaderCategory
         self.sub = "Pandas"
         self.name = "Dataframe [URL]"
-        self.icon = "BsTable"
-
         self.side_effects = True
         self.schema = ""
 

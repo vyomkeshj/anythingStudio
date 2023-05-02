@@ -16,15 +16,15 @@ class AutoChartComponent(NodeBase):
         self.description = "Generate chart from text."
 
         self.inputs = [
-            SignalInput(label="Data Input"),
+            SignalInput(label="-> Chart Data [R]"),
         ]
         self.chart_output = AutoChartOutput()
         self.outputs = [self.chart_output]
 
         self.category = ChartCategory
-        self.sub = "chart"
-        self.name = "Auto Chart"
-        self.icon = "BsFillDatabaseFill"
+        self.sub = "Auto Chart"
+        self.name = "Auto Chart Viewer"
+
         self.consumer_subject = None
         self.subscriber = ReactiveForwarder(self.chart_output, 'chart_data')
 

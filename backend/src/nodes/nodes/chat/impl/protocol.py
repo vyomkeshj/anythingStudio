@@ -12,3 +12,5 @@ class MsgFromChatbot(TypedDict):
 class MsgHistoryItem(TypedDict):
     role: str
     content: str
+
+

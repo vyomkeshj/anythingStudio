@@ -27,7 +27,6 @@ class NumberValueNode(NodeBase):
 
         self.category = UtilityCategory
         self.name = "Number"
-        self.icon = "MdCalculate"
         self.sub = "Value"
 
     def run(self, number: int | float) -> int | float:

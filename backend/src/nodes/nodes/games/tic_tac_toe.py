@@ -1,12 +1,10 @@
-import asyncio
 from typing import TypedDict
 
 from src.events import ToUIOutputMessage
-from ...io.inputs.queue_input import SubjectInput
 from ...io.outputs.tic_tac_toe_output import TicTacToeOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...nodes.chat import category as ChatCategory
+from ...nodes.games import category as GamesCategory
 
 from reactivex.subject import Subject
 
@@ -31,10 +29,9 @@ class TicTacToeNode(NodeBase):
         # self.inputs = [SubjectInput(label="controller")]
         self.outputs = [self.tic_tac_toe_output]
 
-        self.category = ChatCategory
+        self.category = GamesCategory
         self.sub = "TicTacToe"
         self.name = "TicTacToe"
-        self.icon = "MdOutlineColorLens"
         self.controller: Subject = None    # type: ignore
 
         self.side_effects = True

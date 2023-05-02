@@ -4,7 +4,7 @@ from ...io.inputs import TextLineInput
 from ...io.outputs.queue_output import SubjectOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...nodes.chat import category as ChatCategory
+from ...nodes.games import category as GamesCategory
 
 
 @NodeFactory.register("machines:games:tic_controller")
@@ -16,10 +16,9 @@ class TicController(NodeBase):
         self.inputs = [TextLineInput(label="magic", default="life")]
         self.outputs = [SubjectOutput()]
 
-        self.category = ChatCategory
+        self.category = GamesCategory
         self.sub = "TicTacToe"
         self.name = "TicTacToe Controller"
-        self.icon = "MdOutlineColorLens"
         self.input_from_chatui_q: Subject = Subject()
 
         self.side_effects = True

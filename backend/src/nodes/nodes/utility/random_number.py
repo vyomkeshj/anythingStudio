@@ -9,7 +9,7 @@ from ...utils.seed import Seed
 from . import category as UtilityCategory
 
 
-@NodeFactory.register("machines:utility:random_number")
+# @NodeFactory.register("machines:utility:random_number")
 class RandomNumberNode(NodeBase):
     def __init__(self):
         super().__init__()
@@ -36,7 +36,6 @@ class RandomNumberNode(NodeBase):
 
         self.category = UtilityCategory
         self.name = "Random Number"
-        self.icon = "MdCalculate"
         self.sub = "Random"
 
     def run(self, min_val: int, max_val: int, seed: Seed) -> int:

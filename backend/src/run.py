@@ -12,8 +12,6 @@ from typing import Any, Dict, List, Optional, TypedDict, Type, Literal
 
 # pylint: disable-next=unused-import
 import cv2  # type: ignore
-# import openai_async
-import pymysql
 from sanic import Sanic
 from sanic.log import access_logger, logger
 from sanic.request import Request
@@ -75,6 +73,7 @@ class AppContext:
         return app_instance.ctx
 
 
+os.environ["OPENAI_API_KEY"] = "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"
 app = Sanic("MachinesStudio", ctx=AppContext())
 app.config.REQUEST_TIMEOUT = sys.maxsize
 app.config.RESPONSE_TIMEOUT = sys.maxsize

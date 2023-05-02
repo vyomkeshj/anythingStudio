@@ -12,7 +12,7 @@ from . import category as UtilityCategory
 class NoteNode(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Make a sticky note for whatever notes or comments you want to leave in the chain."
+        self.description = "Sticky Note."
         self.inputs = [
             TextAreaInput(label="Note Text").make_optional(),
         ]
@@ -20,7 +20,6 @@ class NoteNode(NodeBase):
 
         self.category = UtilityCategory
         self.name = "Note"
-        self.icon = "MdOutlineStickyNote2"
         self.sub = "Text"
 
     def run(self, _text: Union[str, None]) -> None:

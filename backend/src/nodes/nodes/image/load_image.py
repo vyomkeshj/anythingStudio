@@ -123,7 +123,6 @@ class ImReadNode(NodeBase):
 
         self.category = ImageCategory
         self.name = "Load Chart"
-        self.icon = "BsFillImageFill"
         self.sub = "Input & Output"
 
     def run(self, path: str) -> Tuple[np.ndarray, str, str]:

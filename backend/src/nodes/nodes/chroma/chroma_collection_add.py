@@ -1,13 +1,12 @@
 from chromadb.api.models import Collection
 
-from . import category as ChatCategory
-from .io.chroma_collection import ChromaCollectionOutput, ChromaCollectionInput
+from ...nodes.chroma import category as ChromaDB
+from ...nodes.chat.io.chroma_collection import ChromaCollectionOutput, ChromaCollectionInput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
 
 
-# some way to just tag this as websocket node?
-@NodeFactory.register("machines:chat:chroma_add")
+@NodeFactory.register("machines:chroma:chroma_add")
 class ChromaAdd(NodeBase):
     def __init__(self):
         super().__init__()
@@ -17,10 +16,10 @@ class ChromaAdd(NodeBase):
         ]
         self.outputs = [ChromaCollectionOutput(label="Collection ->")]
 
-        self.category = ChatCategory
+        self.category = ChromaDB
         self.sub = "Chroma Collection"
         self.name = "Add"
-        self.icon = "BsFillDatabaseFill"
+
 
         self.hasEffects = True
 

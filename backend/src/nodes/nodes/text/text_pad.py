@@ -47,7 +47,6 @@ class TextPaddingNode(NodeBase):
 
         self.category = DatabaseCategory
         self.name = "Text Padding"
-        self.icon = "MdTextFields"
         self.sub = "Text"
 
     def run(

@@ -57,7 +57,6 @@ class TextAppendNode(NodeBase):
 
         self.category = TextCategory
         self.name = "++"
-        self.icon = "MdTextFields"
         self.sub = "Text"
 
     def run(self, separator: str, *args: Union[str, None]) -> str:

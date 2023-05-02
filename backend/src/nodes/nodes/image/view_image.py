@@ -20,7 +20,6 @@ class ImViewNode(NodeBase):
         ]
         self.category = ImageCategory
         self.name = "Plotter"
-        self.icon = "BsEyeFill"
         self.sub = "Input & Output"
 
         self.side_effects = True

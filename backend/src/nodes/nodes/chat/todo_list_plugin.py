@@ -1,10 +1,10 @@
 from langchain import LLMChain, OpenAI, PromptTemplate
 from langchain.agents import Tool
 
-from .io.plugins import PluginOutput
-from ...node_base import NodeBase
-from ...node_factory import NodeFactory
-from ...nodes.langchain import category as LangchainCategory
+from src.nodes.nodes.chat.io.plugins import PluginOutput
+from src.nodes.node_base import NodeBase
+from src.nodes.node_factory import NodeFactory
+from src.nodes.nodes.chat import category as ChatCategory
 
 
 @NodeFactory.register("machines:langchain:todo_list_plugin")
@@ -15,8 +15,8 @@ class PythonReplTool(NodeBase):
 
         self.outputs = [PluginOutput(label="Todo Plugin ->", output_type="string")]
 
-        self.category = LangchainCategory
-        self.sub = "Plugins"
+        self.category = ChatCategory
+        self.sub = "Auto GPT Plugins"
         self.name = "Todo List"
 
         self.side_effects = True

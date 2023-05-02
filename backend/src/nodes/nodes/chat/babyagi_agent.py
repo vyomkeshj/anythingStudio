@@ -10,7 +10,8 @@ from sanic.log import logger
 
 from .babyagi.babyagi import BabyAGI
 from .impl.protocol import MsgFromUser, MsgFromChatbot
-from ..langchain.io.plugins import PluginListInput
+from .openai_chatbot import OAIChatbot
+from src.nodes.nodes.chat.io.plugins import PluginListInput
 from ...io.outputs.signal_output import SignalOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
@@ -23,7 +24,7 @@ import faiss
 
 
 @NodeFactory.register("machines:chat:bubbagi_agent")
-class OAIChatbot(NodeBase):
+class BabyAgiNode(NodeBase):
     def __init__(self):
         super().__init__()
         self.description = "Baby AGI Node."
@@ -49,7 +50,7 @@ class OAIChatbot(NodeBase):
                 "Temperature",
                 minimum=0.1,
                 maximum=1,
-                default=0.7,
+                default=0.2,
                 precision=1,
                 controls_step=0.1,
                 gradient=[
@@ -78,15 +79,14 @@ class OAIChatbot(NodeBase):
                     "#ff0000",
                 ]),
         ]
-        self.outputs = [SignalOutput(label="-> bot msg out"), SignalOutput(label="<- usr msg in")]
+        self.outputs = [SignalOutput(label="-> [R] bot msg out"), SignalOutput(label="<- usr msg in [R]")]
 
         self.bot_msg_output: AsyncSubject = AsyncSubject()
         self.usr_nxt_msg_in: AsyncSubject = AsyncSubject()
 
         self.category = ChatCategory
-        self.sub = "AGI"
-        self.name = "Baby AGI"
-        self.icon = "BsFillDatabaseFill"
+        self.sub = "AutoGPT v0.1"
+        self.name = "Auto GPT"
 
         self.baby_agi = None
         self.completion_len = 150
@@ -119,6 +119,7 @@ class OAIChatbot(NodeBase):
 
         # Logging of LLMChains
         llm = OpenAI(temperature=temp, api_key=self.api_key)
+        # llm = OpenAI(temperature=temp, api_key=self.api_key, )
 
         verbose = True
         # If None, will keep on going forever

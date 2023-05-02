@@ -19,7 +19,7 @@ from . import category as ImageCategory
 IMAGE_ITERATOR_NODE_ID = "machines:image:file_iterator_load"
 
 
-# @NodeFactory.register(IMAGE_ITERATOR_NODE_ID)
+@NodeFactory.register(IMAGE_ITERATOR_NODE_ID)
 class ImageFileIteratorLoadImageNode(NodeBase):
     def __init__(self):
         super().__init__()
@@ -27,17 +27,15 @@ class ImageFileIteratorLoadImageNode(NodeBase):
         self.inputs = [IteratorInput().make_optional()]
         self.outputs = [
             ImageOutput(),
-            DirectoryOutput("Image Directory"),
-            TextOutput("Subdirectory Path"),
-            TextOutput("Image Name"),
-            NumberOutput("Overall Index"),
+            DirectoryOutput("Image Dir ->"),
+            TextOutput("Subdirectory Path ->"),
+            TextOutput("Image Name ->"),
+            NumberOutput("Overall Index ->"),
         ]
 
         self.category = ImageCategory
         self.name = "Load Image (Iterator)"
-        self.icon = "MdSubdirectoryArrowRight"
         self.sub = "Iteration"
-
         self.type = "iteratorHelper"
 
         self.side_effects = True
@@ -63,7 +61,7 @@ class ImageFileIteratorNode(IteratorNodeBase):
         ]
         self.outputs = []
         self.category = ImageCategory
-        self.name = "Image File Iterator"
+        self.name = "File Iterator"
         self.default_nodes = [
             # TODO: Figure out a better way to do this
             {

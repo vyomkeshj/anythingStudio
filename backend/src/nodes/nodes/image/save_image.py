@@ -118,7 +118,6 @@ class ImWriteNode(NodeBase):
         self.category = ImageCategory
         self.name = "Save Image"
         self.outputs = []
-        self.icon = "MdSave"
         self.sub = "Input & Output"
 
         self.side_effects = True

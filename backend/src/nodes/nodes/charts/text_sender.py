@@ -5,12 +5,12 @@ from typing import Tuple
 
 from aioreactive import AsyncSubject
 
-from ...io.inputs import SliderInput
-from ...io.outputs.reactive_outputs import TextSenderOutput
-from ...io.outputs.signal_output import SignalOutput
-from ...node_base import NodeBase
-from ...node_factory import NodeFactory
-from ...nodes.text import category as TextCategory
+from src.nodes.io.inputs import SliderInput
+from src.nodes.io.outputs.reactive_outputs import TextSenderOutput
+from src.nodes.io.outputs.signal_output import SignalOutput
+from src.nodes.node_base import NodeBase
+from src.nodes.node_factory import NodeFactory
+from src.nodes.nodes.charts import category as ChartCategory
 
 
 @NodeFactory.register("machines:chart:text_sender")
@@ -18,7 +18,7 @@ class TextSenderNode(NodeBase):
     def __init__(self):
         super().__init__()
         self.description = "Sends the text to the connected nodes reactively."
-        self.signal_output = SignalOutput(label="->")
+        self.signal_output = SignalOutput(label="[R] Text ->")
         self.inputs = [
             SliderInput("Debounce", default=2, minimum=1, maximum=10, slider_step=0.5),
         ]
@@ -30,10 +30,9 @@ class TextSenderNode(NodeBase):
 
         self.resizable = True
         self.side_effects: bool = True
-        self.category = TextCategory
-        self.name = "Text ->"
-        self.icon = "MdTextFields"
-        self.sub = "Reactive"
+        self.category = ChartCategory
+        self.name = "Text [R] ->"
+        self.sub = "Reactive Inputs"
         self.signal_src = AsyncSubject()
         self.delay = 0.1
 

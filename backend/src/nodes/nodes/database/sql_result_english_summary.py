@@ -1,9 +1,8 @@
 import openai
-import os
 
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...io.inputs import TextAreaInput, TextInput
+from ...io.inputs import TextInput
 from ...io.outputs import TextOutput
 from . import category as DatabaseCategory
 
@@ -22,23 +21,22 @@ FINAL ANSWER:"""
 class MySQLQueryNode(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Execute a SQL query on a MySQL database and return the data as a pandas DataFrame."
+        self.description = "Try to answer based on a input document and gpt-3.5"
         self.inputs = [
-            TextInput("OAI Secret"),
             TextInput("Question"),
-            TextInput("SQL run result"),
+            TextInput("-> HTML In"),
         ]
-        self.outputs = [TextOutput("Data Preview")]
+        self.outputs = [TextOutput("Markdown Response ->")]
 
         self.category = DatabaseCategory
-        self.sub = "Dbase"
+        self.sub = "Natural Language"
         self.name = "Result Summarizer"
-        self.icon = "BsFillDatabaseFill"
+
 
         self.side_effects = True
 
     def run(self, secret: str, question: str, sql_run_out: str) -> str:
-        os.environ["OPENAI_API_KEY"] = secret
+
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[

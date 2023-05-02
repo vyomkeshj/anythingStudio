@@ -25,7 +25,6 @@ class ParseNumberNode(NodeBase):
 
         self.category = UtilityCategory
         self.name = "Parse Number"
-        self.icon = "MdCalculate"
         self.sub = "Value"
 
     def run(self, text: str, base: int) -> int:

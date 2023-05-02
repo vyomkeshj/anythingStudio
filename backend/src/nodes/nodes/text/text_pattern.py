@@ -51,7 +51,6 @@ class TextPatternNode(NodeBase):
 
         self.category = TextCategory
         self.name = "Text Pattern"
-        self.icon = "MdTextFields"
         self.sub = "Text"
 
     def run(

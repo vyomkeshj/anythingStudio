@@ -22,7 +22,6 @@ class TextLengthNode(NodeBase):
 
         self.category = TextCategory
         self.name = "Text Length"
-        self.icon = "MdTextFields"
         self.sub = "Text"
 
     def run(self, text: str) -> int:

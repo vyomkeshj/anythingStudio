@@ -26,13 +26,13 @@ class RandomPointGen(NodeBase):
         self.inputs = [
             SliderInput("Delay", default=3, minimum=1, maximum=10, slider_step=0.5),
         ]
-        self.signal_output = SignalOutput(label="Random Points")
+        self.signal_output = SignalOutput(label="[R] Random Points ->")
         self.outputs = [self.signal_output]
 
         self.category = ChartCategory
         self.sub = "Generators"
         self.name = "Point Generator"
-        self.icon = "BsFillDatabaseFill"
+
 
         self.point_count = 0
         self.signal_src = AsyncSubject()

@@ -26,11 +26,11 @@ class ChangeType(TypedDict):
 class ChartQComponent(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Generate live chart."
+        self.description = "Play live chart."
         self.chart_type = TextLineInput(label='Chart Type', default='pie2d')
 
         self.inputs = [
-            SignalInput(label="Input Points"),
+            SignalInput(label="-> Input Points [R]"),
             self.chart_type,
         ]
         self.chart_output = ChartOutput()
@@ -39,7 +39,7 @@ class ChartQComponent(NodeBase):
         self.category = ChartCategory
         self.sub = "chart"
         self.name = "Live Chart"
-        self.icon = "BsFillDatabaseFill"
+
 
         self.chart_type_name = 'line'
 

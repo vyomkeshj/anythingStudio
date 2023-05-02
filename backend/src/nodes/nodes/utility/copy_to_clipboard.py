@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Union
-
 from ...impl import clipboard
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
@@ -22,7 +20,6 @@ class TextClipboardNode(NodeBase):
 
         self.category = UtilityCategory
         self.name = "Copy To Clipboard"
-        self.icon = "BsClipboard"
         self.sub = "Clipboard"
 
         self.side_effects = True

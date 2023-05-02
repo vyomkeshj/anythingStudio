@@ -18,15 +18,15 @@ class ChatState(NodeBase):
         super().__init__()
         self.description = "Connects to chat ui and maintains conversation state."
         self.inputs = [
-            SignalInput(label="next msg ->"),
-            SignalInput(label="<- chat history"),
+            SignalInput(label="[R] next msg ->"),
+            SignalInput(label="<- chat history [R]"),
         ]
-        self.outputs = [SignalOutput(label="-> bot msg out"), SignalOutput(label="<- usr msg in")]
+        self.outputs = [SignalOutput(label="[R] bot msg out ->"), SignalOutput(label="<- usr msg in [R]")]
 
         self.category = ChatCategory
-        self.sub = "State Mgmt"
+        self.sub = "ChatGPT"
         self.name = "Chat State"
-        self.icon = "BsFillDatabaseFill"
+
 
         self.usr_msg_input: AsyncSubject = AsyncSubject()  # type: ignore
         self.next_msg_output: AsyncSubject = AsyncSubject()  # type: ignore

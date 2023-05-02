@@ -2,13 +2,13 @@ from typing import Union, List
 
 from langchain.agents import Tool
 
-from .io.plugins import PluginInput, PluginListOutput
-from ...group import group
-from ...node_base import NodeBase
-from ...node_factory import NodeFactory
-from ...nodes.langchain import category as LangchainCategory
+from src.nodes.nodes.chat.io.plugins import PluginInput, PluginListOutput
+from src.nodes.group import group
+from src.nodes.node_base import NodeBase
+from src.nodes.node_factory import NodeFactory
+from src.nodes.nodes.chat import category as ChatCategory
 
-from ...utils.utils import ALPHABET
+from src.nodes.utils.utils import ALPHABET
 
 
 @NodeFactory.register("machines:langchain:plugins_list")
@@ -19,7 +19,7 @@ class LangchainToolList(NodeBase):
         self.description = "Creates a list of Langchain tools."
 
         self.inputs = [
-            PluginInput("+Plugin A"),
+            PluginInput("+TODO Plugin"),
             group("optional-list")(
                 *[
                     PluginInput(f"+Plugin {letter}").make_optional()
@@ -29,8 +29,8 @@ class LangchainToolList(NodeBase):
         ]
         self.outputs = [PluginListOutput(label="Plugins List ->")]
 
-        self.category = LangchainCategory
-        self.sub = "Plugins"
+        self.category = ChatCategory
+        self.sub = "Auto GPT Plugins"
         self.name = "Plugins Provider"
 
         self.side_effects = True

@@ -87,7 +87,6 @@ class MathNode(NodeBase):
 
         self.category = UtilityCategory
         self.name = "Math"
-        self.icon = "MdCalculate"
         self.sub = "Math"
 
     def run(

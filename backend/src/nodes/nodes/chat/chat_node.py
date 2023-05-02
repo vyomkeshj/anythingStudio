@@ -21,16 +21,16 @@ class ChatQComponent(NodeBase):
         self.description = "Chat with chatgpt."
         self.inputs = [
             TextLineInput(label="<i>"),
-            SignalInput(label="-> chatbot msg in"),
-            SignalInput(label="<- usr msg out"),
+            SignalInput(label="-> chatbot msg in [R]"),
+            SignalInput(label="<- usr msg out [R]"),
         ]
         self.chat_output = ChatOutput()
         self.outputs = [self.chat_output]
 
         self.category = ChatCategory
-        self.sub = "Chat"
-        self.name = "Chat UI"
-        self.icon = "BsFillDatabaseFill"
+        self.sub = "Chat Viewers"
+        self.name = "Chat Component"
+
 
         self.subscription = None
 

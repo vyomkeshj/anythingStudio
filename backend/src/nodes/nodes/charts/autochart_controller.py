@@ -21,12 +21,12 @@ class AutoChartController(NodeBase):
             TextInput(label="Model", default="gpt-3.5-turbo", has_handle=False),
             SignalInput(label="Query"),
         ]
-        self.outputs = [SignalOutput(label="Chart Data")]
+        self.outputs = [SignalOutput(label="[R] Chart Data ->")]
 
         self.category = ChartCategory
-        self.sub = "Controllers"
+        self.sub = "Auto Chart"
         self.name = "Auto Chart Controller"
-        self.icon = "BsFillDatabaseFill"
+
 
         self.side_effects = True
         self.consumer_subject = None

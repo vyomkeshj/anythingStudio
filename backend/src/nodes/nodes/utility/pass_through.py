@@ -13,7 +13,7 @@ from ...io.outputs import BaseOutput
 from . import category as UtilityCategory
 
 
-@NodeFactory.register("machines:utility:pass_through")
+# @NodeFactory.register("machines:utility:pass_through")
 class PassThroughNode(NodeBase):
     def __init__(self):
         super().__init__()
@@ -23,7 +23,6 @@ class PassThroughNode(NodeBase):
 
         self.category = UtilityCategory
         self.name = "Pass Through"
-        self.icon = "MdDoubleArrow"
         self.sub = "Value"
 
     def run(self, value: Any) -> Any:

@@ -95,8 +95,7 @@ class CreateNoiseNode(NodeBase):
             )
         ]
         self.category = ImageCategory
-        self.name = "Create Noise"
-        self.icon = "MdFormatColorFill"
+        self.name = "Create Random Image"
         self.sub = "Generate"
 
     def _add_noise(
