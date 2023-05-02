@@ -1,4 +1,4 @@
-import { Box, HStack, SimpleGrid } from '@chakra-ui/react';
+import {Box, HStack, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs} from '@chakra-ui/react';
 import { memo } from 'react';
 // import { DependencyManagerButton } from '../DependencyManagerButton';
 // import { SettingsButton } from '../SettingsModal';
@@ -37,6 +37,20 @@ export const Header = memo(() => {
                 {/*        /!*<ExecutionButtons />*!/*/}
                 {/*    </HStack>*/}
                 {/*</Box>*/}
+                <Tabs align='end'>
+                    <TabList>
+                        <Tab>One</Tab>
+                        <Tab>Two</Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>
+                            <p>one!</p>
+                        </TabPanel>
+                        <TabPanel>
+                            <p>two!</p>
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
             </SimpleGrid>
         </Box>
     );
