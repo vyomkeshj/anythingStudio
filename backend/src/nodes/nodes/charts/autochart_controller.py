@@ -19,7 +19,7 @@ class AutoChartController(NodeBase):
         self.description = "Takes in a user input and creates chart info for auto-chart node using openai API"
         self.inputs = [
             TextInput(label="Model", default="gpt-3.5-turbo", has_handle=False),
-            SignalInput(label="Query"),
+            SignalInput(label="-> [R] Query"),
         ]
         self.outputs = [SignalOutput(label="[R] Chart Data ->")]
 

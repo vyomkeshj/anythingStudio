@@ -20,7 +20,7 @@ class MySQLQueryNode(NodeBase):
             TextInput("Database"),
             TextInput("SQL Query"),
         ]
-        self.outputs = [TextOutput("HTML Result->")]
+        self.outputs = [TextOutput("HTML Result ->")]
 
         self.category = DatabaseCategory
         self.sub = "SQL Tools"

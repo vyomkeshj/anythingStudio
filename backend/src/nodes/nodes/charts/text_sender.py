@@ -17,8 +17,8 @@ from src.nodes.nodes.charts import category as ChartCategory
 class TextSenderNode(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Sends the text to the connected nodes reactively."
-        self.signal_output = SignalOutput(label="[R] Text ->")
+        self.description = "Sends the Query to the connected nodes reactively."
+        self.signal_output = SignalOutput(label="[R] Query ->")
         self.inputs = [
             SliderInput("Debounce", default=2, minimum=1, maximum=10, slider_step=0.5),
         ]
@@ -31,7 +31,7 @@ class TextSenderNode(NodeBase):
         self.resizable = True
         self.side_effects: bool = True
         self.category = ChartCategory
-        self.name = "Text [R] ->"
+        self.name = "Query Sender"
         self.sub = "Reactive Inputs"
         self.signal_src = AsyncSubject()
         self.delay = 0.1
