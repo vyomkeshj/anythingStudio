@@ -2,7 +2,6 @@ import { Box, Center, ChakraProvider, ColorModeScript, Spinner } from '@chakra-u
 import { LocalStorage } from 'node-localstorage';
 import { memo, useState } from 'react';
 import { ipcRenderer } from '../common/safeIpc';
-import { wrapper } from './core/store'
 import { AlertBoxProvider } from './contexts/AlertBoxContext';
 import { ContextMenuProvider } from './contexts/ContextMenuContext';
 import { HotkeysProvider } from './contexts/HotKeyContext';
@@ -10,6 +9,8 @@ import { useAsyncEffect } from './hooks/useAsyncEffect';
 import { Main } from './main';
 import { theme } from './theme';
 import './i18n';
+import store from "./redux/store";
+import { Provider } from "react-redux";
 
 const LoadingComponent = memo(() => (
     <Box
@@ -27,7 +28,7 @@ const LoadingComponent = memo(() => (
 
 const MainComponent = memo(({ port }: { port: number }) => <Main port={port} />);
 
-export const App = memo(wrapper.withRedux(() => {
+export const App = memo(() => {
     const [port, setPort] = useState<number | null>(null);
     const [storageInitialized, setStorageInitialized] = useState(false);
 
@@ -47,19 +48,21 @@ export const App = memo(wrapper.withRedux(() => {
     );
 
     return (
-        <ChakraProvider theme={theme}>
-            <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-            <HotkeysProvider>
-                <ContextMenuProvider>
-                    <AlertBoxProvider>
-                        {!port || !storageInitialized ? (
-                            <LoadingComponent />
-                        ) : (
-                            <MainComponent port={port} />
-                        )}
-                    </AlertBoxProvider>
-                </ContextMenuProvider>
-            </HotkeysProvider>
-        </ChakraProvider>
+        <Provider store={store}>
+            <ChakraProvider theme={theme}>
+                <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+                <HotkeysProvider>
+                    <ContextMenuProvider>
+                        <AlertBoxProvider>
+                            {!port || !storageInitialized ? (
+                                <LoadingComponent />
+                            ) : (
+                                <MainComponent port={port} />
+                            )}
+                        </AlertBoxProvider>
+                    </ContextMenuProvider>
+                </HotkeysProvider>
+            </ChakraProvider>
+        </Provider>
     );
-}));
+});
