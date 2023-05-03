@@ -10,7 +10,7 @@ import { Main } from './main';
 import { theme } from './theme';
 import './i18n';
 import store from "./redux/store";
-import { Provider } from "react-redux";
+import {Provider} from "react-redux";
 import UIBuilder from "./ui_builder";
 
 const LoadingComponent = memo(() => (
@@ -58,8 +58,7 @@ export const App = memo(() => {
                             {!port || !storageInitialized ? (
                                 <LoadingComponent />
                             ) : (
-                                // <MainComponent port={port} />
-                                <UIBuilder />
+                                <MainComponent port={port} />
                             )}
                         </AlertBoxProvider>
                     </ContextMenuProvider>
