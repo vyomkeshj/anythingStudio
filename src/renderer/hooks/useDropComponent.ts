@@ -1,14 +1,16 @@
 import { useDrop, DropTargetMonitor } from 'react-dnd'
-import useDispatch from './useDispatch'
+import { useDispatch } from 'react-redux'
 import builder from "../composer/builder";
 import { rootComponents } from "../utils/editor";
+import {AppDispatch} from "../redux/store";
+import {addComponent, addMetaComponent, moveComponent} from "../redux/slices/uiBuilderComponentsSlice";
 
 export const useDropComponent = (
   componentId: string,
   accept: (ComponentType | MetaComponentType)[] = rootComponents,
   canDrop: boolean = true,
 ) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>();
 
   const [{ isOver }, drop] = useDrop({
     accept,
@@ -21,18 +23,18 @@ export const useDropComponent = (
       }
 
       if (item.isMoved) {
-        dispatch.components.moveComponent({
+        dispatch(moveComponent({
           parentId: componentId,
           componentId: item.id,
-        })
+        }))
       } else if (item.isMeta) {
-        dispatch.components.addMetaComponent(builder[item.type](componentId))
+        dispatch(addMetaComponent(builder[item.type](componentId)))
       } else {
-        dispatch.components.addComponent({
+        dispatch(addComponent({
           parentName: componentId,
           type: item.type,
           rootParentType: item.rootParentType,
-        })
+        }))
       }
     },
     canDrop: () => canDrop,

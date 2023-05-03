@@ -1,5 +1,6 @@
 import isBoolean from 'lodash/isBoolean'
 import filter from 'lodash/filter'
+import icons from '../iconsList'
 
 const capitalize = (value: string) => {
   return value.charAt(0).toUpperCase() + value.slice(1)
@@ -8,19 +9,22 @@ const capitalize = (value: string) => {
 export const formatCode = async (code: string) => {
   let formattedCode = `// 🚨 Your props contains invalid code`
 
-  // const prettier = await import('prettier/standalone')
+  const prettier = await import('prettier/standalone')
   // const babylonParser = await import('prettier/parser-babylon')
-
+  // console.log(code)
   // try {
   //   formattedCode = prettier.format(code, {
   //     parser: 'babel',
-  //     plugins: [babylonParser],
+  //     // plugins: [babylonParser],
   //     semi: false,
   //     singleQuote: true,
   //   })
-  // } catch (e) {}
+  // } catch (e) {
+  //   console.error(e)
+  // }
 
-  return formattedCode
+  // return formattedCode
+  return code
 }
 
 type BuildBlockParams = {
@@ -35,40 +39,40 @@ const buildStyledProps = (propsNames: string[], childComponent: IComponent) => {
   propsNames.forEach((propName: string) => {
     const propsValue = childComponent.props[propName]
 
-    // if (
-    //   propName.toLowerCase().includes('icon') &&
-    //   childComponent.type !== 'Icon'
-    // ) {
-    //   if (Object.keys(icons).includes(propsValue)) {
-    //     let operand = `={<${propsValue} />}`
-    //
-    //     propsContent += `${propName}${operand} `
-    //   }
-    // } else if (propName !== 'children' && propsValue) {
-    //   let operand = `='${propsValue}'`
-    //
-    //   if (propsValue === true || propsValue === 'true') {
-    //     operand = ``
-    //   } else if (
-    //     propsValue === 'false' ||
-    //     isBoolean(propsValue) ||
-    //     !isNaN(propsValue)
-    //   ) {
-    //     operand = `={${propsValue}}`
-    //   }
-    //
-    //   propsContent += `${propName}${operand} `
-    // }
+    if (
+        propName.toLowerCase().includes('icon') &&
+        childComponent.type !== 'Icon'
+    ) {
+      if (Object.keys(icons).includes(propsValue)) {
+        let operand = `={<${propsValue} />}`
+
+        propsContent += `${propName}${operand} `
+      }
+    } else if (propName !== 'children' && propsValue) {
+      let operand = `='${propsValue}'`
+
+      if (propsValue === true || propsValue === 'true') {
+        operand = ``
+      } else if (
+          propsValue === 'false' ||
+          isBoolean(propsValue) ||
+          !isNaN(propsValue)
+      ) {
+        operand = `={${propsValue}}`
+      }
+
+      propsContent += `${propName}${operand} `
+    }
   })
 
   return propsContent
 }
 
 const buildBlock = ({
-  component,
-  components,
-  forceBuildBlock = false,
-}: BuildBlockParams) => {
+                      component,
+                      components,
+                      forceBuildBlock = false,
+                    }: BuildBlockParams) => {
   let content = ''
 
   component.children.forEach((key: string) => {
@@ -93,17 +97,17 @@ const buildBlock = ({
         propsContent += buildStyledProps([query, children], childComponent)
 
         propsContent += `styles={{${restProps
-          .filter(propName => childComponent.props[propName])
-          .map(
-            propName => `${propName}:'${childComponent.props[propName]}'`,
-          )}}}`
+            .filter(propName => childComponent.props[propName])
+            .map(
+                propName => `${propName}:'${childComponent.props[propName]}'`,
+            )}}}`
       } else {
         propsContent += buildStyledProps(propsNames, childComponent)
       }
 
       if (
-        typeof childComponent.props.children === 'string' &&
-        childComponent.children.length === 0
+          typeof childComponent.props.children === 'string' &&
+          childComponent.children.length === 0
       ) {
         content += `<${componentName} ${propsContent}>${childComponent.props.children}</${componentName}>`
       } else if (childComponent.type === 'Icon') {
@@ -150,11 +154,11 @@ type GenerateComponentCode = {
 }
 
 export const generateComponentCode = ({
-  component,
-  components,
-  componentName,
-  forceBuildBlock,
-}: GenerateComponentCode) => {
+                                        component,
+                                        components,
+                                        componentName,
+                                        forceBuildBlock,
+                                      }: GenerateComponentCode) => {
   let code = buildBlock({
     component,
     components,
@@ -172,9 +176,9 @@ const ${componentName} = () => (
 const getIconsImports = (components: IComponents) => {
   return Object.keys(components).flatMap(name => {
     return Object.keys(components[name].props)
-      .filter(prop => prop.toLowerCase().includes('icon'))
-      .filter(prop => !!components[name].props[prop])
-      .map(prop => components[name].props[prop])
+        .filter(prop => prop.toLowerCase().includes('icon'))
+        .filter(prop => !!components[name].props[prop])
+        .map(prop => components[name].props[prop])
   })
 }
 
@@ -185,9 +189,9 @@ export const generateCode = async (components: IComponents) => {
 
   const imports = [
     ...new Set(
-      Object.keys(components)
-        .filter(name => name !== 'root')
-        .map(name => components[name].type),
+        Object.keys(components)
+            .filter(name => name !== 'root')
+            .map(name => components[name].type),
     ),
   ]
 
@@ -196,10 +200,10 @@ import {
   ChakraProvider,
   ${imports.join(',')}
 } from "@chakra-ui/react";${
-    iconImports.length
-      ? `
+      iconImports.length
+          ? `
 import { ${iconImports.join(',')} } from "@chakra-ui/icons";`
-      : ''
+          : ''
   }
 
 ${componentsCodes}

@@ -1,10 +1,11 @@
 import { ChangeEvent, useCallback } from 'react'
-import { useSelector } from 'react-redux'
-import useDispatch from './useDispatch'
+import { useSelector, useDispatch } from 'react-redux'
 import { getSelectedComponentId } from "../core/selectors/components";
+import {AppDispatch} from "../redux/store";
+import {updateProps} from "../redux/slices/uiBuilderComponentsSlice";
 
 export const useForm = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>();
   const componentId = useSelector(getSelectedComponentId)
 
   const setValueFromEvent = ({
@@ -15,13 +16,13 @@ export const useForm = () => {
 
   const setValue = useCallback(
     (name: string, value: any) => {
-      dispatch.components.updateProps({
+      dispatch(updateProps({
         id: componentId,
         name,
         value,
-      })
+      }))
     },
-    [componentId, dispatch.components],
+    [componentId],
   )
 
   return { setValue, setValueFromEvent }

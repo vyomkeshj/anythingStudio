@@ -24,7 +24,7 @@ const Editor: React.FC = () => {
   const showLayout = useSelector(getShowLayout)
   const components = useSelector(getComponents)
 
-  // const { drop } = useDropComponent('root')
+  const { drop } = useDropComponent('root')
   const isEmpty = !components.root.children.length
   const rootProps = components.root.props
 
@@ -55,6 +55,7 @@ const Editor: React.FC = () => {
       alignItems="center"
       overflow="auto"
       position="relative"
+      ref={drop}
       flexDirection="column"
       onClick={onSelectBackground}
     >

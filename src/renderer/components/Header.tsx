@@ -31,8 +31,10 @@ import { getComponents } from "../core/selectors/components";
 import { getShowCode, getShowLayout } from "../core/selectors/app";
 import { buildParameters } from "../utils/codesandbox";
 import HeaderMenu from "./headerMenu/HeaderMenu";
-import { useSelector } from "react-redux";
-import useDispatch from "../hooks/useDispatch";
+import { useSelector, useDispatch } from "react-redux";
+import {AppDispatch} from "../redux/store";
+import {toggleBuilderMode, toggleCodePanel} from "../redux/slices/uiBuilderSlice";
+import {reset} from "../redux/slices/uiBuilderComponentsSlice";
 
 const CodeSandboxButton = () => {
   const components = useSelector(getComponents)
@@ -115,7 +117,7 @@ const CodeSandboxButton = () => {
 const Header = () => {
   const showLayout = useSelector(getShowLayout)
   const showCode = useSelector(getShowCode)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <DarkMode>
@@ -172,7 +174,7 @@ const Header = () => {
                   isChecked={showLayout}
                   colorScheme="teal"
                   size="sm"
-                  onChange={() => dispatch.app.toggleBuilderMode()}
+                  onChange={() => dispatch(toggleBuilderMode())}
                   id="preview"
                 />
               </LightMode>
@@ -195,7 +197,7 @@ const Header = () => {
                   isChecked={showCode}
                   id="code"
                   colorScheme="teal"
-                  onChange={() => dispatch.app.toggleCodePanel()}
+                  onChange={() => dispatch(toggleCodePanel())}
                   size="sm"
                 />
               </LightMode>
@@ -233,7 +235,7 @@ const Header = () => {
                           colorScheme="red"
                           rightIcon={<CheckIcon path="" />}
                           onClick={() => {
-                            dispatch.components.reset()
+                            dispatch(reset({}))
                             if (onClose) {
                               onClose()
                             }

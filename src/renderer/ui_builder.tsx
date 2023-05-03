@@ -11,43 +11,45 @@ import EditorErrorBoundary from "./components/errorBoundaries/EditorErrorBoundar
 import { InspectorProvider } from "./contexts/inspector-context";
 import Inspector from "./components/inspector/Inspector";
 import { Header } from "./components/Header/Header";
+import HeaderUI from "./components/Header";
 
 const UIBuilder = memo(() => {
   // useShortcuts()
 
   return (
-    <>
-      <Global
-        styles={() => ({
-          html: { minWidth: '860px', backgroundColor: '#1a202c' },
-        })}
-      />
-      <Metadata />
-      <Header />
-      {/*<DndProvider backend={HTML5Backend}>*/}
-        <Flex h="calc(100vh - 3rem)">
-          <Sidebar />
-          <EditorErrorBoundary>
-            <Box bg="white" flex={1} position="relative">
-              <Editor />
-            </Box>
-          </EditorErrorBoundary>
+      <>
+        <Global
+            styles={() => ({
+              html: { minWidth: '860px', backgroundColor: '#1a202c' },
+            })}
+        />
+        <Metadata />
+        <Header />
+        <HeaderUI />
+        <DndProvider backend={HTML5Backend}>
+          <Flex h="calc(100vh - 3rem)">
+            <Sidebar />
+            <EditorErrorBoundary>
+              <Box bg="white" flex={1} position="relative">
+                <Editor />
+              </Box>
+            </EditorErrorBoundary>
 
-          <Box
-            maxH="calc(100vh - 3rem)"
-            flex="0 0 15rem"
-            bg="#f7fafc"
-            overflowY="auto"
-            overflowX="visible"
-            borderLeft="1px solid #cad5de"
-          >
-            <InspectorProvider>
-              <Inspector />
-            </InspectorProvider>
-          </Box>
-        </Flex>
-      {/*</DndProvider>*/}
-    </>
+            <Box
+                maxH="calc(100vh - 3rem)"
+                flex="0 0 15rem"
+                bg="#f7fafc"
+                overflowY="auto"
+                overflowX="visible"
+                borderLeft="1px solid #cad5de"
+            >
+              <InspectorProvider>
+                <Inspector />
+              </InspectorProvider>
+            </Box>
+          </Flex>
+        </DndProvider>
+      </>
   )
 })
 

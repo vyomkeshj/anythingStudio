@@ -153,8 +153,8 @@ export const uiBuilderComponentsSlice = createSlice({
             state: UiBuilderComponentsState,
             {payload}: {payload: {
                 parentName: string
-                type: ComponentType
-                rootParentType?: ComponentType
+                type: ComponentType | string
+                rootParentType?: ComponentType | string
                 testId?: string
             }},
         ): UiBuilderComponentsState {

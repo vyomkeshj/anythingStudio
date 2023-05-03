@@ -13,9 +13,9 @@ const CodePanel = () => {
   useEffect(() => {
     const getCode = async () => {
       const code = await generateCode(components)
+      console.log(code)
       setCode(code)
     }
-
     getCode()
   }, [components])
 
