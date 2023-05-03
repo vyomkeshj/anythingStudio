@@ -61,18 +61,7 @@ const Editor: React.FC = () => {
     >
       {isEmpty && (
         <Text maxWidth="md" color="gray.400" fontSize="xl" textAlign="center">
-          Drag some component to start coding without code! Or load{' '}
-          <Link
-            color="gray.500"
-            onClick={(e: React.MouseEvent) => {
-              e.stopPropagation()
-              dispatch(loadDemo({type: 'onboarding'}))
-            }}
-            textDecoration="underline"
-          >
-            the onboarding components
-          </Link>
-          .
+          Drag a component here
         </Text>
       )}
 
@@ -84,6 +73,7 @@ const Editor: React.FC = () => {
 
   if (!showCode) {
     return Playground
+
   }
 
   return (

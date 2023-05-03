@@ -137,10 +137,10 @@ const Header = () => {
           fontSize="xl"
           flexDirection="row"
           alignItems="center"
-          aria-label="Chakra UI, Back to homepage"
+          aria-label="Machines UI, Back to home"
         >
-          <Box fontSize="2xl" as={AiFillThunderbolt} mr={1} color="teal.100" />{' '}
-          <Box fontWeight="bold">interface</Box>studio
+          {/*<Box fontSize="2xl" as={AiFillThunderbolt} mr={1} color="teal.100" />{' '}*/}
+          <Box fontWeight="bold">Interface</Box>Studio
         </Flex>
 
         <Flex flexGrow={1} justifyContent="space-between" alignItems="center">
