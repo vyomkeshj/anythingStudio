@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useInspectorUpdate } from "../contexts/inspector-context";
-import { RootState } from "../core/store";
+import { RootState } from "../redux/store";
 import { getDefaultFormProps } from "../utils/defaultProps";
 
 const usePropsSelector = (propsName: string) => {
@@ -14,7 +14,7 @@ const usePropsSelector = (propsName: string) => {
 
   const value = useSelector((state: RootState) => {
     const component =
-      state.components.present.components[state.components.present.selectedId]
+      state.builderComponents.components[state.builderComponents.selectedId]
     const propsValue = component.props[propsName]
 
     if (propsValue !== undefined) {

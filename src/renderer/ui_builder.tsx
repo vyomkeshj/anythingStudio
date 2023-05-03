@@ -13,7 +13,7 @@ import Inspector from "./components/inspector/Inspector";
 import { Header } from "./components/Header/Header";
 
 const UIBuilder = memo(() => {
-  useShortcuts()
+  // useShortcuts()
 
   return (
     <>

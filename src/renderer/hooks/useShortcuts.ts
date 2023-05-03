@@ -25,7 +25,7 @@ const hasNoSpecialKeyPressed = (event: KeyboardEvent | undefined) =>
 const useShortcuts = () => {
   const dispatch = useDispatch()
   const selected = useSelector((state: RootState) =>
-      state.builderComponents.present.components[state.builderComponents.present.selectedId])
+      state.builderComponents.components[state.builderComponents.selectedId])
 
   const deleteNode = (event: KeyboardEvent | undefined) => {
     if (event) {

@@ -14,7 +14,7 @@ export type UiBuilderComponentsState = {
     hoveredId?: IComponent['id']
 }
 
-export type ComponentsStateWithUndo = {
+export type UiBuilderComponentsStateWithUndo = {
     past: UiBuilderComponentsState[]
     present: UiBuilderComponentsState
     future: UiBuilderComponentsState[]

@@ -1,13 +1,14 @@
 import React, { memo } from 'react'
 import { Box, Text, Link } from '@chakra-ui/react'
 import SplitPane from 'react-split-pane'
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getShowCode, getShowLayout } from "../../core/selectors/app";
 import { useDropComponent } from "../../hooks/useDropComponent";
 import ComponentPreview from "./ComponentPreview";
 import CodePanel from "../CodePanel";
 import { getComponents } from "../../core/selectors/components";
-import useDispatch from "../../hooks/useDispatch";
+import {AppDispatch} from "../../redux/store";
+import {loadDemo, unselect} from "../../redux/slices/uiBuilderComponentsSlice";
 
 export const gridStyles = {
   backgroundImage:
@@ -18,19 +19,19 @@ export const gridStyles = {
 }
 
 const Editor: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const showCode = useSelector(getShowCode)
   const showLayout = useSelector(getShowLayout)
   const components = useSelector(getComponents)
-  const dispatch = useDispatch()
 
-  const { drop } = useDropComponent('root')
+  // const { drop } = useDropComponent('root')
   const isEmpty = !components.root.children.length
   const rootProps = components.root.props
 
   let editorBackgroundProps = {}
 
   const onSelectBackground = () => {
-    dispatch.components.unselect()
+    dispatch(unselect())
   }
 
   if (showLayout) {
@@ -53,7 +54,6 @@ const Editor: React.FC = () => {
       justifyContent="center"
       alignItems="center"
       overflow="auto"
-      ref={drop}
       position="relative"
       flexDirection="column"
       onClick={onSelectBackground}
@@ -65,7 +65,7 @@ const Editor: React.FC = () => {
             color="gray.500"
             onClick={(e: React.MouseEvent) => {
               e.stopPropagation()
-              dispatch.components.loadDemo('onboarding')
+              dispatch(loadDemo({type: 'onboarding'}))
             }}
             textDecoration="underline"
           >

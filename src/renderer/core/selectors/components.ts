@@ -1,48 +1,48 @@
 import map from 'lodash/map'
-import { RootState } from '../store'
+import { RootState } from '../../redux/store'
 
 export const getComponents = (state: RootState) =>
-  state.components.present.components
+  state.builderComponents.components
 
 export const getComponentBy = (nameOrId: string | IComponent['id']) => (
   state: RootState,
-) => state.components.present.components[nameOrId]
+) => state.builderComponents.components[nameOrId]
 
 export const getSelectedComponent = (state: RootState) =>
-  state.components.present.components[state.components.present.selectedId]
+  state.builderComponents.components[state.builderComponents.selectedId]
 
 export const getPropsForSelectedComponent = (
   state: RootState,
   propsName: string,
 ) =>
-  state.components.present.components[state.components.present.selectedId]
+  state.builderComponents.components[state.builderComponents.selectedId]
     .props[propsName]
 
 export const getSelectedComponentId = (state: RootState) =>
-  state.components.present.selectedId
+  state.builderComponents.selectedId
 
 export const getIsSelectedComponent = (componentId: IComponent['id']) => (
   state: RootState,
-) => state.components.present.selectedId === componentId
+) => state.builderComponents.selectedId === componentId
 
 export const getSelectedComponentChildren = (state: RootState) => {
-  return getSelectedComponent(state).children.map(child =>
+  return getSelectedComponent(state).children.map((child: string) =>
     getComponentBy(child)(state),
   )
 }
 
 export const getSelectedComponentParent = (state: RootState) =>
-  state.components.present.components[getSelectedComponent(state).parent]
+  state.builderComponents.components[getSelectedComponent(state).parent]
 
 export const getHoveredId = (state: RootState) =>
-  state.components.present.hoveredId
+  state.builderComponents.hoveredId
 
 export const getIsHovered = (id: IComponent['id']) => (state: RootState) =>
   getHoveredId(state) === id
 
 export const getComponentNames = (state: RootState) => {
   const names = map(
-    state.components.present.components,
+    state.builderComponents.components,
     comp => comp.componentName,
   ).filter(comp => !!comp)
 
