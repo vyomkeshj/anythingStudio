@@ -2,7 +2,9 @@ import useDispatch from './useDispatch'
 import { useSelector } from 'react-redux'
 import { ActionCreators as UndoActionCreators } from 'redux-undo'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { getSelectedComponent } from "../core/selectors/components";
+import {deleteComponent,unselect,selectParent,duplicate,loadDemo} from "../redux/slices/uiBuilderComponentsSlice";
+import {toggleBuilderMode,toggleCodePanel} from "../redux/slices/uiBuilderSlice";
+import {RootState} from "../redux/store";
 
 const keyMap = {
   DELETE_NODE: 'Backspace, del',
@@ -22,26 +24,27 @@ const hasNoSpecialKeyPressed = (event: KeyboardEvent | undefined) =>
 
 const useShortcuts = () => {
   const dispatch = useDispatch()
-  const selected = useSelector(getSelectedComponent)
+  const selected = useSelector((state: RootState) =>
+      state.builderComponents.present.components[state.builderComponents.present.selectedId])
 
   const deleteNode = (event: KeyboardEvent | undefined) => {
     if (event) {
       event.preventDefault()
     }
-    dispatch.components.deleteComponent(selected.id)
+    dispatch(deleteComponent({ componentId: selected.id }))
   }
 
-  const toggleBuilderMode = (event: KeyboardEvent | undefined) => {
+  const toggleBuilderModeFn = (event: KeyboardEvent | undefined) => {
     if (event && hasNoSpecialKeyPressed(event)) {
       event.preventDefault()
-      dispatch.app.toggleBuilderMode()
+      dispatch(toggleBuilderMode())
     }
   }
 
-  const toggleCodePanel = (event: KeyboardEvent | undefined) => {
+  const toggleCodePanelFn = (event: KeyboardEvent | undefined) => {
     if (event && hasNoSpecialKeyPressed(event)) {
       event.preventDefault()
-      dispatch.app.toggleCodePanel()
+      dispatch(toggleCodePanel())
     }
   }
 
@@ -62,13 +65,13 @@ const useShortcuts = () => {
   }
 
   const onUnselect = () => {
-    dispatch.components.unselect()
+    dispatch(unselect())
   }
 
   const onSelectParent = (event: KeyboardEvent | undefined) => {
     if (event && hasNoSpecialKeyPressed(event)) {
       event.preventDefault()
-      dispatch.components.selectParent()
+      dispatch(selectParent())
     }
   }
 
@@ -77,22 +80,22 @@ const useShortcuts = () => {
       event.preventDefault()
     }
 
-    dispatch.components.duplicate()
+    dispatch(duplicate())
   }
 
   const onKonamiCode = () => {
-    dispatch.components.loadDemo('secretchakra')
+    dispatch(loadDemo({ type: 'secretchakra'}))
   }
-
-  useHotkeys(keyMap.DELETE_NODE, deleteNode, {}, [selected.id])
-  useHotkeys(keyMap.TOGGLE_BUILDER_MODE, toggleBuilderMode)
-  useHotkeys(keyMap.TOGGLE_CODE_PANEL, toggleCodePanel)
-  useHotkeys(keyMap.UNDO, undo)
-  useHotkeys(keyMap.REDO, redo)
-  useHotkeys(keyMap.UNSELECT, onUnselect)
-  useHotkeys(keyMap.PARENT, onSelectParent)
-  useHotkeys(keyMap.DUPLICATE, onDuplicate)
-  useHotkeys(keyMap.KONAMI_CODE, onKonamiCode)
+  //
+  // useHotkeys(keyMap.DELETE_NODE, deleteNode, {}, [selected.id])
+  // useHotkeys(keyMap.TOGGLE_BUILDER_MODE, toggleBuilderModeFn)
+  // useHotkeys(keyMap.TOGGLE_CODE_PANEL, toggleCodePanelFn)
+  // useHotkeys(keyMap.UNDO, undo)
+  // useHotkeys(keyMap.REDO, redo)
+  // useHotkeys(keyMap.UNSELECT, onUnselect)
+  // useHotkeys(keyMap.PARENT, onSelectParent)
+  // useHotkeys(keyMap.DUPLICATE, onDuplicate)
+  // useHotkeys(keyMap.KONAMI_CODE, onKonamiCode)
 }
 
 export default useShortcuts

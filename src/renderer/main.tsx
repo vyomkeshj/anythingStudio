@@ -200,7 +200,7 @@ export const Main = memo(({ port }: MainProps) => {
     }
 
     return (
-        tab ?
+        !tab ?
             <ReactFlowProvider>
                 <SettingsProvider>
                     <BackendProvider
