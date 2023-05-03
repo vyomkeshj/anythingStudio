@@ -11,12 +11,14 @@ const DimensionPanel = () => {
 
   return (
     <>
-      <SimpleGrid columns={2} spacingX={1}>
+      <SimpleGrid columns={2} spacingX={1}
+                  bg="#2e3748">
         <TextControl label="Width" name="width" />
         <TextControl label="Height" name="height" />
       </SimpleGrid>
 
-      <SimpleGrid columns={2} spacingX={1}>
+      <SimpleGrid columns={2} spacingX={1}
+                  bg="#2e3748">
         <TextControl label="Min W" name="minWidth" />
         <TextControl label="Min H" name="minHeight" />
 
@@ -24,7 +26,8 @@ const DimensionPanel = () => {
         <TextControl label="Max H" name="maxHeight" />
       </SimpleGrid>
 
-      <FormControl label="Overflow">
+      <FormControl label="Overflow"
+                   bg="#2e3748">
         <Select
           size="sm"
           value={overflow || ''}

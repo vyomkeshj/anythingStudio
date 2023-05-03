@@ -10,7 +10,8 @@ const DisplayPanel = () => {
 
   return (
     <>
-      <FormControl label="Display">
+      <FormControl label="Display"
+                   bg="#2e3748">
         <Select
           size="sm"
           value={display || ''}

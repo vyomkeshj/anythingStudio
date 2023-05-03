@@ -1,14 +1,15 @@
 import React, { useRef, useEffect, KeyboardEvent } from 'react'
 import { Input } from '@chakra-ui/react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import FormControl from './FormControl'
 import { getInputTextFocused } from "../../../core/selectors/app";
 import { useForm } from "../../../hooks/useForm";
-import useDispatch from "../../../hooks/useDispatch";
 import usePropsSelector from "../../../hooks/usePropsSelector";
+import {AppDispatch} from "../../../redux/store";
+import {toggleInputText} from "../../../redux/slices/uiBuilderSlice";
 
 const ChildrenControl: React.FC = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>();
   const textInput = useRef<HTMLInputElement>(null)
   const focusInput = useSelector(getInputTextFocused)
   const { setValueFromEvent } = useForm()
@@ -38,7 +39,7 @@ const ChildrenControl: React.FC = () => {
         ref={textInput}
         onKeyUp={onKeyUp}
         onBlur={() => {
-          dispatch.app.toggleInputText(false)
+          dispatch(toggleInputText())
         }}
       />
     </FormControl>

@@ -48,7 +48,8 @@ const PaddingPanel = ({ type }: PaddingPanelPropsType) => {
   const top = usePropsSelector(ATTRIBUTES[type].top)
 
   return (
-    <Box mb={4}>
+    <Box mb={4}
+         bg="#2e3748">
       <FormControl>
         <FormLabel fontSize="xs" htmlFor="width" textTransform="capitalize">
           {type}

@@ -1,5 +1,5 @@
 import React, { memo, useState, FormEvent, ChangeEvent, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { IoIosFlash } from 'react-icons/io'
 import {
   IconButton,
@@ -12,15 +12,16 @@ import {
   ButtonGroup,
 } from '@chakra-ui/react'
 import { EditIcon, SmallCloseIcon } from '@chakra-ui/icons'
-import useDispatch from "../../../hooks/useDispatch";
 import { useForm } from "../../../hooks/useForm";
 import { useInspectorState } from "../../../contexts/inspector-context";
 import { getSelectedComponent } from "../../../core/selectors/components";
+import {AppDispatch} from "../../../redux/store";
+import {deleteProps} from "../../../redux/slices/uiBuilderComponentsSlice";
 
 const SEPARATOR = '='
 
 const CustomPropsPanel = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>();
   const inputRef = useRef<HTMLInputElement>(null)
 
   const activePropsRef = useInspectorState()
@@ -31,10 +32,10 @@ const CustomPropsPanel = () => {
   const [hasError, setError] = useState(false)
 
   const onDelete = (propsName: string) => {
-    dispatch.components.deleteProps({
+    dispatch(deleteProps({
       id,
       name: propsName,
-    })
+    }))
   }
 
   const activeProps = activePropsRef || []
@@ -80,7 +81,7 @@ const CustomPropsPanel = () => {
           key={propsName}
           alignItems="center"
           px={2}
-          bg={i % 2 === 0 ? 'white' : 'gray.50'}
+          bg="#2e3748"
           fontSize="xs"
           justifyContent="space-between"
         >

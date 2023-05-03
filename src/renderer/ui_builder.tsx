@@ -20,7 +20,7 @@ const UIBuilder = memo(() => {
       <>
         <Global
             styles={() => ({
-              html: { minWidth: '860px', backgroundColor: '#1a202c' },
+              html: { minWidth: '860px', backgroundColor: '#101631' },
             })}
         />
         <Metadata />
@@ -30,7 +30,7 @@ const UIBuilder = memo(() => {
           <Flex h="calc(100vh - 3rem)">
             <Sidebar />
             <EditorErrorBoundary>
-              <Box bg="white" flex={1} position="relative">
+              <Box bg="#0c0e13" flex={1} position="relative">
                 <Editor />
               </Box>
             </EditorErrorBoundary>
@@ -38,7 +38,8 @@ const UIBuilder = memo(() => {
             <Box
                 maxH="calc(100vh - 3rem)"
                 flex="0 0 15rem"
-                bg="#f7fafc"
+                bg="#0c0e13"
+                color="white"
                 overflowY="auto"
                 overflowX="visible"
                 borderLeft="1px solid #cad5de"

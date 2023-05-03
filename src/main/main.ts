@@ -10,9 +10,26 @@ import { runChainInCli } from './cli/run';
 import { createGuiApp } from './gui/create';
 import { getRootDirSync } from './platform';
 
+const installExtensions = async () => {
+    const installer = require('electron-devtools-installer')
+    const forceDownload = !!process.env.UPGRADE_EXTENSIONS
+    const extensions = [
+        'REACT_DEVELOPER_TOOLS',
+        'REDUX_DEVTOOLS',
+        'DEVTRON'
+    ]
+
+    return Promise
+        .all(extensions.map(name => installer.default(installer[name], forceDownload)))
+        .catch(console.log)
+}
 const startApp = () => {
     const args = parseArgs(process.argv.slice(app.isPackaged ? 1 : 2));
-
+    if (process.argv.indexOf('--noDevServer') === -1) {
+        installExtensions().then(() => {
+            console.info("Installed DEV Tools!")
+        })
+    }
     log.transports.file.resolvePath = (variables) =>
         path.join(getRootDirSync(), 'logs', variables.fileName!);
     log.transports.file.level = 'info';

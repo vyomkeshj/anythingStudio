@@ -1,30 +1,31 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { getSelectedComponentChildren } from "../../core/selectors/components";
-import useDispatch from "../../hooks/useDispatch";
 import ElementsList from "./elements-list/ElementsList";
+import {AppDispatch} from "../../redux/store";
+import {hover, moveSelectedComponentChildren, select, unhover} from "../../redux/slices/uiBuilderComponentsSlice";
 
 const ChildrenInspector = () => {
   const childrenComponent = useSelector(getSelectedComponentChildren)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>();
 
   const moveChildren = (fromIndex: number, toIndex: number) => {
-    dispatch.components.moveSelectedComponentChildren({
+    dispatch(moveSelectedComponentChildren({
       fromIndex,
       toIndex,
-    })
+    }))
   }
 
   const onSelectChild = (id: IComponent['id']) => {
-    dispatch.components.select(id)
+    dispatch(select({ selectedId: id }))
   }
 
   const onHoverChild = (id: IComponent['id']) => {
-    dispatch.components.hover(id)
+    dispatch(hover({ componentId: id }))
   }
 
   const onUnhoverChild = () => {
-    dispatch.components.unhover()
+    dispatch(unhover())
   }
 
   return (

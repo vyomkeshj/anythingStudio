@@ -22,7 +22,7 @@ const AccordionContainer: React.FC<{
         </Box>
         <AccordionIcon />
       </AccordionButton>
-      <AccordionPanel bg="white" px={3} pb={4}>
+      <AccordionPanel bg="#2e3748" px={3} pb={4}>
         {children}
       </AccordionPanel>
     </AccordionItem>

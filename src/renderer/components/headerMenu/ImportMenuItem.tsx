@@ -2,16 +2,18 @@ import React from 'react'
 import { MenuItem, Box } from '@chakra-ui/react'
 import { FiUpload } from 'react-icons/fi'
 import { loadFromJSON } from "../../utils/import";
-import useDispatch from "../../hooks/useDispatch";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../redux/store";
+import {reset} from "../../redux/slices/uiBuilderComponentsSlice";
 
 const ImportMenuItem = () => {
-  const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>();
 
   return (
     <MenuItem
       onClick={async () => {
         const components = await loadFromJSON()
-        dispatch.components.reset(components)
+        dispatch(reset(components))
       }}
     >
       <Box mr={2} as={FiUpload} />

@@ -11,10 +11,10 @@ import {AppDispatch} from "../../redux/store";
 import {loadDemo, unselect} from "../../redux/slices/uiBuilderComponentsSlice";
 
 export const gridStyles = {
-  backgroundImage:
-    'linear-gradient(to right, #d9e2e9 1px, transparent 1px),linear-gradient(to bottom, #d9e2e9 1px, transparent 1px);',
-  backgroundSize: '20px 20px',
-  bgColor: '#edf2f6',
+  // backgroundImage:
+  //   'linear-gradient(to right, #d9e2e9 1px, transparent 1px),linear-gradient(to bottom, #d9e2e9 1px, transparent 1px);',
+  // backgroundSize: '20px 20px',
+  bgColor: '#0b0f14',
   p: 10,
 }
 

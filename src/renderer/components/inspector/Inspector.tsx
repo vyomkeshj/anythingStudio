@@ -23,7 +23,7 @@ import { CopyIcon, CheckIcon, EditIcon } from '@chakra-ui/icons'
 import { GoRepo, GoCode } from 'react-icons/go'
 import { FiTrash2 } from 'react-icons/fi'
 import { IoMdRefresh } from 'react-icons/io'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import ActionButton from './ActionButton'
 import {
   getComponentNames,
@@ -32,11 +32,13 @@ import {
   getSelectedComponentId
 } from "../../core/selectors/components";
 import { formatCode, generateComponentCode } from "../../utils/code";
-import useDispatch from "../../hooks/useDispatch";
 import { useInspectorUpdate } from "../../contexts/inspector-context";
 import Panels from "./panels/Panels";
 import StylesPanel from "./panels/StylesPanel";
 import useClipboard from "../../hooks/useClipboard";
+import {AppDispatch} from "../../redux/store";
+import {deleteComponent, duplicate, resetProps, setComponentName} from "../../redux/slices/uiBuilderComponentsSlice";
+import {componentsList} from "../../componentsList";
 
 const CodeActionButton = memo(() => {
   const [isLoading, setIsLoading] = useState(false)
@@ -74,7 +76,7 @@ const CodeActionButton = memo(() => {
 CodeActionButton.displayName = 'CodeActionButton'
 
 const Inspector = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>();
   const component = useSelector(getSelectedComponent)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [componentName, onChangeComponentName] = useState('')
@@ -84,10 +86,10 @@ const Inspector = () => {
 
   const saveComponent = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch.components.setComponentName({
+    dispatch(setComponentName({
       componentId: component.id,
       name: componentName,
-    })
+    }))
     onClose()
     onChangeComponentName('')
   }
@@ -114,15 +116,15 @@ const Inspector = () => {
 
   return (
     <>
-      <Box bg="white">
+      <Box bg="#2e3748">
         <Box
           fontWeight="semibold"
           fontSize="md"
-          color="yellow.900"
+          color="green.900"
           py={2}
           px={2}
           boxShadow="sm"
-          bg="yellow.100"
+          bg="green.100"
           display="flex"
           justifyContent="space-between"
           flexDir="column"
@@ -155,13 +157,13 @@ const Inspector = () => {
             )}
             <ActionButton
               label="Duplicate"
-              onClick={() => dispatch.components.duplicate()}
+              onClick={() => dispatch(duplicate())}
               icon={<CopyIcon path="" />}
             />
             <ActionButton
               label="Reset props"
               icon={<IoMdRefresh />}
-              onClick={() => dispatch.components.resetProps(component.id)}
+              onClick={() => dispatch(resetProps({componentId: component.id}))}
             />
             <ActionButton
               label="Chakra UI Doc"
@@ -177,15 +179,15 @@ const Inspector = () => {
             <ActionButton
               bg="red.500"
               label="Remove"
-              onClick={() => dispatch.components.deleteComponent(component.id)}
+              onClick={() => dispatch(deleteComponent({componentId: component.id}))}
               icon={<FiTrash2 />}
             />
           </Stack>
         )}
       </Box>
 
-      <Box pb={1} bg="white" px={3}>
-        <Panels component={component} isRoot={isRoot} />
+      <Box pb={1} bg="#2e3748" px={3}>
+        <Panels bg="#2e3748" component={component} isRoot={isRoot} />
       </Box>
 
       <StylesPanel
