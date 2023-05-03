@@ -3,10 +3,16 @@ import { memo } from 'react';
 // import { DependencyManagerButton } from '../DependencyManagerButton';
 // import { SettingsButton } from '../SettingsModal';
 // import { SystemStats } from '../SystemStats';
+import { useSelector, useDispatch } from 'react-redux';
+import { switchToDesigner, switchToEngine } from '../../redux/slices/settingsSlice';
 import { AppInfo } from './AppInfo';
 import { ExecutionButtons } from './ExecutionButtons';
+import { AppDispatch, RootState } from "../../redux/store";
 
 export const Header = memo(() => {
+    const dispatch = useDispatch<AppDispatch>();
+    // @ts-ignore
+    const tab = useSelector((state: RootState) => state.settings.tab);
     return (
         <Box
             bg="var(--header-bg)"
@@ -23,19 +29,25 @@ export const Header = memo(() => {
             >
                 <AppInfo />
                 <ExecutionButtons />
+                {tab}
+                {/*<Box*/}
+                {/*    alignContent="right"*/}
+                {/*    alignItems="right"*/}
+                {/*    w="full"*/}
+                {/*>*/}
+                {/*    <HStack*/}
+                {/*        ml="auto"*/}
+                {/*        mr={0}*/}
+                {/*        width="fit-content"*/}
+                {/*    >*/}
+                {/*        /!*<ExecutionButtons />*!/*/}
+                {/*    </HStack>*/}
+                {/*</Box>*/}
                 <Tabs align='end'>
                     <TabList>
-                        <Tab>Machine</Tab>
-                        <Tab>Interface</Tab>
+                        <Tab onClick={() => dispatch(switchToEngine())}>Engine</Tab>
+                        <Tab onClick={() => dispatch(switchToDesigner())}>Designer</Tab>
                     </TabList>
-                    {/*<TabPanels>*/}
-                    {/*    <TabPanel>*/}
-                    {/*        <p>one!</p>*/}
-                    {/*    </TabPanel>*/}
-                    {/*    <TabPanel>*/}
-                    {/*        <p>two!</p>*/}
-                    {/*    </TabPanel>*/}
-                    {/*</TabPanels>*/}
                 </Tabs>
             </SimpleGrid>
         </Box>
@@ -47,3 +59,4 @@ export const Header = memo(() => {
 //     <DependencyManagerButton />
 //     <SettingsButton />
 // </Center>
+
