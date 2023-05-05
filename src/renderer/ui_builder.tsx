@@ -10,8 +10,8 @@ import Metadata from "./components/Metadata";
 import EditorErrorBoundary from "./components/errorBoundaries/EditorErrorBoundary";
 import { InspectorProvider } from "./contexts/inspector-context";
 import Inspector from "./components/inspector/Inspector";
-import { Header } from "./components/Header/Header";
 import HeaderUI from "./components/Header";
+import { Header } from "./components/Header/Header";
 
 const UIBuilder = memo(() => {
   // useShortcuts()
@@ -24,7 +24,7 @@ const UIBuilder = memo(() => {
             })}
         />
         <Metadata />
-        <Header />
+        {/*<Header />*/}
         <HeaderUI />
         <DndProvider backend={HTML5Backend}>
           <Flex h="calc(100vh - 3rem)">

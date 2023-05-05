@@ -1,7 +1,7 @@
 import {Box, HStack, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs} from '@chakra-ui/react';
 import { memo } from 'react';
 // import { DependencyManagerButton } from '../DependencyManagerButton';
-// import { SettingsButton } from '../SettingsModal';
+import { SettingsButton } from '../SettingsModal';
 // import { SystemStats } from '../SystemStats';
 import { useDispatch } from 'react-redux';
 import { switchToDesigner, switchToEngine } from '../../redux/slices/settingsSlice';
@@ -15,31 +15,21 @@ export const Header = memo(() => {
         <Box
             bg="var(--header-bg)"
             borderRadius="lg"
-            borderWidth="0px"
+            // borderWidth="0px"
             h="56px"
             w="100%"
         >
             <SimpleGrid
-                columns={3}
-                h="100%"
-                p={2}
+                columns={5}
+                h="56px"
+                w="100%"
+                // p={2}
                 spacing={3}
             >
                 <AppInfo />
                 <ExecutionButtons />
-                {/*<Box*/}
-                {/*    alignContent="right"*/}
-                {/*    alignItems="right"*/}
-                {/*    w="full"*/}
-                {/*>*/}
-                {/*    <HStack*/}
-                {/*        ml="auto"*/}
-                {/*        mr={0}*/}
-                {/*        width="fit-content"*/}
-                {/*    >*/}
-                {/*        /!*<ExecutionButtons />*!/*/}
-                {/*    </HStack>*/}
-                {/*</Box>*/}
+                <SettingsButton />
+
                 <Tabs align='end'>
                     <TabList>
                         <Tab onClick={() => dispatch(switchToEngine())}>Engine</Tab>

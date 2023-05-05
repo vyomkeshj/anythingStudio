@@ -1,7 +1,7 @@
 import { HStack, IconButton, Tooltip } from '@chakra-ui/react';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IoPause, IoPlay, IoStop } from 'react-icons/io5';
+import { IoPlayCircle, IoStopCircle } from 'react-icons/io5';
 import { useContext } from 'use-context-selector';
 import { ExecutionContext, ExecutionStatus } from '../../contexts/ExecutionContext';
 
@@ -26,11 +26,11 @@ export const ExecutionButtons = memo(() => {
             >
                 <IconButton
                     aria-label={t('header.runButton', 'Run button')}
-                    colorScheme="green"
+                    colorScheme="blue"
                     disabled={
                         !(status === ExecutionStatus.READY || status === ExecutionStatus.PAUSED)
                     }
-                    icon={<IoPlay />}
+                    icon={<IoPlayCircle />}
                     size="md"
                     variant="outline"
                     onClick={() => {
@@ -49,9 +49,9 @@ export const ExecutionButtons = memo(() => {
             >
                 <IconButton
                     aria-label={t('header.stopButton', 'Stop button')}
-                    colorScheme="red"
+                    colorScheme="orange"
                     disabled={![ExecutionStatus.RUNNING, ExecutionStatus.PAUSED].includes(status)}
-                    icon={<IoStop />}
+                    icon={<IoStopCircle />}
                     isLoading={ExecutionStatus.KILLING === status}
                     size="md"
                     variant="outline"

@@ -127,6 +127,7 @@ const Header = () => {
         as="header"
         height="3rem"
         px="1rem"
+        width="100%"
       >
         <Flex
           width="14rem"
