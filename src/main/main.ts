@@ -14,7 +14,7 @@ const installExtensions = async () => {
     const installer = require('electron-devtools-installer')
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS
     const extensions = [
-        'REACT_DEVELOPER_TOOLS',
+        // 'REACT_DEVELOPER_TOOLS',
         'REDUX_DEVTOOLS',
         'DEVTRON'
     ]
@@ -25,11 +25,13 @@ const installExtensions = async () => {
 }
 const startApp = () => {
     const args = parseArgs(process.argv.slice(app.isPackaged ? 1 : 2));
-    if (process.argv.indexOf('--noDevServer') === -1) {
-        installExtensions().then(() => {
-            console.info("Installed DEV Tools!")
-        })
-    }
+    app.on('ready', () => {
+        if (process.argv.indexOf('--noDevServer') === -1) {
+            installExtensions().then(() => {
+                console.info("Installed DEV Tools!")
+            })
+        }
+    })
     log.transports.file.resolvePath = (variables) =>
         path.join(getRootDirSync(), 'logs', variables.fileName!);
     log.transports.file.level = 'info';

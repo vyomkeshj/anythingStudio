@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, memo } from 'react'
+import React, {useState, ChangeEvent, memo, useEffect} from 'react'
 import {
   Box,
   Input,
@@ -11,10 +11,12 @@ import {
 import { CloseIcon, SearchIcon } from '@chakra-ui/icons'
 import DragItem from './DragItem'
 import { menuItems, MenuItem } from '../../componentsList'
+import {useSelector} from "react-redux";
+import {getShowCode} from "../../core/selectors/app";
+import {RootState} from "../../redux/store";
 
 const Menu = () => {
   const [searchTerm, setSearchTerm] = useState('')
-
   return (
       <DarkMode>
         <Box

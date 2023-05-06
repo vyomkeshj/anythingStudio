@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, {memo, useEffect} from "react";
 import { Box, Text } from "@chakra-ui/react";
 import SplitPane from "react-split-pane";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,7 @@ import { useDropComponent } from "../../hooks/useDropComponent";
 import ComponentPreview from "./ComponentPreview";
 import CodePanel from "../CodePanel";
 import { getComponents } from "../../core/selectors/components";
-import { AppDispatch } from "../../redux/store";
+import {AppDispatch, RootState} from "../../redux/store";
 import { unselect } from "../../redux/slices/uiBuilderComponentsSlice";
 
 export const gridStyles = {
@@ -19,6 +19,10 @@ export const gridStyles = {
 };
 
 const Editor: React.FC = () => {
+  const outputNodes = useSelector((state: RootState) => state.nodes.outputNodes);
+  useEffect(() => {
+    console.log(outputNodes)
+  }, [outputNodes])
   // todo: have some props come in here?
   const dispatch = useDispatch<AppDispatch>();
   const showCode = useSelector(getShowCode);

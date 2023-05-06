@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, {memo} from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -10,9 +10,12 @@ import EditorErrorBoundary from "./components/errorBoundaries/EditorErrorBoundar
 import { InspectorProvider } from "./contexts/inspector-context";
 import Inspector from "./components/inspector/Inspector";
 import HeaderUI from "./components/Header";
+import {BackendContext} from "./contexts/BackendContext";
+import { useContext } from 'use-context-selector';
 
 const UIBuilder = memo(() => {
   // useShortcuts()
+  const { schemata, functionDefinitions } = useContext(BackendContext);
 
   return (
     <>
