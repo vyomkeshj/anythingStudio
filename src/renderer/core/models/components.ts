@@ -1,11 +1,11 @@
 import { createModel } from '@rematch/core'
 import produce from 'immer'
 import omit from 'lodash/omit'
-import templates, {TemplateType} from "../../templates";
 import {DEFAULT_PROPS} from "../../utils/defaultProps";
 import {generateId} from "../../utils/generateId";
 import {deleteComponent, duplicateComponent} from "../../utils/recursive";
 import {ComponentType} from "react";
+import { IComponent, IComponents } from "../../../react-app-env";
 
 export type ComponentsState = {
   components: IComponents
@@ -42,13 +42,6 @@ const components = createModel({
         ...state,
         components: components || INITIAL_COMPONENTS,
         selectedId: DEFAULT_ID,
-      }
-    },
-    loadDemo(state: ComponentsState, type: TemplateType): ComponentsState {
-      return {
-        ...state,
-        selectedId: 'comp-root',
-        components: templates[type],
       }
     },
     resetProps(state: ComponentsState, componentId: string): ComponentsState {

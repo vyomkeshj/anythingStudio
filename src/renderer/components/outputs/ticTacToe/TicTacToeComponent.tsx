@@ -3,8 +3,8 @@ import Start from "./pages/Start";
 import Finished from "./pages/Finished";
 import useTickTackToe from "./hooks/useTicTacToe";
 import { memo } from "react";
-import { OutputProps } from "../props";
-const TicTacToeComponent =  memo(({ label, id, outputId, schemaId, ui_message_registry }: OutputProps) => {
+import { UINodeOutputProps } from "../props";
+const TicTacToeComponent =  memo(({ ui_message_registry }: UINodeOutputProps) => {
   const {board, status, winner, handleClick, handleRestart, handleStart} = useTickTackToe();
   return (
     <div className="tictac">

@@ -1,4 +1,4 @@
-import React, {memo} from "react";
+import React, { memo, useEffect } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -12,10 +12,14 @@ import Inspector from "./components/inspector/Inspector";
 import HeaderUI from "./components/Header";
 import {BackendContext} from "./contexts/BackendContext";
 import { useContext } from 'use-context-selector';
+import { useSelector } from "react-redux";
+import { RootState } from "./redux/store";
+import { MachinesNodeUI } from "./redux/slices/machinesNodesSlice";
 
 const UIBuilder = memo(() => {
   // useShortcuts()
   const { schemata, functionDefinitions } = useContext(BackendContext);
+  const outputNodes: MachinesNodeUI[] = useSelector((state: RootState) => state.nodes.outputNodes);
 
   return (
     <>

@@ -1,38 +1,28 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {ExpressionJson} from "../../../common/types/json";
+import { createSlice } from '@reduxjs/toolkit';
 import {OutputChannel, OutputId, OutputKind} from "../../../common/common-types";
-import {Type} from "@chainner/navi";
 import produce from "immer";
-import {UiBuilderComponentsState} from "./uiBuilderComponentsSlice";
 
-export interface node {
+export interface MachinesNodeUI {
     id: string;
-    type: ExpressionJson;
-    neverReason?: string | null;
     label: string;
     kind: OutputKind;
     ui_message_registry: OutputChannel[];
     outputId: OutputId;
-    useOutputData: Function;
     schemaId: string;
-    definitionType: Type;
-    hasHandle: boolean;
-    animated: undefined | boolean;
-    jsx: JSX.Element;
 }
 interface NodesState {
-    outputNodes: node[];
+    outputNodes: MachinesNodeUI[];
 }
 
 const initialState: NodesState = {
     outputNodes: [],
 };
 
-export const nodesSlice = createSlice({
+export const machinesNodesSlice = createSlice({
     name: 'nodes',
     initialState,
     reducers: {
-        addNode: (state, node: node) => {
+        addNode: (state, node: MachinesNodeUI) => {
             console.log(node)
             return produce(state, (draftState: NodesState) => {
                 draftState.outputNodes.push(node);
@@ -44,5 +34,5 @@ export const nodesSlice = createSlice({
     },
 });
 
-export const { addNode, removeNode } = nodesSlice.actions;
-export default nodesSlice.reducer;
+export const { addNode, removeNode } = machinesNodesSlice.actions;
+export default machinesNodesSlice.reducer;

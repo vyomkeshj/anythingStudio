@@ -26,14 +26,13 @@ import ChartComponent from "../outputs/chart/ChartComponent";
 import AutoChart from "../outputs/autoChart/AutoChart";
 import TextSenderComponent from "../outputs/textSender/TextSenderComponent";
 import NodeBuilderNode from "../outputs/nodeBuilder/NodeBuilderNode";
-import {getShowLayout} from "../../core/selectors/app";
-import {addNode} from "../../redux/slices/nodesSlice";
+import {addNode} from "../../redux/slices/machinesNodesSlice";
 
 export interface FullOutputProps extends Omit<Output, 'id' | 'type'>, OutputProps {
     definitionType: Type;
 }
 
-const OutputComponents: Readonly<
+export const OutputComponents: Readonly<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Record<OutputKind, React.MemoExoticComponent<(props: any) => JSX.Element>>
 > = {
@@ -141,39 +140,56 @@ export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false, node
     const functions = functionDefinitions.get(schemaId)?.outputDefaults;
     useEffect(() => {
         outputs.forEach((output) => {
-            console.log(output.kind, OutputComponents, OutputComponents[output.kind])
-            dispatch(addNode({
+            const props = {
                 ...output,
                 id,
                 ui_message_registry: nodeData.outputChannelData,
                 outputId: output.id,
-                useOutputData,
                 kind: output.kind,
                 schemaId,
-                definitionType: functions?.get(output.id) ?? NeverType.instance,
-                hasHandle: output.hasHandle,
-                animated,
-                jsx: OutputComponents[output.kind]
-            }))
-        })
+            };
+            dispatch(
+              addNode({
+                  ...props,
+              })
+            );
+        });
     }, []);
+
     return (
-        <>
-            {outputs.map((output) => {
-                const props: FullOutputProps = {
-                    ...output,
-                    id,
-                    ui_message_registry: nodeData.outputChannelData,
-                    outputId: output.id,
-                    useOutputData,
-                    kind: output.kind,
-                    schemaId,
-                    definitionType: functions?.get(output.id) ?? NeverType.instance,
-                    hasHandle: output.hasHandle,
-                    animated
-                };
-                return pickOutput(output.kind, props);
-            })}
-        </>
+      <>
+          {outputs.map((output) => {
+              const props: FullOutputProps = {
+                  ...output,
+                  id,
+                  ui_message_registry: nodeData.outputChannelData,
+                  outputId: output.id,
+                  useOutputData,
+                  kind: output.kind,
+                  schemaId,
+                  definitionType: functions?.get(output.id) ?? NeverType.instance,
+                  hasHandle: output.hasHandle,
+                  animated,
+              };
+              return getOutputComponent(output.kind, props);
+          })}
+      </>
     );
 });
+
+const getOutputComponent = (kind: OutputKind, props: FullOutputProps) => {
+    const OutputType = OutputComponents[kind];
+    return (
+      <OutputContainer
+        definitionType={props.definitionType}
+        generic={OutputIsGeneric[kind]}
+        hasHandle={props.hasHandle}
+        id={props.id}
+        key={`${props.id}-${props.outputId}`}
+        label={props.label}
+        outputId={props.outputId}
+      >
+          <OutputType {...props} />
+      </OutputContainer>
+    );
+};

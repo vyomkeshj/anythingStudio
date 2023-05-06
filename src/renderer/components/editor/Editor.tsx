@@ -9,6 +9,7 @@ import CodePanel from "../CodePanel";
 import { getComponents } from "../../core/selectors/components";
 import {AppDispatch, RootState} from "../../redux/store";
 import { unselect } from "../../redux/slices/uiBuilderComponentsSlice";
+import log from "electron-log";
 
 export const gridStyles = {
   // backgroundImage:
@@ -17,17 +18,49 @@ export const gridStyles = {
   bgColor: "#0b0f14",
   p: 10
 };
+/*export interface MachinesNodeUI {
+    id: string;
+    type: ExpressionJson;
+    neverReason?: string | null;
+    label: string;
+    kind: OutputKind;
+    ui_message_registry: OutputChannel[];
+    outputId: OutputId;
+    useOutputData: Function;
+    schemaId: string;
+    definitionType: Type;
+    hasHandle: boolean;
+    animated: undefined | boolean;
+    jsx: JSX.Element;
+}
+*/
 
+/*
+export interface IComponent {
+  children: string[]
+  type: ComponentType
+  parent: string
+  id: string
+  props: any
+  rootParentType?: ComponentType
+  componentName?: string
+}
+ */
 const Editor: React.FC = () => {
-  const outputNodes = useSelector((state: RootState) => state.nodes.outputNodes);
-  useEffect(() => {
-    console.log(outputNodes)
-  }, [outputNodes])
   // todo: have some props come in here?
   const dispatch = useDispatch<AppDispatch>();
   const showCode = useSelector(getShowCode);
   const showLayout = useSelector(getShowLayout);
   const components = useSelector(getComponents);
+  const machinesComponents = useSelector((state: RootState) => state.nodes);
+
+  useEffect(() => {
+    log.info("machinesComponents: ", machinesComponents)
+  }, [machinesComponents])
+
+  // todo: convert machineComponents to IComponents with component parent root
+
+
 
   const { drop } = useDropComponent("root");
   const isEmpty = !components.root.children.length;
@@ -64,12 +97,6 @@ const Editor: React.FC = () => {
       flexDirection="column"
       onClick={onSelectBackground}
     >
-      {isEmpty && (
-        <Text maxWidth="md" color="gray.400" fontSize="xl" textAlign="center">
-          Drag a component here
-        </Text>
-      )}
-
       {components.root.children.map((name: string) => (
         <ComponentPreview key={name} componentName={name} />
       ))}

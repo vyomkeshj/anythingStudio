@@ -2,9 +2,11 @@ import React from 'react'
 import { Box } from '@chakra-ui/react'
 import { useDropComponent } from "../../../hooks/useDropComponent";
 import { useInteractive } from "../../../hooks/useInteractive";
+import icons from '../../../iconsList'
+import { IComponent } from "../../../../react-app-env";
 
 interface Props {
-  component: IComponent
+  component: ICeomponent
 }
 
 const IconPreview = ({ component }: Props) => {

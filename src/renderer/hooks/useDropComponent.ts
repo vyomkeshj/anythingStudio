@@ -4,6 +4,7 @@ import builder from "../composer/builder";
 import { rootComponents } from "../utils/editor";
 import {AppDispatch} from "../redux/store";
 import {addComponent, addMetaComponent, moveComponent} from "../redux/slices/uiBuilderComponentsSlice";
+import { ComponentItemProps, ComponentType, MetaComponentType } from "../../react-app-env";
 
 export const useDropComponent = (
   componentId: string,

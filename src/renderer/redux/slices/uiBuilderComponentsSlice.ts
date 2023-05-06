@@ -5,6 +5,7 @@ import {DEFAULT_PROPS} from "../../utils/defaultProps";
 import omit from "lodash/omit";
 import { deleteComponent as deleteComponentFunc, duplicateComponent } from "../../utils/recursive";
 import {generateId} from "../../utils/generateId";
+import { IComponent, IComponents } from "../../../react-app-env";
 
 export type UiBuilderComponentsState = {
     present: any;
@@ -49,10 +50,7 @@ export const uiBuilderComponentsSlice = createSlice({
         },
         resetProps(state: UiBuilderComponentsState, { payload }: {payload: {componentId: string}}): UiBuilderComponentsState {
             return produce(state, (draftState: UiBuilderComponentsState) => {
-                const component = draftState.components[payload.componentId]
-                const { form, ...defaultProps } = DEFAULT_PROPS[component.type] || {}
-
-                draftState.components[payload.componentId].props = defaultProps || {}
+                draftState.components[payload.componentId].props = DEFAULT_PROPS || {}
             })
         },
         updateProps(

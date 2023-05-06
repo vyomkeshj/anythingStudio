@@ -1,3 +1,5 @@
+import { ComponentType } from "../react-app-env";
+
 export type MenuItem = {
     children?: MenuItems
     soon?: boolean
@@ -31,15 +33,9 @@ export const menuItems: MenuItems = {
             TabPanels: {},
         },
     },
-    Machines: {
-        children: {
-            Image: {},
-        }
-    },
 }
 
 export const componentsList: ComponentType[] = [
-    'Machines',
     'AspectRatio',
     'Box',
     'Center',
@@ -50,9 +46,7 @@ export const componentsList: ComponentType[] = [
     'Heading',
     'Highlight',
     'Icon',
-    'IconButton',
     'Image',
-    'SimpleGrid',
     'Switch',
     'Tab',
     'TabList',

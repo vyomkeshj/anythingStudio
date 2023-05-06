@@ -9,6 +9,7 @@ import { getShowLayout, getFocusedComponent } from '../core/selectors/app'
 import {AppDispatch} from "../redux/store";
 import {toggleInputText} from "../redux/slices/uiBuilderSlice";
 import {hover, select, unhover} from "../redux/slices/uiBuilderComponentsSlice";
+import { IComponent } from "../../react-app-env";
 
 export const useInteractive = (
   component: IComponent,

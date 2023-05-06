@@ -1,5 +1,6 @@
 import map from 'lodash/map'
 import { RootState } from '../../redux/store'
+import { IComponent } from "../../../react-app-env";
 
 export const getComponents = (state: RootState) =>
   state.builderComponents.components

@@ -1,9 +1,9 @@
 import React, { memo, useState } from "react";
 import log from "electron-log";
-import { OutputProps } from "../props";
+import { UINodeOutputProps } from "../props";
 import { ToUIOutputMessage } from "../../../../common/ui_event_messages";
 import { useWebSocketUILink } from "../../../hooks/useWebSocketUILink";
-import { Jupyter, Notebook, CellSidebarDefault } from '@datalayer/jupyter-react';
+import { Jupyter } from '@datalayer/jupyter-react';
 import CellComponents from "./components/cell/CellComponents";
 
 
@@ -15,7 +15,7 @@ interface SubmittedResponse {
   successful: boolean
 }
 
-const NodeBuilderNode = memo(({ ui_message_registry }: OutputProps) => {
+const NodeBuilderNode = memo(({ ui_message_registry }: UINodeOutputProps) => {
   const [inputValue, setInputValue] = useState("");
 
   const handle_submit_response = (message: ToUIOutputMessage<SubmitText>) => {
