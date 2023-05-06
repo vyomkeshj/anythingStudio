@@ -4,6 +4,7 @@ declare module 'coloreact'
 declare module 'browser-nativefs'
 
 type ComponentType =
+  | 'Machines'
   | 'Accordion'
   | 'AccordionItem'
   | 'AccordionButton'

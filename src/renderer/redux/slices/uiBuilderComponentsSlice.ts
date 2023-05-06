@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {ComponentType} from "react";
-import templates, {TemplateType} from "../../templates";
 import produce from "immer";
 import {DEFAULT_PROPS} from "../../utils/defaultProps";
 import omit from "lodash/omit";
@@ -47,10 +46,6 @@ export const uiBuilderComponentsSlice = createSlice({
         reset(state: UiBuilderComponentsState, { payload }) {
             state.components = payload.components || INITIAL_COMPONENTS
             state.selectedId = DEFAULT_ID
-        },
-        loadDemo(state: UiBuilderComponentsState, { payload }: { payload: { type: TemplateType }}) {
-            state.selectedId = 'comp-root'
-            state.components = templates[payload.type]
         },
         resetProps(state: UiBuilderComponentsState, { payload }: {payload: {componentId: string}}): UiBuilderComponentsState {
             return produce(state, (draftState: UiBuilderComponentsState) => {
@@ -249,7 +244,6 @@ export const uiBuilderComponentsSlice = createSlice({
 });
 
 export const { reset,
-    loadDemo,
     resetProps,
     updateProps,
     deleteProps,

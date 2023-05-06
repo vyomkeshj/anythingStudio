@@ -7,6 +7,7 @@ export type UiBuilderState = {
     showCode: boolean
     inputTextFocused: boolean
     overlay: undefined | Overlay
+    // todo: nodes list
 }
 
 const initialState: UiBuilderState = {

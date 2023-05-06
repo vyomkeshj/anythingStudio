@@ -19,6 +19,7 @@ export const gridStyles = {
 };
 
 const Editor: React.FC = () => {
+  // todo: have some props come in here?
   const dispatch = useDispatch<AppDispatch>();
   const showCode = useSelector(getShowCode);
   const showLayout = useSelector(getShowLayout);

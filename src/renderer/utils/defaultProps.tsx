@@ -74,6 +74,7 @@ import iconsList from "../iconsList";
 type PropsWithForm<T> = T & { form?: T }
 
 type PreviewDefaultProps = {
+
   Badge?: PropsWithForm<BadgeProps>
   Box?: PropsWithForm<BoxProps>
   Button?: PropsWithForm<ButtonProps>
