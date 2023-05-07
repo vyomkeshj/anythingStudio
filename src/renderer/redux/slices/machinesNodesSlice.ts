@@ -10,7 +10,7 @@ export interface MachinesNodeUI {
     outputId: OutputId;
     schemaId: string;
 }
-interface NodesState {
+export interface NodesState {
     outputNodes: MachinesNodeUI[];
 }
 

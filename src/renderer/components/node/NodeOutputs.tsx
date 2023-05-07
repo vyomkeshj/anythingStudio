@@ -27,6 +27,7 @@ import AutoChart from "../outputs/autoChart/AutoChart";
 import TextSenderComponent from "../outputs/textSender/TextSenderComponent";
 import NodeBuilderNode from "../outputs/nodeBuilder/NodeBuilderNode";
 import {addNode} from "../../redux/slices/machinesNodesSlice";
+import { IComponent, IComponents } from "../../../react-app-env";
 
 export interface FullOutputProps extends Omit<Output, 'id' | 'type'>, OutputProps {
     definitionType: Type;
@@ -155,7 +156,24 @@ export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false, node
             );
         });
     }, []);
+    const components: IComponents = {};
+    // outputs.map((output) => IComponents {});
 
+    outputs.map((output) => {
+        const props: FullOutputProps = {
+            ...output,
+            id,
+            ui_message_registry: nodeData.outputChannelData,
+            outputId: output.id,
+            useOutputData,
+            kind: output.kind,
+            schemaId,
+            definitionType: functions?.get(output.id) ?? NeverType.instance,
+            hasHandle: output.hasHandle,
+            animated,
+        };
+        return getOutputComponent(output.kind, props);
+    })
     return (
       <>
           {outputs.map((output) => {
@@ -192,4 +210,32 @@ const getOutputComponent = (kind: OutputKind, props: FullOutputProps) => {
           <OutputType {...props} />
       </OutputContainer>
     );
+};
+
+const convertOutputToPropsToIComponent = (outputProps: OutputProps): IComponent => {
+    const component: IComponent = {
+        id: outputProps.id,
+        type: "ChatComponent",
+        parent: "root", // Set appropriate parent or root component ID
+        children: [], // Set children if any, otherwise leave empty array
+        props: {
+            label: outputProps.label,
+            outputId: outputProps.outputId,
+            schemaId: outputProps.schemaId,
+            definitionType: outputProps.definitionType,
+            hasHandle: outputProps.hasHandle,
+            animated: outputProps.animated,
+            ui_message_registry: outputProps.ui_message_registry,
+        },
+    };
+    return component;
+};
+const createIComponentsFromList = (componentsList: IComponent[]): IComponents => {
+    const components: IComponents = {};
+
+    componentsList.forEach((component) => {
+        components[component.id] = component;
+    });
+
+    return components;
 };

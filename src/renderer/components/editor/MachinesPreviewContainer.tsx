@@ -4,6 +4,7 @@ import { useInteractive } from "../../hooks/useInteractive";
 import { OutputProps, UINodeOutputProps } from "../outputs/props";
 import { ComponentType, IComponent } from "../../../react-app-env";
 import { newUuid } from "@datalayer/jupyter-react";
+import ChatComponent from "../outputs/chat/ChatComponent";
 
 const MachinesNodePreviewContainer: React.FC<{
   type: string | FunctionComponent<any> | ComponentClass<any, any>
@@ -28,7 +29,7 @@ const MachinesNodePreviewContainer: React.FC<{
   })
   const { ref } = useInteractive(component, enableVisualHelper)
 
-  const children = React.createElement(type, {
+  const children = React.createElement(ChatComponent, {
     machines_node_props,
     ref,
   })

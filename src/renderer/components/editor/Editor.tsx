@@ -10,6 +10,8 @@ import { getComponents } from "../../core/selectors/components";
 import {AppDispatch, RootState} from "../../redux/store";
 import { unselect } from "../../redux/slices/uiBuilderComponentsSlice";
 import log from "electron-log";
+import { IComponent, IComponents } from "../../../react-app-env";
+import { NodesState } from "../../redux/slices/machinesNodesSlice";
 
 export const gridStyles = {
   // backgroundImage:
@@ -18,34 +20,6 @@ export const gridStyles = {
   bgColor: "#0b0f14",
   p: 10
 };
-/*export interface MachinesNodeUI {
-    id: string;
-    type: ExpressionJson;
-    neverReason?: string | null;
-    label: string;
-    kind: OutputKind;
-    ui_message_registry: OutputChannel[];
-    outputId: OutputId;
-    useOutputData: Function;
-    schemaId: string;
-    definitionType: Type;
-    hasHandle: boolean;
-    animated: undefined | boolean;
-    jsx: JSX.Element;
-}
-*/
-
-/*
-export interface IComponent {
-  children: string[]
-  type: ComponentType
-  parent: string
-  id: string
-  props: any
-  rootParentType?: ComponentType
-  componentName?: string
-}
- */
 const Editor: React.FC = () => {
   // todo: have some props come in here?
   const dispatch = useDispatch<AppDispatch>();
@@ -53,6 +27,9 @@ const Editor: React.FC = () => {
   const showLayout = useSelector(getShowLayout);
   const components = useSelector(getComponents);
   const machinesComponents = useSelector((state: RootState) => state.nodes);
+
+  const machines = convertNodesStateToIComponents(machinesComponents);
+  const final_components = mergeIComponents(components, machines);
 
   useEffect(() => {
     log.info("machinesComponents: ", machinesComponents)
@@ -97,7 +74,7 @@ const Editor: React.FC = () => {
       flexDirection="column"
       onClick={onSelectBackground}
     >
-      {components.root.children.map((name: string) => (
+      {final_components.root.children.map((name: string) => (
         <ComponentPreview key={name} componentName={name} />
       ))}
     </Box>
@@ -127,3 +104,55 @@ const Editor: React.FC = () => {
 };
 
 export default memo(Editor);
+
+const convertNodesStateToIComponents = (nodesState: NodesState): IComponents => {
+  const components: IComponents = {};
+
+  nodesState.outputNodes.forEach((node) => {
+    const component: IComponent = {
+      id: node.id+"-output"+node.outputId,
+      type: "ChatComponent",
+      parent: "root", // Set appropriate parent or root component ID
+      children: [], // Set children if any, otherwise leave empty array
+      props: {
+        label: node.label,
+        outputId: node.outputId,
+        schemaId: node.schemaId,
+        ui_message_registry: node.ui_message_registry,
+      },
+    };
+
+    components[node.id] = component;
+  });
+
+  return components;
+};
+
+const mergeIComponents = (baseComponents: IComponents, componentsToAdd: IComponents): IComponents => {
+  // Create a shallow copy of the baseComponents object
+  const mergedComponents: IComponents = { ...baseComponents };
+
+  // Create a new root component with a new children array
+  const rootComponent = mergedComponents["root"];
+  const newRootComponent: IComponent = {
+    ...rootComponent,
+    children: [...rootComponent.children],
+  };
+  mergedComponents["root"] = newRootComponent;
+
+  // Iterate through componentsToAdd and add them as children to the root component of baseComponents
+  for (const id in componentsToAdd) {
+    const componentToAdd = componentsToAdd[id];
+
+    // Add the component to the mergedComponents
+    mergedComponents[id] = componentToAdd;
+
+    // If the componentToAdd has a parent, skip adding it as a child
+    if (componentToAdd.parent) continue;
+
+    // Add the componentToAdd as a child to the new root component
+    newRootComponent.children.push(id);
+  }
+
+  return mergedComponents;
+};
