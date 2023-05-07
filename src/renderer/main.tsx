@@ -199,59 +199,60 @@ export const Main = memo(({ port }: MainProps) => {
     );
   }
 
-  return (
-    <ReactFlowProvider>
-      <SettingsProvider>
-        <BackendProvider
-          categories={nodesInfo.categories}
-          categoriesMissingNodes={nodesInfo.categoriesMissingNodes}
-          functionDefinitions={nodesInfo.functionDefinitions}
-          port={port}
-          pythonInfo={pythonInfo}
-          refreshNodes={refreshNodes}
-          schemata={nodesInfo.schemata}
-        >
-          <GlobalProvider reactFlowWrapper={reactFlowWrapper}>
-            <ExecutionProvider>
-              <DependencyProvider>
-                <HistoryProvider>
-                  <WebSocketProvider url={wsUrl}>
+    return (
+        <ReactFlowProvider>
+            <SettingsProvider>
+                <BackendProvider
+                    categories={nodesInfo.categories}
+                    categoriesMissingNodes={nodesInfo.categoriesMissingNodes}
+                    functionDefinitions={nodesInfo.functionDefinitions}
+                    port={port}
+                    pythonInfo={pythonInfo}
+                    refreshNodes={refreshNodes}
+                    schemata={nodesInfo.schemata}
+                >
+                    <GlobalProvider reactFlowWrapper={reactFlowWrapper}>
+                        <ExecutionProvider>
+                            <DependencyProvider>
+                                <HistoryProvider>
+                                    <WebSocketProvider url={wsUrl}>
 
-                    <VStack
-                      bg="var(--window-bg)"
-                      h="100vh"
-                      overflow="hidden"
-                      p={2}
-                      w="100vw"
-                      alignItems="stretch"
-                    >
-                      <Header />
-                      <Box display={tab === 0 ? "block" : "none"} w="full">
-                        <HStack
-                          h="calc(100vh - 80px)"
-                          minH="360px"
-                          minW="720px"
-                          w="full"
-                        >
-                          <NodeSelector />
-                          <ReactFlowBox
-                            edgeTypes={edgeTypes}
-                            nodeTypes={nodeTypes}
-                            wrapperRef={reactFlowWrapper}
-                          />
-                        </HStack>
-                      </Box>
-                      <Box display={tab === 1 ? "block" : "none"} w="full">
-                        <UIBuilder />
-                      </Box>
-                    </VStack>
-                  </WebSocketProvider>
-                </HistoryProvider>
-              </DependencyProvider>
-            </ExecutionProvider>
-          </GlobalProvider>
-        </BackendProvider>
-      </SettingsProvider>
-    </ReactFlowProvider>
-  );
+                                    <VStack
+                                        bg="var(--window-bg)"
+                                        h="100vh"
+                                        overflow="hidden"
+                                        w="100vw"
+                                        alignItems="stretch"
+                                    >
+                                        <Header />
+                                        <Box display={tab === 0 ? "block" : "none"} w="full">
+                                        <HStack
+                                            h="100vh"
+                                            minH="360px"
+                                            minW="720px"
+                                            w="full"
+                                        >
+                                            {/*<NodeSelector />*/}
+                                            <WebSocketProvider url={wsUrl}>
+                                            <ReactFlowBox
+                                                edgeTypes={edgeTypes}
+                                                nodeTypes={nodeTypes}
+                                                wrapperRef={reactFlowWrapper}
+                                            />
+                                            </WebSocketProvider>
+                                        </HStack>
+                                        </Box>
+                                        <Box display={tab === 1 ? "block" : "none"} w="full">
+                                            <UIBuilder />
+                                        </Box>
+                                    </VStack>
+                                    </WebSocketProvider>
+                                </HistoryProvider>
+                            </DependencyProvider>
+                        </ExecutionProvider>
+                    </GlobalProvider>
+                </BackendProvider>
+            </SettingsProvider>
+        </ReactFlowProvider>
+    );
 });

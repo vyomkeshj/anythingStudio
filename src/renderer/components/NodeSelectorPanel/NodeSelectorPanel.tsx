@@ -120,15 +120,15 @@ export const NodeSelector = memo(() => {
     return (
         <HStack
             h="full"
-            mr={-5}
+            // mr={-5}
             pr={0}
             onMouseEnter={() => setShowCollapseButtons(true)}
             onMouseLeave={() => setShowCollapseButtons(false)}
         >
             <Box
                 bg="var(--node-selector-bg)"
-                borderRadius="lg"
-                borderWidth="0px"
+                // borderRadius="lg"
+                // borderWidth="0px"
                 h="100%"
             >
                 <motion.div
@@ -141,14 +141,6 @@ export const NodeSelector = memo(() => {
                         h="100%"
                         w="100%"
                     >
-                        <TabList h="88px">
-                            {!collapsed && (
-                                <>
-                                    <Tab>Q Apps</Tab>
-                                    {isExperimentalFeatures && <Tab>Presets</Tab>}
-                                </>
-                            )}
-                        </TabList>
                         <TabPanels>
                             <TabPanel
                                 m={0}
@@ -177,7 +169,7 @@ export const NodeSelector = memo(() => {
                                             }}
                                             aria-label="Collapse/Expand Categories"
                                             bg="var(--bg-700)"
-                                            borderRadius="0px 0px 8px 8px"
+                                            // borderRadius="0px 0px 8px 8px"
                                             h="0.5rem"
                                             opacity={showCollapseButtons ? 0.75 : 0}
                                             position="absolute"
