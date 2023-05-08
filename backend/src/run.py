@@ -247,7 +247,7 @@ async def run(request: Request):
         for node_id, node in graph.nodes.items():
             # the outputs here store the kinds of messages allowed
             node = node.get_node()
-            node.set_event_loop(app.loop)
+            # node.set_event_loop(app.loop)
             node_outputs: List[BaseOutput] = node.get_outputs()
             for output in node_outputs:
                 output.provide_channel_to_output(ctx.to_ui_channel)
