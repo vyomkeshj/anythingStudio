@@ -7,13 +7,13 @@ from ...io.outputs import TextOutput
 from ..text import category as TextCategory
 
 
-@NodeFactory.register("machines:text:text")
+@NodeFactory.register("machines:text:text_large")
 class TextValueNode(NodeBase):
     def __init__(self):
         super().__init__()
         self.description = "Outputs the given text."
         self.inputs = [
-            TextInput("Str:", min_length=0, kind="text-line"),
+            TextInput("Str:", min_length=0, kind="text"),
         ]
         self.outputs = [
             TextOutput("Str ->", output_type="Input0"),
@@ -22,7 +22,7 @@ class TextValueNode(NodeBase):
         self.resizable = True
         self.side_effects: bool = True
         self.category = TextCategory
-        self.name = "String"
+        self.name = "Large String"
         self.sub = "Value"
 
 

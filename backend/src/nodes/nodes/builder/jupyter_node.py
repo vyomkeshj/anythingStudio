@@ -1,7 +1,6 @@
-from typing import TypedDict, Any
+from typing import Any
 
 from src.events import ToUIOutputMessage
-from ...io.inputs import TextLineInput
 from ...io.inputs.signal_input import SignalInput
 from ...io.outputs import BaseOutput
 from ...io.outputs.jupyter_out import JupyterOutput

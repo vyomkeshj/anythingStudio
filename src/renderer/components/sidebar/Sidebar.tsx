@@ -1,4 +1,4 @@
-import React, {useState, ChangeEvent, memo, useEffect} from 'react'
+import React, {useState, ChangeEvent, memo} from 'react'
 import {
   Box,
   Input,
@@ -6,7 +6,6 @@ import {
   InputRightElement,
   DarkMode,
   IconButton,
-  Flex,
 } from '@chakra-ui/react'
 import { CloseIcon, SearchIcon } from '@chakra-ui/icons'
 import DragItem from './DragItem'

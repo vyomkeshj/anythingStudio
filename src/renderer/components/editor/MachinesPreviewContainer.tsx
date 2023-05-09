@@ -1,8 +1,8 @@
 import React, { FunctionComponent, ComponentClass, useState } from "react";
 import { Box } from '@chakra-ui/react'
 import { useInteractive } from "../../hooks/useInteractive";
-import { OutputProps, UINodeOutputProps } from "../outputs/props";
-import { ComponentType, IComponent } from "../../../react-app-env";
+import { UINodeOutputProps } from "../outputs/props";
+import { IComponent } from "../../../react-app-env";
 import { newUuid } from "@datalayer/jupyter-react";
 import ChatComponent from "../outputs/chat/ChatComponent";
 

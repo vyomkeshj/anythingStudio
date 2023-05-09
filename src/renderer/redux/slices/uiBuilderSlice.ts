@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ComponentType } from "../../../react-app-env";
 
 type Overlay = undefined | { rect: DOMRect; id: string; type: ComponentType }
 
