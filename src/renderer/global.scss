@@ -42,11 +42,11 @@ body {
     display: none;
 }
 
-.react-flow__node:focus,
-:focus-visible,
-:focus-within {
-    outline: none;
-}
+// .react-flow__node:focus,
+// :focus-visible,
+// :focus-within {
+//     outline: none;
+// }
 
 @keyframes logo-dashdraw {
     from {
@@ -54,87 +54,87 @@ body {
     }
 }
 
-.react-flow__handle-left {
-    left: 0 !important;
-    top: 0% !important;
-    transform: translateY(0%) !important;
-}
+// .react-flow__handle-left {
+//     left: 0 !important;
+//     top: 0% !important;
+//     transform: translateY(0%) !important;
+// }
 
-.react-flow__handle-right {
-    right: 0 !important;
-    top: 0% !important;
-    transform: translateY(0%) !important;
-}
+// .react-flow__handle-right {
+//     right: 0 !important;
+//     top: 0% !important;
+//     transform: translateY(0%) !important;
+// }
 
-.react-flow__handle {
-    position: relative;
-}
+// .react-flow__handle {
+//     position: relative;
+// }
 
-.react-flow__controls {
-    border-radius: 8px;
-    transition: 0.15s background ease-in-out;
-}
+// .react-flow__controls {
+//     border-radius: 8px;
+//     transition: 0.15s background ease-in-out;
+// }
 
-.react-flow__controls-button {
-    transition: 0.15s background ease-in-out !important;
-    transition: 0.15s border ease-in-out;
+// .react-flow__controls-button {
+//     transition: 0.15s background ease-in-out !important;
+//     transition: 0.15s border ease-in-out;
 
-    &:disabled {
-        cursor: default;
-    }
+//     &:disabled {
+//         cursor: default;
+//     }
 
-    &:disabled > svg {
-        fill: var(--gray-600);
-    }
-}
+//     &:disabled > svg {
+//         fill: var(--gray-600);
+//     }
+// }
 
-.react-flow__controls-zoomin {
-    border-radius: 8px 8px 0 0;
-}
+// .react-flow__controls-zoomin {
+//     border-radius: 8px 8px 0 0;
+// }
 
-.react-flow__controls > button:last-child {
-    border-radius: 0 0 8px 8px;
-}
+// .react-flow__controls > button:last-child {
+//     border-radius: 0 0 8px 8px;
+// }
 
-[data-theme='light'] {
-    .react-flow__controls:hover {
-        background: var(--gray-300) !important;
-    }
+// [data-theme='light'] {
+//     .react-flow__controls:hover {
+//         background: var(--gray-300) !important;
+//     }
 
-    .react-flow__controls-button {
-        border: 0 solid rgb(113 128 150 / 66%) !important;
-        background: rgb(203 213 224 / 66%) !important;
+//     .react-flow__controls-button {
+//         border: 0 solid rgb(113 128 150 / 66%) !important;
+//         background: rgb(203 213 224 / 66%) !important;
 
-        &:not(:disabled):hover {
-            background: var(--gray-400) !important;
-            border: 0 solid var(--gray-500) !important;
-        }
+//         &:not(:disabled):hover {
+//             background: var(--gray-400) !important;
+//             border: 0 solid var(--gray-500) !important;
+//         }
 
-        &:disabled > svg {
-            fill: var(--gray-400);
-        }
-    }
-}
+//         &:disabled > svg {
+//             fill: var(--gray-400);
+//         }
+//     }
+// }
 
-[data-theme='dark'] {
-    .react-flow__controls:hover {
-        background: var(--gray-700) !important;
-    }
+// [data-theme='dark'] {
+//     .react-flow__controls:hover {
+//         background: var(--gray-700) !important;
+//     }
 
-    .react-flow__controls-button {
-        border: 0 solid rgba(110, 144, 215, 0.66) !important;
-        background: rgba(32, 177, 255, 0.66) !important;
+//     .react-flow__controls-button {
+//         border: 0 solid rgba(110, 144, 215, 0.66) !important;
+//         background: rgba(32, 177, 255, 0.66) !important;
 
-        &:not(:disabled):hover {
-            background: var(--gray-600) !important;
-            border: 0 solid var(--gray-600) !important;
-        }
+//         &:not(:disabled):hover {
+//             background: var(--gray-600) !important;
+//             border: 0 solid var(--gray-600) !important;
+//         }
 
-        &:not(:disabled) > svg {
-            fill: white;
-        }
-    }
-}
+//         &:not(:disabled) > svg {
+//             fill: white;
+//         }
+//     }
+// }
 
 ::-webkit-scrollbar {
     width: 9px;

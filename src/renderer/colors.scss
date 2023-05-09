@@ -8,8 +8,8 @@
     $gray-500: #2f4f7e;
     $gray-600: #65f354;
     $gray-700: #252526;
-    $gray-800: #0b0f15;
-    $gray-900: #171923;
+    $gray-800: #141415;
+    $gray-900: #141415;
 
     /* color palette */
     --gray-50: #121313;
@@ -25,6 +25,8 @@
     --gray-800: #{$gray-800};
     --gray-850: #{color.mix($gray-800, $gray-900, 50%)};
     --gray-900: #{$gray-900};
+
+    --off-white: rgb(59, 59, 59);
 
     /* backgrounds */
     --bg-800: var(--gray-800);
@@ -73,6 +75,7 @@
     /* specific colors */
     --window-bg: var(--gray-900);
     --header-bg: #1b1b1c;
+    --selected-tab-color: #182841;
     --chain-editor-bg: var(--bg-800);
     --node-selector-bg: var(--bg-800);
 }
