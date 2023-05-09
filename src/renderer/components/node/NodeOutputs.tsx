@@ -25,9 +25,9 @@ import TicTacToeComponent from "../outputs/ticTacToe/TicTacToeComponent";
 import ChartComponent from "../outputs/chart/ChartComponent";
 import AutoChart from "../outputs/autoChart/AutoChart";
 import TextSenderComponent from "../outputs/textSender/TextSenderComponent";
-import NodeBuilderNode from "../outputs/nodeBuilder/NodeBuilderNode";
 import {addNode} from "../../redux/slices/machinesNodesSlice";
 import { IComponent, IComponents } from "../../../react-app-env";
+import JupyterCellNode from "../outputs/nodeBuilder/JupyterCellNode";
 
 export interface FullOutputProps extends Omit<Output, 'id' | 'type'>, OutputProps {
     definitionType: Type;
@@ -37,7 +37,7 @@ export const OutputComponents: Readonly<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Record<OutputKind, React.MemoExoticComponent<(props: any) => JSX.Element>>
 > = {
-    jupyter: NodeBuilderNode,
+    jupyter: JupyterCellNode,
     markdown: MarkdownOutput,
     html: HtmlOutput,
     'text_sender': TextSenderComponent,
