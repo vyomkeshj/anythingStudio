@@ -21,7 +21,6 @@ JsonInput = Union[JsonEdgeInput, JsonValueInput]
 
 
 class JsonNode(TypedDict):
-    """The Node representation received from the UI"""
     id: NodeId
     schemaId: str
     inputs: List[JsonInput]
@@ -48,6 +47,7 @@ def parse_json(json: List[JsonNode]) -> Tuple[NMGraph, InputMap]:
 
     for json_node in json:
         if json_node["nodeType"] == "iterator":
+            #
             node = IteratorNode(json_node["id"], json_node["schemaId"], json_node["output_channels"])
         else:
             node = FunctionNode(json_node["id"], json_node["schemaId"], json_node["output_channels"])
@@ -68,6 +68,7 @@ def parse_json(json: List[JsonNode]) -> Tuple[NMGraph, InputMap]:
         source_node = nm_graph.nodes[index_edge.from_id].get_node()
         target_node = nm_graph.nodes[index_edge.to_id].get_node()
 
+        #todo: create subscription hererere!
         nm_graph.add_edge(
             Edge(
                 EdgeSource(

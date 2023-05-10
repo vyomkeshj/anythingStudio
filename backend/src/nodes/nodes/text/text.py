@@ -13,16 +13,16 @@ class TextValueNode(NodeBase):
         super().__init__()
         self.description = "Outputs the given text."
         self.inputs = [
-            TextInput("Str:", min_length=0, kind="text-line"),
+            TextInput("Text", min_length=0, kind="text"),
         ]
         self.outputs = [
-            TextOutput("Str ->", output_type="Input0"),
+            TextOutput("Text", output_type="Input0"),
         ]
 
         self.resizable = True
         self.side_effects: bool = True
         self.category = TextCategory
-        self.name = "String"
+        self.name = "string"
         self.sub = "Value"
 
 

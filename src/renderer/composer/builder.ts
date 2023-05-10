@@ -1,5 +1,6 @@
 import Composer from './composer'
 import { IComponents } from "../../react-app-env";
+import ChatComponent from "../components/outputs/chat/ChatComponent";
 
 type ComposedComponent = {
   components: IComponents

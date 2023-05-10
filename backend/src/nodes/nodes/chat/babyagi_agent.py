@@ -15,7 +15,7 @@ from ...nodes.chat.io.plugins import PluginListInput
 from ...io.outputs.signal_output import SignalOutput
 from ...node_base import NodeBase
 from ...node_factory import NodeFactory
-from ...io.inputs import SliderInput, TextAreaInput, TextInput
+from ...io.inputs import SliderInput
 from . import category as ChatCategory
 from langchain.vectorstores import FAISS
 from langchain.docstore import InMemoryDocstore
@@ -23,18 +23,18 @@ from langchain.docstore import InMemoryDocstore
 import faiss
 
 
-@NodeFactory.register("machines:chat:nodebuilder_agent")
+@NodeFactory.register("machines:chat:bubbagi_agent")
 class BabyAgiNode(NodeBase):
     def __init__(self):
         super().__init__()
-        self.description = "Node Builder AI."
+        self.description = "Baby AGI Node."
         self.inputs = [
             PluginListInput(label="Plugins List ->"),
             SliderInput(
                 "Completion Len",
                 minimum=30,
                 maximum=3000,
-                default=1000,
+                default=300,
                 precision=1,
                 controls_step=1,
                 gradient=[
@@ -78,10 +78,6 @@ class BabyAgiNode(NodeBase):
                     "#ff00ff",
                     "#ff0000",
                 ]),
-            TextInput(label="Task Creation Prompt", kind="text"),
-            TextInput(label="Task Prioritization Prompt", kind="text"),
-            TextInput(label="Agent Prefix Prompt", kind="text"),
-            TextInput(label="Agent Suffix Prompt", kind="text"),
         ]
         self.outputs = [SignalOutput(label="-> [R] bot msg out"), SignalOutput(label="<- usr msg in [R]")]
 
@@ -93,7 +89,7 @@ class BabyAgiNode(NodeBase):
         self.name = "Auto GPT"
 
         self.baby_agi = None
-        self.completion_len = 1000
+        self.completion_len = 150
         self.controller = None
 
         self.api_key = None
@@ -106,8 +102,7 @@ class BabyAgiNode(NodeBase):
 
         self.side_effects = True
 
-    def run(self, tools_list: List[Tool], completion_len: float, temp: float, attempts: float,
-            task_creation_prompt: str, task_prioritization_prompt: str, agent_prefix_prompt: str, agent_suffix_prompt: str) -> Tuple[AsyncSubject, AsyncSubject]:
+    def run(self, tools_list: List[Tool], completion_len: float, temp: float, attempts: float) -> Tuple[AsyncSubject, AsyncSubject]:
         """
             baby agi node
         """
@@ -130,10 +125,8 @@ class BabyAgiNode(NodeBase):
         # If None, will keep on going forever
         max_iterations: Optional[int] = int(attempts)
         self.baby_agi = BabyAGI.from_llm(
-            llm=llm, vectorstore=vector_store, verbose=verbose, max_iterations=max_iterations, tool_list=tools_list,
-            task_creation_template=task_creation_prompt, task_prioritization_template=task_prioritization_prompt,
-            zero_shot_prefix=agent_prefix_prompt, zero_shot_suffix=agent_suffix_prompt)
-
+            llm=llm, vectorstore=vector_store, verbose=verbose, max_iterations=max_iterations, tool_list=tools_list
+        )
         self.observer = MessageObserver(self)
         logger.info(f"the subjects are: {self.bot_msg_output}, {self.usr_nxt_msg_in}")
         return self.bot_msg_output, self.usr_nxt_msg_in

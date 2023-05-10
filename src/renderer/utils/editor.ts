@@ -5,8 +5,6 @@
 //   'AlertTitle',
 // ]
 
-import { ComponentType, MetaComponentType } from "../../react-app-env";
-
 export const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'Box',
   'Button',
