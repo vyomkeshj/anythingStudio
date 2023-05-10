@@ -5,6 +5,8 @@
 //   'AlertTitle',
 // ]
 
+import {MetaComponentType} from "../../react-app-env";
+
 export const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   'Box',
   'Button',
@@ -29,6 +31,9 @@ export const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   // Allow meta components
   'TabsMeta',
   'ChatComponent',
+  'AutoChart',
+  'TicTacToe',
+  'LiveChart',
 ]
 
 // export const AccordionWhitelist: (

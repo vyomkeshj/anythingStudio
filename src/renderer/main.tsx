@@ -220,7 +220,7 @@ export const Main = memo(({ port }: MainProps) => {
                     <VStack
                       bg="var(--window-bg)"
                       h="100vh"
-                      overflow="hidden"
+                      // overflow="hidden"
                       p={2}
                       w="100vw"
                       alignItems="stretch"

@@ -45,6 +45,7 @@ type PreviewDefaultProps = {
   TabPanels?: PropsWithForm<TabPanelsProps>
   AutoChart?: PropsWithForm<BoxProps>
   ChatComponent?: PropsWithForm<BoxProps>
+  TicTacToe?: PropsWithForm<BoxProps>
   Tab?: PropsWithForm<TabProps>
   Tabs?: PropsWithForm<TabsProps>
   Select?: PropsWithForm<SelectProps & { children: JSX.Element }>
@@ -82,6 +83,9 @@ export const DEFAULT_PROPS: PreviewDefaultProps = {
   AutoChart: { form: {
       display: "grid"
     } },
+  TicTacToe: { form: {
+      display: "grid"
+    } },
   ChatComponent: { form: {
       display: "grid"
     } },
@@ -98,6 +102,16 @@ export const getDefaultFormProps = (type: ComponentType, outputNodes: MachinesNo
   }
   if (type === "AutoChart") {
     const props = outputNodes.filter((node) => node.payload.schemaId === "machines:chart:autochart")[0].payload
+    return {...props}
+  }
+  // @ts-ignore
+  if (type === "TicTacToe") {
+    const props = outputNodes.filter((node) => node.payload.schemaId === "machines:games:tic_tac_toe")[0].payload
+    return {...props}
+  }
+  // @ts-ignore
+  if (type === "LiveChart") {
+    const props = outputNodes.filter((node) => node.payload.schemaId === "machines:chart:chart_node")[0].payload
     return {...props}
   }
   //@ts-ignore
