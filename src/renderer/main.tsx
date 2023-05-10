@@ -224,17 +224,17 @@ export const Main = memo(({ port }: MainProps) => {
 
                                     <VStack
                                         bg="var(--window-bg)"
-                                        h="101vh"
+                                        h="100vh"
                                         overflow="hidden"
                                         w="100vw"
                                         alignItems="stretch"
                                     >
                                         <HeaderSearch />
-										{
-											tab === 0 ? <Box>
+                                        <Box>
                                         <HStack
-                                            h="86.5vh"
+                                            h="100vh"
                                             minH="360px"
+                                            display={tab === 0 ? "block": "none"}
                                             minW="720px"
                                             w="full"
                                         >
@@ -244,9 +244,12 @@ export const Main = memo(({ port }: MainProps) => {
 											wrapperRef={reactFlowWrapper} 
 											/> 
                                         </HStack>
-											</Box> : <Box height={"86.5vh"} width={"full"}><UIBuilder /></Box>
-										}
+											</Box> 
 										
+                                            <Box 
+                                             display={tab === 1 ? "block": "none"}
+                                            height={"86.5vh"} 
+                                            width={"full"}><UIBuilder /></Box>
                                         
                                         <Header />
                                         <Box>

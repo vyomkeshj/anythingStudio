@@ -327,7 +327,7 @@ export const createMainWindow = async (args: OpenArguments) => {
         titleBarStyle: 'hiddenInset',
         darkTheme: nativeTheme.shouldUseDarkColors,
         roundedCorners: true,
-        trafficLightPosition: {x: 12, y: 18},
+        trafficLightPosition: {x: 12, y: 16},
         webPreferences: {
             webSecurity: false,
             nodeIntegration: true,

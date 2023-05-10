@@ -19,6 +19,9 @@ import { AppDispatch, RootState } from "../../redux/store";
 			<Tabs 
 			zIndex={99999}
 			variant={'unstyled'} 
+			position={"fixed"}
+			bottom="0"
+			left={"0"}
 			bg="gray.500"
 			width={"100%"}
 			>

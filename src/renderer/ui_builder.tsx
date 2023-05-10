@@ -29,9 +29,8 @@ const UIBuilder = memo(() => {
         })}
       />
       <Metadata />
-      <HeaderUI />
       <DndProvider backend={HTML5Backend}>
-        <Flex h="calc(100vh - 3rem)">
+        <Flex h="calc(100vh - 4rem)" marginTop={"30px"}>
           <Sidebar />
           <EditorErrorBoundary>
             <Box bg="#0c0e13" flex={1} position="relative">

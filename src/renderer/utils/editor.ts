@@ -31,6 +31,9 @@ export const COMPONENTS: (ComponentType | MetaComponentType)[] = [
   // Allow meta components
   'TabsMeta',
   'ChatComponent',
+  'AutoChart',
+  'TicTacToe',
+  'LiveChart',
 ]
 
 // export const AccordionWhitelist: (

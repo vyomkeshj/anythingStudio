@@ -52,7 +52,7 @@ class OpenAIListener(AsyncObserver):
 
     async def asend(self, value) -> None:
         logger.info("value is: " + str(value))
-        input_val = value['submitted_text']
+        input_val = value['msg']
         chart_type = openai.ChatCompletion.create(
             model=self.model,
             messages=[

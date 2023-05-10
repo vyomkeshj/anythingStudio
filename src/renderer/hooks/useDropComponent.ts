@@ -15,9 +15,14 @@ export const useDropComponent = (
 
   const [{ isOver }, drop] = useDrop({
     accept,
-    collect: monitor => ({
-      isOver: monitor.isOver({ shallow: true }) && monitor.canDrop(),
-    }),
+    collect: monitor => () => {
+      console.log(monitor, canDrop, monitor.canDrop())
+      return {
+        isOver: monitor.isOver({ shallow: true }) && monitor.canDrop(),
+      }
+    },
+      // isOver: monitor.isOver({ shallow: true }) && monitor.canDrop(),
+    // }),
     drop: (item: ComponentItemProps, monitor: DropTargetMonitor) => {
       if (!monitor.isOver()) {
         return

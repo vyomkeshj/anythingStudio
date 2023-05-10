@@ -25,7 +25,8 @@ type ComponentType =
   | 'TabList'
   | 'TabPanel'
   | 'TabPanels'
-  | 'ChatComponent'
+  | 'TicTacToe'
+  | 'LiveChart'
   | 'AutoChart'
 
 type MetaComponentType =

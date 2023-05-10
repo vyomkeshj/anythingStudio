@@ -17,6 +17,7 @@ import { useContext, useContextSelector } from 'use-context-selector';
 import { BackendContext } from '../../contexts/BackendContext';
 import { DependencyContext } from '../../contexts/DependencyContext';
 import { SettingsContext } from '../../contexts/SettingsContext';
+import HeaderUI from "../../components/Header";
 import {
     getMatchingNodes,
     getNodesByCategory,
@@ -116,6 +117,7 @@ export const NodeSelector = memo(() => {
                 borderRadius={5}
                 bg="var(--node-selector-bg)"
                 >
+                
                 <SearchBar
                 value={searchQuery}
                 onFocusCapture={(status: Boolean) => setSearchFocus(status)}

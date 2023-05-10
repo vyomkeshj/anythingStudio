@@ -10,6 +10,8 @@ import IconPreview from "./previews/IconPreview";
 import AutoChart from "../outputs/autoChart/AutoChart";
 import ChatComponent from "../outputs/chat/ChatComponent";
 import ChatContainer from "./ChatContainer";
+import TicTacToeComponent from "../outputs/ticTacToe/TicTacToeComponent";
+import ChartComponent from "../outputs/chart/ChartComponent";
 
 const ComponentPreview: React.FC<{
   componentName: string
@@ -36,21 +38,43 @@ const ComponentPreview: React.FC<{
           {...forwardedProps}
         />
       )
+    case 'AutoChart':
+      return (
+          <ChatContainer
+              component={component}
+              // @ts-ignore
+              type={AutoChart}
+              componentType="auto_chart"
+              {...forwardedProps}
+          />
+      )
     case 'ChatComponent':
       return (
           <ChatContainer
               component={component}
               // @ts-ignore
               type={ChatComponent}
+              componentType="chat"
               {...forwardedProps}
           />
       )
-    case 'AutoChart':
+    case 'TicTacToe':
       return (
-          <PreviewContainer
+          <ChatContainer
               component={component}
               // @ts-ignore
-              type={AutoChart}
+              type={TicTacToeComponent}
+              componentType="tic_tac_toe"
+              {...forwardedProps}
+          />
+      )
+    case 'LiveChart':
+      return (
+          <ChatContainer
+              component={component}
+              // @ts-ignore
+              type={ChartComponent}
+              componentType="tic_tac_toe"
               {...forwardedProps}
           />
       )
