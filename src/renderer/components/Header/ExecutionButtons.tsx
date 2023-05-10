@@ -22,20 +22,20 @@ export const ExecutionButtons = memo(() => {
                         : `${t('header.run', 'Run')} (F5)`
                 }
                 px={2}
-                py={1}
+                py={2}
             >
                 <IconButton
                     aria-label={t('header.runButton', 'Run button')}
                     colorScheme="blue"
                     disabled={
-                        !(status === ExecutionStatus.READY || status === ExecutionStatus.PAUSED)
+                        false
                     }
                     icon={<IoPlayCircle />}
                     size="md"
                     variant="outline"
                     onClick={() => {
                         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                        run();
+                        run().then(r => console.log(r));
                     }}
                 />
             </Tooltip>
@@ -50,14 +50,14 @@ export const ExecutionButtons = memo(() => {
                 <IconButton
                     aria-label={t('header.stopButton', 'Stop button')}
                     colorScheme="orange"
-                    disabled={![ExecutionStatus.RUNNING, ExecutionStatus.PAUSED].includes(status)}
+                    disabled={false}
                     icon={<IoStopCircle />}
                     isLoading={ExecutionStatus.KILLING === status}
                     size="md"
                     variant="outline"
                     onClick={() => {
                         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                        kill();
+                        kill().then(r => console.log(r));
                     }}
                 />
             </Tooltip>

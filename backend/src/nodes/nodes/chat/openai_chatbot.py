@@ -11,7 +11,6 @@ from ...io.inputs import SliderInput, TextInput
 from . import category as ChatCategory
 
 
-# some way to just tag this as websocket node?
 @NodeFactory.register("machines:chat:oai_chatbot")
 class OAIChatbot(NodeBase):
     def __init__(self):

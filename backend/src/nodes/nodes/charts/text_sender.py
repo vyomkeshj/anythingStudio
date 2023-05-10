@@ -4,6 +4,7 @@ import asyncio
 from typing import Tuple
 
 from aioreactive import AsyncSubject
+from sanic.log import logger
 
 from ...io.inputs import SliderInput
 from ...io.outputs.reactive_outputs import TextSenderOutput
@@ -43,8 +44,9 @@ class TextSenderNode(NodeBase):
         return '', self.signal_src
 
     async def run_async(self):
-        while True:
-            event = await self.text_sender_output.receive_ui_event(channel_name='submit_text')
-            await asyncio.sleep(self.delay)
-            await self.signal_src.asend(event['data'])
+        logger.info("Running Text Sender")
+        # while True:
+        #     event = await self.text_sender_output.receive_ui_event(channel_name='submit_text')
+        #     await asyncio.sleep(self.delay)
+        #     await self.signal_src.asend(event['data'])
             # todo: send response

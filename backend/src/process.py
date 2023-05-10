@@ -377,11 +377,13 @@ class Executor:
             await self.__broadcast_data(node_instance, node.id, execution_time, output)
 
         if hasattr(node_instance, "run_async") and callable(node_instance.run_async):
+            logger.info(f"Running node {node.schema_id} asynchronously")
             task = self.loop.create_task(node_instance.run_async())
             self.__node_async_runners.append(task)
             await task
 
-        del node_instance
+        # fixme: and then you delete the instance, nice
+        # del node_instance
 
         # Cache the output of the node
         # If we are executing a free node from within an iterator,
@@ -393,7 +395,7 @@ class Executor:
         )
         write_cache.set(node.id, output, self.cache_strategy[node.id])
 
-        gc.collect()
+        # gc.collect()
         return output
 
     async def __broadcast_data(

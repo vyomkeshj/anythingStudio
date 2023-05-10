@@ -9,6 +9,7 @@ from reactivex import Subject
 from sanic.log import logger
 
 from .babyagi.babyagi import BabyAGI
+from .babyagi.prompts import task_creation_template, task_prioritization_template, agent_suffix, agent_prefix
 from .impl.protocol import MsgFromUser, MsgFromChatbot
 from .openai_chatbot import OAIChatbot
 from ...nodes.chat.io.plugins import PluginListInput
@@ -118,15 +119,22 @@ class BabyAgiNode(NodeBase):
         vector_store = FAISS(embeddings_model.embed_query, index, InMemoryDocstore({}), {})
 
         # Logging of LLMChains
-        llm = OpenAI(temperature=temp, api_key=self.api_key)
+        llm = OpenAI(temperature=temp, api_key=self.api_key, model_name="gpt-4")
         # llm = OpenAI(temperature=temp, api_key=self.api_key, )
 
         verbose = True
         # If None, will keep on going forever
         max_iterations: Optional[int] = int(attempts)
         self.baby_agi = BabyAGI.from_llm(
+<<<<<<< Updated upstream
             llm=llm, vectorstore=vector_store, verbose=verbose, max_iterations=max_iterations, tool_list=tools_list
         )
+=======
+            llm=llm, vectorstore=vector_store, verbose=verbose, max_iterations=max_iterations, tool_list=tools_list,
+            task_creation_template=task_creation_template, task_prioritization_template=task_prioritization_template,
+            zero_shot_prefix=agent_prefix, zero_shot_suffix=agent_suffix)
+
+>>>>>>> Stashed changes
         self.observer = MessageObserver(self)
         logger.info(f"the subjects are: {self.bot_msg_output}, {self.usr_nxt_msg_in}")
         return self.bot_msg_output, self.usr_nxt_msg_in
@@ -134,7 +142,7 @@ class BabyAgiNode(NodeBase):
     async def run_async(self):
         if self.subscription is None:
             self.subscription = await self.usr_nxt_msg_in.subscribe_async(self.observer)
-        await asyncio.sleep(0.2)
+        # await asyncio.sleep(0.2)
 
 
 class MessageObserver(AsyncObserver):

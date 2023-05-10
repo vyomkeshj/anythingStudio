@@ -65,7 +65,7 @@ class BabyAGI(Chain, BaseModel):
     def _call(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
         """Run the agent."""
         objective = inputs["objective"]
-        first_task = inputs.get("first_task", "Make a todo list")
+        first_task = inputs.get("first_task", "You are a data scientist, make a todo list to solve the objective using the tools available to be used by the next agent to solve the objective.")
         self.add_task({"task_id": 1, "task_name": first_task})
         num_iters = 0
         while True:
