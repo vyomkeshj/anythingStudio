@@ -15,13 +15,20 @@ export const AppInfo = memo(() => {
     );
 
     return (
-        <HStack border={"1px solid green"}>
-            <Image
-                boxSize="20px"
-                draggable={false}
-                src={logo}
-            />
-            <p>MachinesStudio({`v${appVersion}`})</p>
-        </HStack>
+        <Box w="full">
+            <HStack
+                ml={0}
+                mr="auto"
+            >
+                <Image
+                    boxSize="36px"
+                    draggable={false}
+                    src={logo}
+                />
+                <Heading size="md">MachinesStudio</Heading>
+                <Tag>-</Tag>
+                <Tag>{`v${appVersion}`}</Tag>
+            </HStack>
+        </Box>
     );
 });

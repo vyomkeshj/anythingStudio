@@ -612,6 +612,8 @@ export const ReactFlowBox = memo(({ wrapperRef, nodeTypes, edgeTypes }: ReactFlo
     return (
         <Box
             bg="var(--chain-editor-bg)"
+            borderRadius="lg"
+            borderWidth="0px"
             className={animateChain ? '' : 'no-chain-animation'}
             h="100%"
             ref={wrapperRef}

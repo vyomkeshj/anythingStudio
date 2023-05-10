@@ -14,16 +14,19 @@ export const Header = memo(() => {
     return (
         <Box
             bg="var(--header-bg)"
+            borderRadius="lg"
+            // borderWidth="0px"
+            h="56px"
             w="100%"
         >
             <SimpleGrid
                 columns={5}
                 h="56px"
                 w="100%"
+                // p={2}
                 spacing={3}
             >
                 <AppInfo />
-                <HStack></HStack>
                 <ExecutionButtons />
                 <SettingsButton />
 

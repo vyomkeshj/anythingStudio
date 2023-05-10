@@ -11,7 +11,7 @@ export const ExecutionButtons = memo(() => {
     const { run, pause, kill, status } = useContext(ExecutionContext);
 
     return (
-        <HStack justify={"flex-end"}>
+        <HStack>
             <Tooltip
                 closeOnClick
                 closeOnMouseDown
@@ -31,7 +31,7 @@ export const ExecutionButtons = memo(() => {
                         !(status === ExecutionStatus.READY || status === ExecutionStatus.PAUSED)
                     }
                     icon={<IoPlayCircle />}
-                    size="sm"
+                    size="md"
                     variant="outline"
                     onClick={() => {
                         // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -53,7 +53,7 @@ export const ExecutionButtons = memo(() => {
                     disabled={![ExecutionStatus.RUNNING, ExecutionStatus.PAUSED].includes(status)}
                     icon={<IoStopCircle />}
                     isLoading={ExecutionStatus.KILLING === status}
-                    size="sm"
+                    size="md"
                     variant="outline"
                     onClick={() => {
                         // eslint-disable-next-line @typescript-eslint/no-floating-promises
