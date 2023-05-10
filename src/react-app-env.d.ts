@@ -25,6 +25,8 @@ type ComponentType =
   | 'TabList'
   | 'TabPanel'
   | 'TabPanels'
+  | 'ChatComponent'
+  | 'AutoChart'
 
 type MetaComponentType =
   | 'MachinesMeta'

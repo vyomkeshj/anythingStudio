@@ -5,10 +5,12 @@ import { RootState } from "../redux/store";
 import { getDefaultFormProps } from "../utils/defaultProps";
 
 const usePropsSelector = (propsName: string) => {
+  let outputNodes = useSelector((state: RootState) => state.nodes.outputNodes);
   const { addActiveProps } = useInspectorUpdate()
 
   useEffect(() => {
     // Register form props name for custom props panel
+    console.log(propsName)
     addActiveProps(propsName)
   }, [addActiveProps, propsName])
 
@@ -21,8 +23,8 @@ const usePropsSelector = (propsName: string) => {
       return propsValue
     }
 
-    if (getDefaultFormProps(component.type)[propsName] !== undefined) {
-      return getDefaultFormProps(component.type)[propsName]
+    if (getDefaultFormProps(component.type, outputNodes)[propsName] !== undefined) {
+      return getDefaultFormProps(component.type, outputNodes)[propsName]
     }
 
     return ''

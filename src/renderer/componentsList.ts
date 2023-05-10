@@ -24,6 +24,8 @@ export const menuItems: MenuItems = {
     Icon: {},
     Image: {},
     Switch: {},
+    ChatComponent: {},
+    AutoChart: {},
     Tabs: {
         children: {
             Tabs: {},
@@ -48,6 +50,8 @@ export const componentsList: ComponentType[] = [
     'Icon',
     'Image',
     'Switch',
+    'ChatComponent',
+    'AutoChart',
     'Tab',
     'TabList',
     'TabPanel',

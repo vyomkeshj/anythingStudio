@@ -7,6 +7,9 @@ import PreviewContainer from "./PreviewContainer";
 import WithChildrenPreviewContainer from "./WithChildrenPreviewContainer";
 import AspectRatioPreview from "./previews/AspectRatioBoxPreview";
 import IconPreview from "./previews/IconPreview";
+import AutoChart from "../outputs/autoChart/AutoChart";
+import ChatComponent from "../outputs/chat/ChatComponent";
+import ChatContainer from "./ChatContainer";
 
 const ComponentPreview: React.FC<{
   componentName: string
@@ -28,9 +31,28 @@ const ComponentPreview: React.FC<{
       return (
         <PreviewContainer
           component={component}
+            // @ts-ignore
           type={Chakra[type]}
           {...forwardedProps}
         />
+      )
+    case 'ChatComponent':
+      return (
+          <ChatContainer
+              component={component}
+              // @ts-ignore
+              type={ChatComponent}
+              {...forwardedProps}
+          />
+      )
+    case 'AutoChart':
+      return (
+          <PreviewContainer
+              component={component}
+              // @ts-ignore
+              type={AutoChart}
+              {...forwardedProps}
+          />
       )
     // Wrapped functional components (forward ref issue)
     case 'Divider':
@@ -63,6 +85,17 @@ const ComponentPreview: React.FC<{
       return <AspectRatioPreview component={component} />
     case 'Icon':
       return <IconPreview component={component} />
+    // case 'ChatComponent':
+    //   // @ts-ignore
+    //   return <WithChildrenPreviewContainer
+    //       enableVisualHelper
+    //       component={component}
+    //       type={ChatComponent}
+    //       {...forwardedProps}
+    //   />
+    // case 'auto_chart':
+    //   // @ts-ignore
+    //   return <AutoChart {...forwardedProps} />
     default:
       return null
   }

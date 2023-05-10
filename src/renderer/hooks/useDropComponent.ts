@@ -22,7 +22,7 @@ export const useDropComponent = (
       if (!monitor.isOver()) {
         return
       }
-
+      console.log(item)
       if (item.isMoved) {
         dispatch(moveComponent({
           parentId: componentId,

@@ -2,6 +2,8 @@ import React, { FunctionComponent, ComponentClass } from 'react'
 import { Box } from '@chakra-ui/react'
 import { useInteractive } from "../../hooks/useInteractive";
 import { IComponent } from "../../../react-app-env";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
 
 const PreviewContainer: React.FC<{
   component: IComponent
@@ -15,8 +17,12 @@ const PreviewContainer: React.FC<{
   isBoxWrapped,
   ...forwardedProps
 }) => {
-
-  const { props, ref } = useInteractive(component, enableVisualHelper)
+  let outputNodes = useSelector((state: RootState) => state.nodes.outputNodes);
+  // @ts-ignore
+  const passedProps = outputNodes.filter((node) => node.payload.schemaId === "machines:chat:chat_node")[0].payload
+  const componentCopy = JSON.parse(JSON.stringify(component))
+  componentCopy.props = {...componentCopy.props, ...passedProps}
+  const { props, ref } = useInteractive(componentCopy, enableVisualHelper)
 
   const children = React.createElement(type, {
     ...props,
