@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import React, { memo, useState } from "react";
+import React, {memo, useEffect, useState} from "react";
 import Divider from "./components/Divider";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -21,7 +21,9 @@ const ChatComponent = memo(({ ui_message_registry }: UINodeOutputProps) => {
     { from: "computer", text: "Press run to begin!" },
   ]);
   const [inputMessage, setInputMessage] = useState("");
-
+  useEffect(() => {
+    console.log(ui_message_registry)
+  }, [])
   const handle_from_chatbot_msg = (message: ToUIOutputMessage<MsgFromChatbot>) => {
     setMessages((old) => [...old, { from: "computer", text: message.data.msg }]);
   };

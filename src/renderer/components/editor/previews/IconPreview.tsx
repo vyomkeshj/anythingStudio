@@ -6,7 +6,7 @@ import icons from '../../../iconsList'
 import { IComponent } from "../../../../react-app-env";
 
 interface Props {
-  component: ICeomponent
+  component: IComponent
 }
 
 const IconPreview = ({ component }: Props) => {

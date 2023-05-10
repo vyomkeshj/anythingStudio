@@ -32,6 +32,9 @@ const Editor: React.FC = () => {
   const final_components = mergeIComponents(components, machines);
 
   useEffect(() => {
+    console.log(final_components)
+  }, [final_components])
+  useEffect(() => {
     log.info("machinesComponents: ", machinesComponents)
   }, [machinesComponents])
 
