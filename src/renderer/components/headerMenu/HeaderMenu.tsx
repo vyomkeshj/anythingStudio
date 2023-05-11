@@ -50,6 +50,9 @@ const HeaderMenu = () => {
         size="xs"
         variant="ghost"
         colorScheme="gray"
+        style={{
+          "webkitAppRegion": "none"// DON'T REMOVE! ignore the error it will just work
+      }}
       >
         Editor
       </CustomMenuButton>

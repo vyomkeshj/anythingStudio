@@ -11,7 +11,9 @@ export const ExecutionButtons = memo(() => {
     const { run, pause, kill, status } = useContext(ExecutionContext);
 
     return (
-        <HStack justify={"flex-end"}>
+        <HStack style={{
+            "webkitAppRegion": "none"// DON'T REMOVE! ignore the error it will just work
+        }} justify={"flex-end"}>
             <Tooltip
                 closeOnClick
                 closeOnMouseDown
