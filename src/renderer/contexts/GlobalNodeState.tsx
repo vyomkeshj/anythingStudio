@@ -87,6 +87,7 @@ import {
 import { getSessionStorageOrDefault, useSessionStorage } from '../hooks/useSessionStorage';
 import { AlertBoxContext, AlertType } from './AlertBoxContext';
 import { BackendContext } from './BackendContext';
+import { FakeGptAlertBoxContext, FakeGptAlertType } from './fakeGptContext';
 import { SettingsContext } from './SettingsContext';
 
 interface GlobalVolatile {
@@ -172,7 +173,7 @@ interface GlobalProviderProps {
 
 export const GlobalProvider = memo(
     ({ children, reactFlowWrapper }: React.PropsWithChildren<GlobalProviderProps>) => {
-        const { sendAlert, sendToast, showAlert } = useContext(AlertBoxContext);
+        const { sendAlert, sendToast, showAlert, showInputAlert } = useContext(AlertBoxContext);
         const { schemata, functionDefinitions, scope, backend } = useContext(BackendContext);
         const { useStartupTemplate, useViewportExportPadding } = useContext(SettingsContext);
 
@@ -519,8 +520,8 @@ export const GlobalProvider = memo(
         );
 
         const setStateFromJSON = useCallback(
-            async (savedData: ParsedSaveData, path: string, loadPosition = false) => {
-                if ((await saveUnsavedChanges()) === SaveResult.Canceled) {
+            async (savedData: ParsedSaveData, path: string, loadPosition = false, skipSaveUnsaved = false) => {
+                if (!skipSaveUnsaved && (await saveUnsavedChanges()) === SaveResult.Canceled) {
                     return;
                 }
 
@@ -636,6 +637,37 @@ export const GlobalProvider = memo(
             useCallback(() => {
                 clearState().catch((reason) => log.error(reason));
             }, [clearState])
+        );
+
+        function sameMePls(result: any) {
+            console.log("comiong here");
+                if (result.kind === 'Success') {
+                    setStateFromJSONRef
+                        .current(result.saveData, result.path, true)
+                        .catch((reason) => log.error(reason));
+                } else {
+                    removeRecentPath(result.path);
+                    sendAlert({
+                        type: AlertType.ERROR,
+                        message: `Unable to open file ${result.path}`,
+                    });
+                }
+        }
+
+        useIpcRendererListener(
+            'fake-baby-agi',
+            useCallback(async () => {
+                const resp = await showInputAlert({
+                    type: AlertType.INFO,
+                    title: 'What do you want me to build?',
+                    message: 'Tell me what you need baby',
+                    buttons: ['Cancel'],
+                    showInput: true,
+                    defaultId: 0,
+                    cancelId: 0,
+                    callback: sameMePls
+                });
+            }, [])
         );
 
         useAsyncEffect(

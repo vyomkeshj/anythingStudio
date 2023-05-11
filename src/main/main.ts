@@ -1,4 +1,4 @@
-import { app } from 'electron';
+import { app, globalShortcut } from 'electron';
 import log from 'electron-log';
 import { readdirSync, rmSync } from 'fs';
 import os from 'os';
