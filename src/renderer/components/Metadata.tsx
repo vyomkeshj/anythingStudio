@@ -38,10 +38,10 @@ const Metadata = () => {
       />
 
       {/* OpenGraph tags */}
-      <meta property="og:url" content="https://openchakra.app" />
-      <meta property="og:site_name" content="OpenChakra" />
+      <meta property="og:url" content="https://steelrust.com" />
+      <meta property="og:site_name" content="MachinesStudio" />
       <meta property="og:type" content="website" />
-      <meta property="og:title" content="OpenChakra" />
+      <meta property="og:title" content="MachineStudio" />
       <meta
         property="og:description"
         content="OpenChakra is a visual editor for React based on Chakra UI"

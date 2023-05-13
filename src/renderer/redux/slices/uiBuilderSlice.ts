@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ComponentType } from "../../../react-app-env";
 
 type Overlay = undefined | { rect: DOMRect; id: string; type: ComponentType }
 
@@ -7,6 +8,7 @@ export type UiBuilderState = {
     showCode: boolean
     inputTextFocused: boolean
     overlay: undefined | Overlay
+    // todo: nodes list
 }
 
 const initialState: UiBuilderState = {

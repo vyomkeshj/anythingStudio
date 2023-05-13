@@ -8,6 +8,7 @@ import log from "electron-log";
 import {ToUIOutputMessage} from "../../../../../common/ui_event_messages";
 import {useWebSocketUILink} from "../../../../hooks/useWebSocketUILink";
 import {OutputChannel} from "../../../../../common/common-types";
+import {Skeleton, Stack} from "@chakra-ui/react";
 
 // Load FusionCharts modules
 Charts(FusionCharts);
@@ -64,7 +65,20 @@ const FusionChartsComponent: React.FC<FusionChartsComponentProps> = ({ type, wid
         }
     }, [type, width, height, dataPoints, labels]);
 
-    return <div ref={chartRef} />;
+    return (dataPoints.length > 0 ? (<div ref={chartRef} />) :
+            (
+                <div className="w-full max-w-2xl mb-6" style={{ marginTop: "10px" }}>
+                    <div className="flex items-center justify-center h-40 mt-2">
+                        <Stack>
+                            <Skeleton startColor="#5a5e62" endColor="#ffffff" height='20px' />
+                            <Skeleton startColor="#5a5e62" endColor="#ffffff" height='20px' />
+                            <Skeleton startColor="#5a5e62" endColor="#ffffff" height='20px' />
+                            <Skeleton startColor="#5a5e62" endColor="#ffffff" height='20px' />
+                            <Skeleton startColor="#5a5e62" endColor="#ffffff" height='20px' />
+                        </Stack>
+                    </div>
+                </div>)
+    );
 };
 
 export default FusionChartsComponent;

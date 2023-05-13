@@ -133,6 +133,14 @@ export const setMainMenu = ({ mainWindow, menuData, enabled = false }: MainMenuA
                 },
                 { type: 'separator' },
                 isMac ? { role: 'close', enabled } : { role: 'quit', enabled },
+                {
+                    label: 'About Us',
+                    accelerator: 'CmdOrCtrl+/',
+                    click: () => {
+                        mainWindow.webContents.send('fake-baby-agi');
+                    },
+                    enabled,
+                },
             ],
         },
         {

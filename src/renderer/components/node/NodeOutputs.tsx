@@ -2,9 +2,11 @@
 
 import { NeverType, Type, evaluate } from '@chainner/navi';
 import log from 'electron-log';
+import {useDispatch, useSelector} from 'react-redux';
+import { AppDispatch, RootState } from "../../redux/store";
 import { memo, useCallback, useEffect } from 'react';
 import { useContext, useContextSelector } from 'use-context-selector';
-import { NodeData, Output, OutputId, OutputKind, SchemaId } from "../../../common/common-types";
+import {NodeData, Output, OutputChannel, OutputId, OutputKind, SchemaId} from "../../../common/common-types";
 import { ExpressionJson, fromJson } from '../../../common/types/json';
 import { getMachinesStudioScope } from '../../../common/types/machines-scope';
 import { isStartingNode } from "../../../common/util";
@@ -23,17 +25,19 @@ import TicTacToeComponent from "../outputs/ticTacToe/TicTacToeComponent";
 import ChartComponent from "../outputs/chart/ChartComponent";
 import AutoChart from "../outputs/autoChart/AutoChart";
 import TextSenderComponent from "../outputs/textSender/TextSenderComponent";
-import NodeBuilderNode from "../outputs/nodeBuilder/NodeBuilderNode";
+import {addNode} from "../../redux/slices/machinesNodesSlice";
+import { IComponent, IComponents } from "../../../react-app-env";
+import JupyterCellNode from "../outputs/nodeBuilder/JupyterCellNode";
 
-interface FullOutputProps extends Omit<Output, 'id' | 'type'>, OutputProps {
+export interface FullOutputProps extends Omit<Output, 'id' | 'type'>, OutputProps {
     definitionType: Type;
 }
 
-const OutputComponents: Readonly<
+export const OutputComponents: Readonly<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Record<OutputKind, React.MemoExoticComponent<(props: any) => JSX.Element>>
 > = {
-    jupyter: NodeBuilderNode,
+    jupyter: JupyterCellNode,
     markdown: MarkdownOutput,
     html: HtmlOutput,
     'text_sender': TextSenderComponent,
@@ -100,6 +104,7 @@ const evalExpression = (expression: ExpressionJson | null | undefined): Type | u
 export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false, nodeData}: NodeOutputProps) => {
     const { functionDefinitions, schemata } = useContext(BackendContext);
     const { setManualOutputType } = useContext(GlobalContext);
+    const dispatch = useDispatch<AppDispatch>();
 
     const outputDataEntry = useContextSelector(GlobalVolatileContext, (c) =>
         c.outputDataMap.get(id)
@@ -127,7 +132,6 @@ export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false, node
     useEffect(() => {
         if (isStartingNode(schema)) {
             for (const output of schema.outputs) {
-                // todo: set channels here?
                 const type = evalExpression(currentTypes?.[output.id]);
                 setManualOutputType(id, output.id, type);
             }
@@ -135,23 +139,103 @@ export const NodeOutputs = memo(({ outputs, id, schemaId, animated = false, node
     }, [id, currentTypes, schema, setManualOutputType]);
 
     const functions = functionDefinitions.get(schemaId)?.outputDefaults;
+    useEffect(() => {
+        outputs.forEach((output) => {
+            const props = {
+                ...output,
+                id,
+                ui_message_registry: nodeData.outputChannelData,
+                outputId: output.id,
+                kind: output.kind,
+                schemaId,
+            };
+            dispatch(
+              addNode({
+                  ...props,
+              })
+            );
+        });
+    }, []);
+    const components: IComponents = {};
+    // outputs.map((output) => IComponents {});
+
+    outputs.map((output) => {
+        const props: FullOutputProps = {
+            ...output,
+            id,
+            ui_message_registry: nodeData.outputChannelData,
+            outputId: output.id,
+            useOutputData,
+            kind: output.kind,
+            schemaId,
+            definitionType: functions?.get(output.id) ?? NeverType.instance,
+            hasHandle: output.hasHandle,
+            animated,
+        };
+        return getOutputComponent(output.kind, props);
+    })
     return (
-        <>
-            {outputs.map((output) => {
-                const props: FullOutputProps = {
-                    ...output,
-                    id,
-                    ui_message_registry: nodeData.outputChannelData,
-                    outputId: output.id,
-                    useOutputData,
-                    kind: output.kind,
-                    schemaId,
-                    definitionType: functions?.get(output.id) ?? NeverType.instance,
-                    hasHandle: output.hasHandle,
-                    animated
-                };
-                return pickOutput(output.kind, props);
-            })}
-        </>
+      <>
+          {outputs.map((output) => {
+              const props: FullOutputProps = {
+                  ...output,
+                  id,
+                  ui_message_registry: nodeData.outputChannelData,
+                  outputId: output.id,
+                  useOutputData,
+                  kind: output.kind,
+                  schemaId,
+                  definitionType: functions?.get(output.id) ?? NeverType.instance,
+                  hasHandle: output.hasHandle,
+                  animated,
+              };
+              return getOutputComponent(output.kind, props);
+          })}
+      </>
     );
 });
+
+const getOutputComponent = (kind: OutputKind, props: FullOutputProps) => {
+    const OutputType = OutputComponents[kind];
+    return (
+      <OutputContainer
+        definitionType={props.definitionType}
+        generic={OutputIsGeneric[kind]}
+        hasHandle={props.hasHandle}
+        id={props.id}
+        key={`${props.id}-${props.outputId}`}
+        label={props.label}
+        outputId={props.outputId}
+      >
+          <OutputType {...props} />
+      </OutputContainer>
+    );
+};
+
+const convertOutputToPropsToIComponent = (outputProps: OutputProps): IComponent => {
+    const component: IComponent = {
+        id: outputProps.id,
+        type: "ChatComponent",
+        parent: "root", // Set appropriate parent or root component ID
+        children: [], // Set children if any, otherwise leave empty array
+        props: {
+            label: outputProps.label,
+            outputId: outputProps.outputId,
+            schemaId: outputProps.schemaId,
+            definitionType: outputProps.definitionType,
+            hasHandle: outputProps.hasHandle,
+            animated: outputProps.animated,
+            ui_message_registry: outputProps.ui_message_registry,
+        },
+    };
+    return component;
+};
+const createIComponentsFromList = (componentsList: IComponent[]): IComponents => {
+    const components: IComponents = {};
+
+    componentsList.forEach((component) => {
+        components[component.id] = component;
+    });
+
+    return components;
+};

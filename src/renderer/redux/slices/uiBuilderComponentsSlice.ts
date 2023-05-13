@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {ComponentType} from "react";
-import templates, {TemplateType} from "../../templates";
 import produce from "immer";
 import {DEFAULT_PROPS} from "../../utils/defaultProps";
 import omit from "lodash/omit";
 import { deleteComponent as deleteComponentFunc, duplicateComponent } from "../../utils/recursive";
 import {generateId} from "../../utils/generateId";
+import { IComponent, IComponents } from "../../../react-app-env";
 
 export type UiBuilderComponentsState = {
     present: any;
@@ -48,16 +48,9 @@ export const uiBuilderComponentsSlice = createSlice({
             state.components = payload.components || INITIAL_COMPONENTS
             state.selectedId = DEFAULT_ID
         },
-        loadDemo(state: UiBuilderComponentsState, { payload }: { payload: { type: TemplateType }}) {
-            state.selectedId = 'comp-root'
-            state.components = templates[payload.type]
-        },
         resetProps(state: UiBuilderComponentsState, { payload }: {payload: {componentId: string}}): UiBuilderComponentsState {
             return produce(state, (draftState: UiBuilderComponentsState) => {
-                const component = draftState.components[payload.componentId]
-                const { form, ...defaultProps } = DEFAULT_PROPS[component.type] || {}
-
-                draftState.components[payload.componentId].props = defaultProps || {}
+                draftState.components[payload.componentId].props = DEFAULT_PROPS || {}
             })
         },
         updateProps(
@@ -249,7 +242,6 @@ export const uiBuilderComponentsSlice = createSlice({
 });
 
 export const { reset,
-    loadDemo,
     resetProps,
     updateProps,
     deleteProps,

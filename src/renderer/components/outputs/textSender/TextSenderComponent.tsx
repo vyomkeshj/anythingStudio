@@ -1,7 +1,7 @@
 import React, { memo, useState } from "react";
 import axios from "axios";
 import log from "electron-log";
-import { OutputProps } from "../props";
+import { UINodeOutputProps } from "../props";
 import { ToUIOutputMessage } from "../../../../common/ui_event_messages";
 import { useWebSocketUILink } from "../../../hooks/useWebSocketUILink";
 import {Button} from "@chakra-ui/react";
@@ -16,7 +16,7 @@ interface SubmittedResponse {
   successful: boolean
 }
 
-const TextSenderComponent = memo(({ ui_message_registry }: OutputProps) => {
+const TextSenderComponent = memo(({ ui_message_registry }: UINodeOutputProps) => {
   const [inputValue, setInputValue] = useState("");
 
   const handle_submit_response = (message: ToUIOutputMessage<SubmitText>) => {

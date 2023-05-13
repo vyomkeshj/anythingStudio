@@ -127,28 +127,19 @@ const Header = () => {
         as="header"
         height="3rem"
         px="1rem"
+        width="100%"
       >
-        <Flex
-          width="14rem"
-          height="100%"
-          backgroundColor="#1a202c"
-          color="white"
-          as="a"
-          fontSize="xl"
-          flexDirection="row"
-          alignItems="center"
-          aria-label="Machines UI, Back to home"
-        >
-          {/*<Box fontSize="2xl" as={AiFillThunderbolt} mr={1} color="teal.100" />{' '}*/}
-          <Box fontWeight="bold">Interface</Box>Studio
-        </Flex>
 
-        <Flex flexGrow={1} justifyContent="space-between" alignItems="center">
+        <Flex paddingLeft={"60px"} flexGrow={1} justifyContent="space-between" alignItems="center">
           <HStack spacing={4} justify="center" align="center">
             <Box>
               <HeaderMenu />
             </Box>
-            <FormControl flexDirection="row" display="flex" alignItems="center">
+            <FormControl
+            style={{
+              "webkitAppRegion": "none"// DON'T REMOVE! ignore the error it will just work
+          }}
+             flexDirection="row" display="flex" alignItems="center">
               <Tooltip
                 zIndex={100}
                 hasArrow
@@ -180,7 +171,11 @@ const Header = () => {
               </LightMode>
             </FormControl>
 
-            <FormControl display="flex" flexDirection="row" alignItems="center">
+            <FormControl 
+            style={{
+              "webkitAppRegion": "none"// DON'T REMOVE! ignore the error it will just work
+          }}
+            display="flex" flexDirection="row" alignItems="center">
               <FormLabel
                 color="gray.200"
                 fontSize="xs"
@@ -204,7 +199,9 @@ const Header = () => {
             </FormControl>
           </HStack>
 
-          <Stack direction="row">
+          <Stack direction="row" style={{
+              "webkitAppRegion": "none"// DON'T REMOVE! ignore the error it will just work
+          }}>
             <CodeSandboxButton />
             <Popover>
               {({ onClose }) => (

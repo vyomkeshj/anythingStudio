@@ -4,6 +4,7 @@ import builder from "../composer/builder";
 import { rootComponents } from "../utils/editor";
 import {AppDispatch} from "../redux/store";
 import {addComponent, addMetaComponent, moveComponent} from "../redux/slices/uiBuilderComponentsSlice";
+import { ComponentItemProps, ComponentType, MetaComponentType } from "../../react-app-env";
 
 export const useDropComponent = (
   componentId: string,
@@ -14,14 +15,19 @@ export const useDropComponent = (
 
   const [{ isOver }, drop] = useDrop({
     accept,
-    collect: monitor => ({
-      isOver: monitor.isOver({ shallow: true }) && monitor.canDrop(),
-    }),
+    collect: monitor => () => {
+      console.log(monitor, canDrop, monitor.canDrop())
+      return {
+        isOver: monitor.isOver({ shallow: true }) && monitor.canDrop(),
+      }
+    },
+      // isOver: monitor.isOver({ shallow: true }) && monitor.canDrop(),
+    // }),
     drop: (item: ComponentItemProps, monitor: DropTargetMonitor) => {
       if (!monitor.isOver()) {
         return
       }
-
+      console.log(item)
       if (item.isMoved) {
         dispatch(moveComponent({
           parentId: componentId,

@@ -17,6 +17,14 @@ export interface UseOutputEvents<T> {
     readonly stale: boolean;
 }
 
+export interface UINodeOutputProps {
+    readonly id: string;
+    readonly outputId: OutputId;
+    readonly label: string;
+    readonly schemaId: SchemaId;
+    readonly ui_message_registry: OutputChannel[];
+}
+
 export interface OutputProps {
     readonly id: string;
     readonly outputId: OutputId;

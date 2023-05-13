@@ -13,6 +13,7 @@ import {
     UseToastOptions,
     useDisclosure,
     useToast,
+    Input,
 } from '@chakra-ui/react';
 import { app, clipboard, shell } from 'electron';
 import log from 'electron-log';
@@ -21,7 +22,10 @@ import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from '
 import { createContext, useContext, useContextSelector } from 'use-context-selector';
 import { ipcRenderer } from '../../common/safeIpc';
 import { assertNever, noop } from '../../common/util';
+import { HeaderSearch } from '../components/Header/HeaderSearch';
+import { useIpcRendererListener } from '../hooks/useIpcRendererListener';
 import { useMemoObject } from '../hooks/useMemo';
+import { openSaveFile } from '../../common/SaveFile';
 import { ContextMenuContext } from './ContextMenuContext';
 import { HotkeysContext } from './HotKeyContext';
 
@@ -29,6 +33,7 @@ interface AlertBox {
     sendToast: (options: UseToastOptions) => void;
     sendAlert: (message: Pick<AlertOptions, 'type' | 'title' | 'message'>) => void;
     showAlert: (message: AlertOptions) => Promise<number>;
+    showInputAlert: (message: AlertOptions) => Promise<number>;
 }
 
 export enum AlertType {
@@ -43,6 +48,8 @@ export interface AlertOptions {
     title?: string;
     message: string;
     buttons?: string[];
+    showInput?: boolean;
+    callback?: Function;
     /**
      * The button to that will be selected by default. Defaults to `0`.
      */
@@ -55,6 +62,8 @@ export interface AlertOptions {
 
 interface InternalMessage extends AlertOptions {
     title: string;
+    showInput: boolean;
+    callback?: Function;
     resolve: (button: number) => void;
 }
 
@@ -62,6 +71,8 @@ const EMPTY_MESSAGE: InternalMessage = {
     type: AlertType.INFO,
     title: '',
     message: '',
+    callback: undefined,
+    showInput: false,
     resolve: noop,
 };
 
@@ -228,7 +239,11 @@ export const AlertBoxProvider = memo(({ children }: React.PropsWithChildren<unkn
         (message: AlertOptions) => {
             closeContextMenu();
             return new Promise<number>((resolve) => {
-                push({ ...message, title: message.title ?? message.type, resolve });
+                push({ ...message, 
+                    title: message.title ?? message.type, 
+                    showInput: false, 
+                    callback: undefined,
+                    resolve });
             });
         },
         [push, closeContextMenu]
@@ -238,6 +253,20 @@ export const AlertBoxProvider = memo(({ children }: React.PropsWithChildren<unkn
             showAlert(message).catch((reason) => log.error(reason));
         },
         [showAlert]
+    );
+
+    const showInputAlert = useCallback(
+        (message: AlertOptions) => {
+            closeContextMenu();
+            return new Promise<number>((resolve) => {
+                push({ ...message, 
+                    title: message.title ?? message.type, 
+                    showInput: message.showInput ?? false, 
+                    callback: undefined,
+                    resolve });
+            });
+        },
+        [push, closeContextMenu]
     );
 
     const { isOpen, onOpen, onClose: onDisclosureClose } = useDisclosure();
@@ -283,7 +312,7 @@ export const AlertBoxProvider = memo(({ children }: React.PropsWithChildren<unkn
         [toast]
     );
 
-    const value = useMemoObject<AlertBox>({ sendAlert, showAlert, sendToast });
+    const value = useMemoObject<AlertBox>({ sendAlert, showAlert, sendToast, showInputAlert});
 
     useEffect(() => {
         const timerId = setTimeout(() => {
@@ -298,6 +327,8 @@ export const AlertBoxProvider = memo(({ children }: React.PropsWithChildren<unkn
     const progressTotal = done + queue.length;
 
     const copyText = current ? `${current.title}\n\n${current.message}` : '';
+
+    const initialFocusRef = useRef();
 
     return (
         <AlertBoxContext.Provider value={value}>
@@ -322,7 +353,11 @@ export const AlertBoxProvider = memo(({ children }: React.PropsWithChildren<unkn
                         userSelect="text"
                         whiteSpace="pre-wrap"
                     >
-                        {current?.message}
+                        {current?.showInput ? <form onSubmit={(e) => handleSubmit(e, current.callback)}>
+                            <Input  
+                            onChange={(e) => handleSubmit(e, current.callback)}
+                            />
+                        </form> : current?.message}
                     </AlertDialogBody>
                     <AlertDialogFooter>
                         <HStack width="full">
@@ -347,3 +382,14 @@ export const AlertBoxProvider = memo(({ children }: React.PropsWithChildren<unkn
         </AlertBoxContext.Provider>
     );
 });
+
+
+async function handleSubmit(e:any, callback: any) {
+    e.preventDefault();
+    if (e.type === "submit") {
+        // const result = await openSaveFile("/Users/ajha/Downloads/chat_with_drinksmate.chn");
+        // console.log(callback);
+        // callback(result);
+    }
+        
+}

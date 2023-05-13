@@ -1,9 +1,9 @@
-import { Box, Center, HStack, Text, VStack } from '@chakra-ui/react';
+import { Box, Card, CardBody, Center, HStack, IconButton, Text, VStack } from '@chakra-ui/react';
 import log from 'electron-log';
 import isDeepEqual from 'fast-deep-equal';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { EdgeTypes, NodeTypes, ReactFlowProvider } from 'reactflow';
+import { Background, Controls, EdgeTypes, NodeTypes, ReactFlowProvider } from 'reactflow';
 import { useContext } from 'use-context-selector';
 import useFetch, { CachePolicies } from 'use-http';
 import { BackendNodesResponse } from '../common/Backend';
@@ -32,9 +32,14 @@ import { useAsyncEffect } from './hooks/useAsyncEffect';
 import { useIpcRendererListener } from './hooks/useIpcRendererListener';
 import { useLastWindowSize } from './hooks/useLastWindowSize';
 import { WebSocketProvider } from "./contexts/WebsocketContext";
-import UIBuilder from "./ui_builder";
-import {useSelector} from "react-redux";
-import {RootState} from "./redux/store";
+import {HeaderSearch} from './components/Header/HeaderSearch';
+import { CloseIcon } from '@chakra-ui/icons';
+import { BsFillPlayFill, BsFillStopFill, BsZoomIn, BsZoomOut } from 'react-icons/bs';
+import { TbTarget } from 'react-icons/tb';
+import { useSelector } from "react-redux";
+import { BiTargetLock } from 'react-icons/bi';
+import UIBuilder from './ui_builder';
+import { RootState } from './redux/store';
 
 interface NodesInfo {
     rawResponse: BackendNodesResponse;
@@ -88,7 +93,7 @@ export const Main = memo(({ port }: MainProps) => {
         [port, nodesRefreshCounter]
     );
 
-    let tab: Number = useSelector((state: RootState) => state.settings.tab);
+  let tab: Number = useSelector((state: RootState) => state.settings.tab);
 
     useEffect(() => {
         if (error) {
@@ -200,53 +205,63 @@ export const Main = memo(({ port }: MainProps) => {
     }
 
     return (
-        !tab ?
-            <ReactFlowProvider>
-                <SettingsProvider>
-                    <BackendProvider
-                        categories={nodesInfo.categories}
-                        categoriesMissingNodes={nodesInfo.categoriesMissingNodes}
-                        functionDefinitions={nodesInfo.functionDefinitions}
-                        port={port}
-                        pythonInfo={pythonInfo}
-                        refreshNodes={refreshNodes}
-                        schemata={nodesInfo.schemata}
-                    >
-                        <GlobalProvider reactFlowWrapper={reactFlowWrapper}>
-                            <ExecutionProvider>
-                                <DependencyProvider>
-                                    <HistoryProvider>
-                                        <VStack
-                                            bg="var(--window-bg)"
+        <ReactFlowProvider>
+            <SettingsProvider>
+                <BackendProvider
+                    categories={nodesInfo.categories}
+                    categoriesMissingNodes={nodesInfo.categoriesMissingNodes}
+                    functionDefinitions={nodesInfo.functionDefinitions}
+                    port={port}
+                    pythonInfo={pythonInfo}
+                    refreshNodes={refreshNodes}
+                    schemata={nodesInfo.schemata}
+                >
+                    <GlobalProvider reactFlowWrapper={reactFlowWrapper}>
+                        <ExecutionProvider>
+                            <DependencyProvider>
+                                <HistoryProvider>
+                                    <WebSocketProvider url={wsUrl}>
+
+                                    <VStack
+                                        bg="var(--window-bg)"
+                                        h="100vh"
+                                        overflow="hidden"
+                                        w="100vw"
+                                        alignItems="stretch"
+                                    >
+                                        <HeaderSearch />
+                                        <Box>
+                                        <HStack
                                             h="100vh"
-                                            overflow="hidden"
-                                            p={2}
-                                            w="100vw"
+                                            minH="360px"
+                                            display={tab === 0 ? "block": "none"}
+                                            minW="720px"
+                                            w="full"
                                         >
-                                            <Header />
-                                            <HStack
-                                                h="calc(100vh - 80px)"
-                                                minH="360px"
-                                                minW="720px"
-                                                w="full"
-                                            >
-                                                <NodeSelector />
-                                                <WebSocketProvider url={wsUrl}>
-                                                <ReactFlowBox
-                                                    edgeTypes={edgeTypes}
-                                                    nodeTypes={nodeTypes}
-                                                    wrapperRef={reactFlowWrapper}
-                                                />
-                                                </WebSocketProvider>
-                                            </HStack>
-                                        </VStack>
-                                    </HistoryProvider>
-                                </DependencyProvider>
-                            </ExecutionProvider>
-                        </GlobalProvider>
-                    </BackendProvider>
-                </SettingsProvider>
-            </ReactFlowProvider> :
-            <UIBuilder />
+											<ReactFlowBox 
+											edgeTypes={edgeTypes}
+											nodeTypes={nodeTypes}
+											wrapperRef={reactFlowWrapper} 
+											/> 
+                                        </HStack>
+											</Box> 
+										
+                                            <Box 
+                                             display={tab === 1 ? "block": "none"}
+                                            height={"86.5vh"} 
+                                            width={"full"}><UIBuilder /></Box>
+                                        
+                                        <Header />
+                                        <Box>
+                                        </Box>
+                                    </VStack>
+                                    </WebSocketProvider>
+                                </HistoryProvider>
+                            </DependencyProvider>
+                        </ExecutionProvider>
+                    </GlobalProvider>
+                </BackendProvider>
+            </SettingsProvider>
+        </ReactFlowProvider>
     );
 });

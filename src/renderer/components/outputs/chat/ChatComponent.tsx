@@ -1,13 +1,12 @@
 import { Flex } from "@chakra-ui/react";
-import React, { memo, useState } from "react";
+import React, {memo, useEffect, useState} from "react";
 import Divider from "./components/Divider";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Messages from "./components/Messages";
-import { OutputProps } from "../props";
-import log from "electron-log";
 import { ToUIOutputMessage } from "../../../../common/ui_event_messages";
 import { useWebSocketUILink } from "../../../hooks/useWebSocketUILink";
+import { UINodeOutputProps } from "../props";
 
 interface MsgFromChatbot {
   msg: string;
@@ -17,12 +16,14 @@ interface MsgFromUser {
   msg: string;
 }
 
-const ChatComponent = memo(({ label, id, outputId, schemaId, ui_message_registry }: OutputProps) => {
+const ChatComponent = memo(({ ui_message_registry }: UINodeOutputProps) => {
   const [messages, setMessages] = useState([
     { from: "computer", text: "Press run to begin!" },
   ]);
   const [inputMessage, setInputMessage] = useState("");
-
+  useEffect(() => {
+    console.log(ui_message_registry)
+  }, [])
   const handle_from_chatbot_msg = (message: ToUIOutputMessage<MsgFromChatbot>) => {
     setMessages((old) => [...old, { from: "computer", text: message.data.msg }]);
   };
@@ -49,7 +50,7 @@ const ChatComponent = memo(({ label, id, outputId, schemaId, ui_message_registry
   };
 
   return (
-    <Flex w="600dp" h="300dp" justify="center" align="center">
+    <Flex w="600dp" h="600dp" justify="center" align="center">
       <Flex w={["100%", "100%", "100%"]} h="90%" flexDir="column">
         <Header />
         <Divider />

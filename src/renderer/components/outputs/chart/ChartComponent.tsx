@@ -2,7 +2,7 @@ import React, { memo, useCallback, useEffect, useState } from "react";
 
 import { DataProvider } from './components/DataContext';
 import FusionChartsComponent from './components/FusionChartsComponent';
-import {OutputProps} from "../props";
+import { UINodeOutputProps } from "../props";
 import { ToUIOutputMessage } from "../../../../common/ui_event_messages";
 import { useWebSocketUILink } from "../../../hooks/useWebSocketUILink";
 import log from "electron-log";
@@ -11,7 +11,7 @@ interface ChangeChartTypeMsg {
   new_type: string,
 }
 
-const ChartComponent = memo(({ outputId, useOutputData, ui_message_registry }: OutputProps) => {
+const ChartComponent = memo(({ ui_message_registry }: UINodeOutputProps) => {
   const [currentGraph, setCurrentGraph] = useState('pie2d')
 
   const handle_chart_change = (message: ToUIOutputMessage<ChangeChartTypeMsg>) => {

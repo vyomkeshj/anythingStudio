@@ -1,5 +1,6 @@
 import { DEFAULT_PROPS } from "../utils/defaultProps";
 import { generateId } from "../utils/generateId";
+import { ComponentType, IComponents } from "../../react-app-env";
 
 type AddNode = {
   type: ComponentType

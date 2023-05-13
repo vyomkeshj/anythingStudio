@@ -13,9 +13,6 @@ from .babyagi_controller import execute_task, get_next_task, prioritize_tasks
 from ...chat.babyagi.task_creation_chain import TaskCreationChain
 from ...chat.babyagi.task_prioritization_chain import TaskPrioritizationChain
 
-prefix = """You are an AI who performs one task based on the following objective: {objective}. Take into account these previously completed tasks: {context}."""
-suffix = """Question: {task}
-{agent_scratchpad}"""
 
 
 class BabyAGI(Chain, BaseModel):
@@ -123,19 +120,25 @@ class BabyAGI(Chain, BaseModel):
 
     @classmethod
     def from_llm(
-            cls, llm: BaseLLM, tool_list: List[Tool], vectorstore: VectorStore, verbose: bool = False, **kwargs
+            cls, llm: BaseLLM, tool_list: List[Tool], vectorstore: VectorStore,
+            task_prioritization_template: str,
+            task_creation_template: str,
+            zero_shot_prefix: str,
+            zero_shot_suffix: str,
+            verbose: bool = False, **kwargs
     ) -> "BabyAGI":
         """Initialize the BabyAGI Controller."""
         logger.info(f"Initializing BabyAGI Controller with tools {tool_list}...")
 
-        task_creation_chain = TaskCreationChain.from_llm(llm, verbose=verbose)
+        task_creation_chain = TaskCreationChain.from_llm(llm, verbose=verbose,
+                                                         task_creation_template=task_creation_template)
         task_prioritization_chain = TaskPrioritizationChain.from_llm(
-            llm, verbose=verbose
+            llm, verbose=verbose, task_prioritization_template=task_prioritization_template
         )
         prompt = ZeroShotAgent.create_prompt(
             tool_list,
-            prefix=prefix,
-            suffix=suffix,
+            prefix=zero_shot_prefix,
+            suffix=zero_shot_suffix,
             input_variables=["objective", "task", "context", "agent_scratchpad"],
         )
 
